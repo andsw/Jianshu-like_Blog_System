@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="cn.jxufe">
+        <context:exclude-filter type="annotation"
+                                expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <context:property-placeholder location="classpath:db-config.properties"/>
+
+    <bean id="drive" class="${jdbc.driver}"/>
+
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driver" ref="drive"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <!-- 后续配置 -->
+    </bean>
+
+    <!--此bean的命名千千万万要注意，一定要和下面配置的MapperScannerConfigurer的
+    sqlSessionFactoryBeanName属性value一样，虽然用的是value，看似不相干。但不一样一定报错，而且很难查出！！！-->
+    <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+        <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!-- 配置扫描包的路径
+		如果要扫描多个包，中间使用半角逗号分隔
+		要求mapper.xml和mapper.java同名且在同一个目录
+		 -->
+        <property name="basePackage" value="cn.jxufe.dao"/>
+        <!--sqlSessionFactory被废弃了，应该能自动检测，所以不用手动配置！-->
+        <!--<property name="sqlSessionFactory" ref="sqlSessionFactoryBean"/>-->
+        <!-- 使用sqlSessionFactoryBeanName,这个属性时String类型的！ 所以应该做标识用，无所谓何值了，具体后面再具体了解！-->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+</beans>
