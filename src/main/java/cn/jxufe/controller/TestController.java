@@ -35,8 +35,6 @@ public class TestController {
     @ResponseBody
     @RequestMapping("/test_mybatis")
     public String testMybatis(){
-        System.out.println("finding all");
-        System.out.println(userDao.getAllUsers().get(1));
-        return "mm";
+        return userDao.getAllUsers().toString();
     }
 }
