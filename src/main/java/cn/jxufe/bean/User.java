@@ -4,32 +4,48 @@ package cn.jxufe.bean;
  * @ClassName: User
  * @author: hsw
  * @date: 2019/3/30 19:59
- * @Description: TODO
+ * @Description: 用户账号信息
  */
 public class User {
-    private int uid;
+    private Integer userNo;
     private String username;
-    private String password;
+    private String email;
     private String tel;
+    private String password;
     private String avatar;
+    private String selfSummary;
+    private Byte gender;
+    private Integer followNum;
+    private Integer followerNum;
+    private Integer blogNum;
+    private Long wordNum;
+    private Integer likeNum;
 
     public User() {
     }
 
-    public User(int uid, String username, String password, String tel, String avatar) {
-        this.uid = uid;
+    public User(Integer userNo, String username, String email, String tel, String password, String avatar, String selfSummary, Byte gender, Integer followNum, Integer followerNum, Integer blogNum, Long wordNum, Integer likeNum) {
+        this.userNo = userNo;
         this.username = username;
-        this.password = password;
+        this.email = email;
         this.tel = tel;
+        this.password = password;
         this.avatar = avatar;
+        this.selfSummary = selfSummary;
+        this.gender = gender;
+        this.followNum = followNum;
+        this.followerNum = followerNum;
+        this.blogNum = blogNum;
+        this.wordNum = wordNum;
+        this.likeNum = likeNum;
     }
 
-    public int getUid() {
-        return uid;
+    public Integer getUserNo() {
+        return userNo;
     }
 
-    public void setUid(int uid) {
-        this.uid = uid;
+    public void setUserNo(Integer userNo) {
+        this.userNo = userNo;
     }
 
     public String getUsername() {
@@ -40,12 +56,12 @@ public class User {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getTel() {
@@ -56,6 +72,14 @@ public class User {
         this.tel = tel;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getAvatar() {
         return avatar;
     }
@@ -64,14 +88,78 @@ public class User {
         this.avatar = avatar;
     }
 
+    public String getSelfSummary() {
+        return selfSummary;
+    }
+
+    public void setSelfSummary(String selfSummary) {
+        this.selfSummary = selfSummary;
+    }
+
+    public Byte getGender() {
+        return gender;
+    }
+
+    public void setGender(Byte gender) {
+        this.gender = gender;
+    }
+
+    public Integer getFollowNum() {
+        return followNum;
+    }
+
+    public void setFollowNum(Integer followNum) {
+        this.followNum = followNum;
+    }
+
+    public Integer getFollowerNum() {
+        return followerNum;
+    }
+
+    public void setFollowerNum(Integer followerNum) {
+        this.followerNum = followerNum;
+    }
+
+    public Integer getBlogNum() {
+        return blogNum;
+    }
+
+    public void setBlogNum(Integer blogNum) {
+        this.blogNum = blogNum;
+    }
+
+    public Long getWordNum() {
+        return wordNum;
+    }
+
+    public void setWordNum(Long wordNum) {
+        this.wordNum = wordNum;
+    }
+
+    public Integer getLikeNum() {
+        return likeNum;
+    }
+
+    public void setLikeNum(Integer likeNum) {
+        this.likeNum = likeNum;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "uid=" + uid +
+                "userNo=" + userNo +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
                 ", tel='" + tel + '\'' +
+                ", password='" + password + '\'' +
                 ", avatar='" + avatar + '\'' +
+                ", selfSummary='" + selfSummary + '\'' +
+                ", gender=" + gender +
+                ", followNum=" + followNum +
+                ", followerNum=" + followerNum +
+                ", blogNum=" + blogNum +
+                ", wordNum=" + wordNum +
+                ", likeNum=" + likeNum +
                 '}';
     }
 }

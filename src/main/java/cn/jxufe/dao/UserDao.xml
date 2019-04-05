@@ -6,7 +6,25 @@
 <mapper namespace="cn.jxufe.dao.UserDao">
     <!--注意resultType注重的不是成员组成的
     对象，所以这里填list会报Cause: java.lang.UnsupportedOperationException错-->
-    <select id="getAllUsers" resultType="cn.jxufe.bean.User">
-        select * from user;
+
+    <select id="getPasswordByUsername" parameterType="string" resultType="string">
+        select password
+        from user
+        where username = #{username}
+        limit 1;
+    </select>
+
+    <select id="getPasswordByEmail" parameterType="string" resultType="string">
+        select password
+        from user
+        where email = #{email}
+        limit 1;
+    </select>
+
+    <select id="getPasswordByTel" parameterType="string"  resultType="string">
+        select password
+        from user
+        where tel = #{tel}
+        limit 1;
     </select>
 </mapper>

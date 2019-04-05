@@ -1,19 +1,33 @@
 package cn.jxufe.dao;
 
-import cn.jxufe.bean.User;
-
-import java.util.List;
-
 /**
  * @ClassName: UserDao
  * @author: hsw
  * @date: 2019/3/30 20:06
- * @Description: TODO
+ * @Description: 一些需求：通过
  */
 public interface UserDao {
+
     /**
-     * 获取所有用户信息
-     * @return 用户列表
+     * .
+     * @param username 用户名
+     * @return 通过用户名获取密码。
      */
-    List<User> getAllUsers();
+    String getPasswordByUsername(String username);
+
+    /**
+     * .
+     * @param email 用户注册邮箱
+     * @return 通过邮箱密码
+     */
+    String getPasswordByEmail(String email);
+
+    /**
+     * .
+     * @param tel 注册号码
+     * @return .
+     */
+    String getPasswordByTel(String tel);
+
+
 }
