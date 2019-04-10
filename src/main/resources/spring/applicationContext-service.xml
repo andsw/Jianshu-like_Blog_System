@@ -4,8 +4,11 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <!--配置注解扫描，只扫描@Service注解的service类-->
     <context:component-scan base-package="cn.jxufe.service">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
     </context:component-scan>
+
+    <bean id="loginService" class="cn.jxufe.service.impl.LoginServiceImpl"/>
 
 </beans>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--这里没有什么扫描的，暂不配置-->
+
+    <!--配置shiro-->
+    <!--配置安全管理器，securityManager抽象类的子类-->
+    <bean id="loginRealm" class="cn.jxufe.realm.LoginRealm"/>
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="loginRealm"/>
+    </bean>
+    <!--配置shiro的过滤器，核心部分,id必须和web.xml文件中的filter-name或者指定的target-name一致，不然找不到filter会报错!-->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/login.html"/>
+        <property name="successUrl" value=""/>
+        <property name="filterChainDefinitions">
+            <value>
+                <!--这里填入的是对应url和权限角色信息。遵循优先匹配原则。-->
+                /login.html = anon
+                /home.html = authc
+                /**/** = authc
+            </value>
+        </property>
+    </bean>
+    <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+    <!-- 开启Shiro注解 -->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="lifecycleBeanPostProcessor"/>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+
+</beans>

@@ -7,16 +7,8 @@ package cn.jxufe.dao;
  * @Description: 一些需求：通过
  */
 public interface UserDao {
-
     /**
-     * .
-     * @param username 用户名
-     * @return 通过用户名获取密码。
-     */
-    String getPasswordByUsername(String username);
-
-    /**
-     * .
+     * 先获取密码，成功后再用邮箱或电话获取用户全部信息，防止每次都传递整个用户信息，造成浪费缓存等影响。
      * @param email 用户注册邮箱
      * @return 通过邮箱密码
      */

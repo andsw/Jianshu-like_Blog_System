@@ -1,5 +1,7 @@
 package cn.jxufe.service;
 
+import org.springframework.stereotype.Repository;
+
 /**
  * @ClassName: LoginService
  * @author: hsw
@@ -7,4 +9,5 @@ package cn.jxufe.service;
  * @Description: TODO
  */
 public interface LoginService {
+    String getPassword(String principle);
 }

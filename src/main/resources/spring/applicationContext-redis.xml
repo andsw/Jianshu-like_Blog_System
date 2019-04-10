@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--配置自动扫描，除controller，扫描的是cache包，这是redis缓存包-->
+    <context:component-scan base-package="cn.jxufe.cache">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation"
+                                expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
+
+    <!--redis缓存数据库属性配置文件-->
+    <!-- 加上ignore-unresolvable="true"参数是因为这个项目中有两个连接池，如前面的druid，项目加载完druid就不加载了，所以两个都要配置 -->
+    <context:property-placeholder location="classpath:redis.properties" ignore-unresolvable="true"/>
+
+    <!--redis连接池配置bean-->
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <!--空闲链接-->
+        <property name="minIdle" value="${redis.minIdle}"/>
+        <property name="maxIdle" value="${redis.maxIdle}"/>
+
+        <!-- redis最大连接数，jedis 2.4之后用这个替换maxActive -->
+        <property name="maxTotal" value="${redis.maxTotal}"/>
+
+        <!--最大等待时间-->
+        <property name="maxWaitMillis" value="${redis.maxWaitMillis}"/>
+
+        <!--连接的最小空闲时间 默认1800000毫秒(30分钟)-->
+        <property name="minEvictableIdleTimeMillis" value="${redis.minEvictableIdleTimeMillis}"/>
+
+        <property name="blockWhenExhausted" value="${redis.blockWhenExecuted}"/>
+
+        <!--检查活性, 默认都为false-->
+        <property name="testOnBorrow" value="${redis.testOnBorrow}"/>
+        <property name="testWhileIdle" value="${redis.testWhenIdle}"/>
+    </bean>
+
+    <!--数据库连接的工厂-->
+    <bean id="connectFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+          p:hostName="${redis.hostName}" p:port="${redis.port}" p:password="${redis.password}" p:poolConfig-ref="poolConfig"
+          p:usePool="true" p:timeout="${redis.timeout}"/>
+
+    <!--redis数据库操作模板-->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="connectFactory"/>
+        <property name="keySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="valueSerializer">
+            <!--这个选择很是艰难，其他的都试过，只有Jdk...的错误较少，呵呵呵呵，看我笑的多开心...-->
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+            <!--这些先写在这里，先用着，错误了再改，我还是放不下json这样简洁的格式啊。看到上面那种方式生成的乱码整个人都不好了！-->
+            <!--<bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>-->
+            <!---->
+            <!--<bean class="com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer"/>-->
+        </property>
+    </bean>
+
+</beans>
