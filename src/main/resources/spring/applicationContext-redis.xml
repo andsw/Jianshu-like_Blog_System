@@ -49,7 +49,7 @@
             <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
         </property>
         <property name="valueSerializer">
-            <!--这个选择很是艰难，其他的都试过，只有Jdk...的错误较少，呵呵呵呵，看我笑的多开心...-->
+            <!--这个选择很是艰难，其他的都试过，只有Jdk...的错误较少。[呵呵呵呵，看我笑的多开心.jpg]-->
             <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
             <!--这些先写在这里，先用着，错误了再改，我还是放不下json这样简洁的格式啊。看到上面那种方式生成的乱码整个人都不好了！-->
             <!--<bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>-->
