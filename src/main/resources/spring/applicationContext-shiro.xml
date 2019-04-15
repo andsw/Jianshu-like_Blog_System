@@ -7,32 +7,95 @@
 
     <!--配置shiro-->
     <!--配置安全管理器，securityManager抽象类的子类-->
-    <bean id="loginRealm" class="cn.jxufe.realm.LoginRealm"/>
+    <bean id="loginRealm" class="cn.jxufe.shiro.realm.LoginRealm">
+        <property name="credentialsMatcher">
+            <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+                <!--重复加密次数-->
+                <property name="hashIterations" value="1024"/>
+                <!--是否存储散列后的密码为16进制，为 true：.toHex()，为 false：.toBase64() base64格式较短。-->
+                <property name="storedCredentialsHexEncoded" value="false"/>
+                <!--加密算法名称-->
+                <property name="hashAlgorithmName" value="MD5"/>
+            </bean>
+        </property>
+    </bean>
+
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="loginRealm"/>
+        <property name="sessionManager" ref="sessionManager"/>
+        <property name="rememberMeManager" ref="rememberMeManager"/>
     </bean>
+
     <!--配置shiro的过滤器，核心部分,id必须和web.xml文件中的filter-name或者指定的target-name一致，不然找不到filter会报错!-->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="/login.html"/>
-        <property name="successUrl" value=""/>
+        <property name="successUrl" value="/WEB-INF/page/home.html"/>
+        <!-- 无权限访问的时跳转的页面！-->
+        <property name="unauthorizedUrl" value="/error/503.html"/>
         <property name="filterChainDefinitions">
             <value>
                 <!--这里填入的是对应url和权限角色信息。遵循优先匹配原则。-->
                 /login.html = anon
+                /user/login=anon
+                /user/admin=perms[admin:get]
+                /user/user=perms[user:get]
                 /home.html = authc
-                /**/** = authc
+                /error/503.html=anon
+                /page/home.html=authc
+                /**=authc
             </value>
         </property>
     </bean>
-    <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+
+    <bean id="sessionDAO" class="cn.jxufe.shiro.session.RedisSessionDAO"/>
+
+    <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler">
+        <!--检查间隔时间，单位毫秒，默认3600000L,即一个小时-->
+        <property name="interval" value="3600000"/>
+        <property name="sessionManager" ref="sessionManager"/>
+    </bean>
+
+    <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg index="0" value="rememberMe"/>
+        <!--30days-->
+        <property name="maxAge" value="2592000"/>
+        <property name="httpOnly" value="true"/>
+        <property name="path" value="/"/>
+    </bean>
+
+    <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+        <property name="cookie" ref="rememberMeCookie"/>
+    </bean>
+
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+    <bean id="sessionManager" class="cn.jxufe.shiro.session.CustomSessionManager">
+        <property name="sessionDAO" ref="sessionDAO"/>
+        <!-- 定义的是全局的session会话超时时间，此操作会覆盖web.xml文件中的超时时间配置 -->
+        <property name="globalSessionTimeout" value="1800000"/>
+        <!-- 删除所有无效的Session对象，此时的session被保存在了内存里面 -->
+        <property name="deleteInvalidSessions" value="true"/>
+        <property name="sessionValidationSchedulerEnabled" value="true"/>
+        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
+        <property name="sessionValidationInterval" value="3600000"/>
+
+        <property name="sessionIdUrlRewritingEnabled" value="false"/>
+
+        <!--可以更改默认sessionId，我们使用默认的-->
+<!--        <property name="sessionIdCookieEnabled" value="true"/>-->
+        <!--默认是JSESSIONID-->
+<!--        <property name="sessionIdCookie.name" value="JSESSIONID"/>-->
+<!--        &lt;!&ndash;设置用户session信息的存活时间为30天&ndash;&gt;-->
+<!--        <property name="sessionIdCookie.maxAge" value="2592000"/>-->
+<!--        <property name="sessionIdCookie.path" value="/"/>-->
+    </bean>
     <!-- 开启Shiro注解 -->
     <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
           depends-on="lifecycleBeanPostProcessor"/>
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager"/>
     </bean>
-
 
 </beans>

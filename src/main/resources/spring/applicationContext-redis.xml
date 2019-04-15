@@ -5,7 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!--配置自动扫描，除controller，扫描的是cache包，这是redis缓存包-->
-    <context:component-scan base-package="cn.jxufe.cache">
+    <context:component-scan base-package="cn.jxufe.shiro.cache">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:exclude-filter type="annotation"
                                 expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
@@ -48,14 +48,14 @@
         <property name="keySerializer">
             <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
         </property>
-        <property name="valueSerializer">
-            <!--这个选择很是艰难，其他的都试过，只有Jdk...的错误较少。[呵呵呵呵，看我笑的多开心.jpg]-->
-            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
-            <!--这些先写在这里，先用着，错误了再改，我还是放不下json这样简洁的格式啊。看到上面那种方式生成的乱码整个人都不好了！-->
-            <!--<bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>-->
-            <!---->
-            <!--<bean class="com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer"/>-->
-        </property>
+<!--        <property name="valueSerializer">-->
+<!--            &lt;!&ndash;这个选择很是艰难，其他的都试过，只有Jdk...的错误较少。[呵呵呵呵，看我笑的多开心.jpg]&ndash;&gt;-->
+<!--&lt;!&ndash;            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>&ndash;&gt;-->
+<!--            &lt;!&ndash;这些先写在这里，先用着，错误了再改，我还是放不下json这样简洁的格式啊。看到上面那种方式生成的乱码整个人都不好了！&ndash;&gt;-->
+<!--            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>-->
+<!--            &lt;!&ndash;&ndash;&gt;-->
+<!--            &lt;!&ndash;<bean class="com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer"/>&ndash;&gt;-->
+<!--        </property>-->
     </bean>
 
 </beans>

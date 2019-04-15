@@ -8,5 +8,6 @@
     <import resource="classpath:spring/applicationContext-service.xml"/>
     <import resource="classpath:spring/applicationContext-shiro.xml"/>
     <import resource="classpath:spring/applicationContext-redis.xml"/>
+    <import resource="classpath:spring/applicationContext-util.xml"/>
 
 </beans>
