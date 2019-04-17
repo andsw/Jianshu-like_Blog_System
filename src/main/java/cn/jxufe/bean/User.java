@@ -11,7 +11,6 @@ public class User {
     private String username;
     private String email;
     private String tel;
-    private String password;
     private String avatar;
     private String selfSummary;
     private Byte gender;
@@ -21,15 +20,32 @@ public class User {
     private Long wordNum;
     private Integer likeNum;
 
+    private String passwordEmail;
+    private String passwordTel;
+
     public User() {
     }
 
-    public User(Integer userNo, String username, String email, String tel, String password, String avatar, String selfSummary, Byte gender, Integer followNum, Integer followerNum, Integer blogNum, Long wordNum, Integer likeNum) {
+    /**
+     * 除去密码后的属性值，作为从数据库中获取用户信息的封装构造方法
+     * @param userNo
+     * @param username
+     * @param email
+     * @param tel
+     * @param avatar
+     * @param selfSummary
+     * @param gender
+     * @param followNum
+     * @param followerNum
+     * @param blogNum
+     * @param wordNum
+     * @param likeNum
+     */
+    public User(Integer userNo, String username, String email, String tel, String avatar, String selfSummary, Byte gender, Integer followNum, Integer followerNum, Integer blogNum, Long wordNum, Integer likeNum) {
         this.userNo = userNo;
         this.username = username;
         this.email = email;
         this.tel = tel;
-        this.password = password;
         this.avatar = avatar;
         this.selfSummary = selfSummary;
         this.gender = gender;
@@ -38,6 +54,28 @@ public class User {
         this.blogNum = blogNum;
         this.wordNum = wordNum;
         this.likeNum = likeNum;
+    }
+
+    /**
+     * insert时封装信息用的构造方法，其他属性（自我简介，性别以及一些数据默认为0）保持默认值,
+     * 后面再自行设置
+     * 头像随机设置，即从服务器中随机获取一张图片，此业务交给代码，而不是数据库。
+     * email和tel注册时只需填一个就行了。不过不知道用户用哪个注册，所以两个都放上去，然后另一个没有值的用空字符串就行了！
+     * 两个密码在代码中加密，然后封装
+     * @param username
+     * @param email
+     * @param tel
+     * @param avatar
+     * @param passwordEmail
+     * @param passwordTel
+     */
+    public User(String username, String email, String tel, String avatar, String passwordEmail, String passwordTel) {
+        this.username = username;
+        this.email = email;
+        this.tel = tel;
+        this.avatar = avatar;
+        this.passwordEmail = passwordEmail;
+        this.passwordTel = passwordTel;
     }
 
     public Integer getUserNo() {
@@ -70,14 +108,6 @@ public class User {
 
     public void setTel(String tel) {
         this.tel = tel;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getAvatar() {
@@ -144,6 +174,22 @@ public class User {
         this.likeNum = likeNum;
     }
 
+    public String getPasswordEmail() {
+        return passwordEmail;
+    }
+
+    public void setPasswordEmail(String passwordEmail) {
+        this.passwordEmail = passwordEmail;
+    }
+
+    public String getPasswordTel() {
+        return passwordTel;
+    }
+
+    public void setPasswordTel(String passwordTel) {
+        this.passwordTel = passwordTel;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -151,7 +197,6 @@ public class User {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", tel='" + tel + '\'' +
-                ", password='" + password + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", selfSummary='" + selfSummary + '\'' +
                 ", gender=" + gender +
@@ -160,6 +205,8 @@ public class User {
                 ", blogNum=" + blogNum +
                 ", wordNum=" + wordNum +
                 ", likeNum=" + likeNum +
+                ", passwordEmail='" + passwordEmail + '\'' +
+                ", passwordTel='" + passwordTel + '\'' +
                 '}';
     }
 }

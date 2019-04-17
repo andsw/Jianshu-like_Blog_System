@@ -1,6 +1,7 @@
 package cn.jxufe.controller;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -10,6 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * @ClassName: LoginController
@@ -33,8 +38,10 @@ public class LoginOrRegisterController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(@RequestParam(value = "username") String username,
                         @RequestParam(value = "password") String password,
-                        @RequestParam(value = "rememberMe", required = false) Boolean rememberMe) {
-        System.out.println("\n\n----------------进入 login method in controller !----------------");
+                        @RequestParam(value = "rememberMe", required = false) Boolean rememberMe,
+                        HttpSession session,
+                        HttpServletResponse response) {
+        System.out.println("\n----------------进入 login method in controller !----------------");
 
         Subject currentUser = SecurityUtils.getSubject();
         try {
@@ -48,11 +55,22 @@ public class LoginOrRegisterController {
             }
             System.out.println("username : " + username + "\n password : " + password + "\nrememberMe? " + rememberMe);
             currentUser.login(token);
+
+            Cookie usernameCookie = new Cookie("username", username);
+            Cookie passwordCookie = new Cookie("password", password);
+            response.addCookie(usernameCookie);
+            response.addCookie(passwordCookie);
+
+            session.setAttribute("username", username);
+            session.setAttribute("test", "inHttpSession!");
         } catch (IncorrectCredentialsException e) {
-            System.out.println("登录信息错误！");
+            System.out.println("登录密码错误！");
             return "redirect:/login.html";
-        } catch (UnknownAccountException exception) {
+        } catch (UnknownAccountException e) {
             System.out.println("没有该用户！");
+            return "redirect:/login.html";
+        } catch (AuthenticationException e) {
+            System.out.println("登录信息错误！");
             return "redirect:/login.html";
         }
 

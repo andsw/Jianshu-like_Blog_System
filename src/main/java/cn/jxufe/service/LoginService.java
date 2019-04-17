@@ -2,6 +2,8 @@ package cn.jxufe.service;
 
 import org.springframework.stereotype.Repository;
 
+import javax.security.auth.login.AccountNotFoundException;
+
 /**
  * @ClassName: LoginService
  * @author: hsw
@@ -9,5 +11,5 @@ import org.springframework.stereotype.Repository;
  * @Description: TODO
  */
 public interface LoginService {
-    String getPassword(String principle);
+    String getPassword(String principle) throws AccountNotFoundException;
 }

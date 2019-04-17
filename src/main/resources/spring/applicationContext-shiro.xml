@@ -60,7 +60,7 @@
         <constructor-arg index="0" value="rememberMe"/>
         <!--30days-->
         <property name="maxAge" value="2592000"/>
-        <property name="httpOnly" value="true"/>
+        <property name="httpOnly" value="false"/>
         <property name="path" value="/"/>
     </bean>
 

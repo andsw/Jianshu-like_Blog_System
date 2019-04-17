@@ -243,6 +243,20 @@
                 </includes>
                 <filtering>false</filtering>
             </resource>
+            <resource>
+                <directory>src/webapp/js</directory>
+                <includes>
+                    <include>**/*.js</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/webapp/css</directory>
+                <includes>
+                    <include>**/*.css</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
         </resources>
     </build>
 

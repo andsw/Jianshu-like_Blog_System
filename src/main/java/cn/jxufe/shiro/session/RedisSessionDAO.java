@@ -2,12 +2,12 @@ package cn.jxufe.shiro.session;
 
 import cn.jxufe.util.SerializingUtil;
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.SimpleSession;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
@@ -37,9 +37,11 @@ public class RedisSessionDAO extends AbstractSessionDAO {
         return sessionId;
     }
 
+
+
     @Override
     protected Serializable doCreate(Session session) {
-        System.out.println("\n\n----------------doCreate method in sessionDAO----------------");
+        System.out.println("\n----------------doCreate method in sessionDAO----------------");
 
         String sessionId = (String) generateSessionId(session);
         return saveSession(sessionId, session);
@@ -47,7 +49,7 @@ public class RedisSessionDAO extends AbstractSessionDAO {
 
     @Override
     protected Session doReadSession(Serializable serializable) {
-        System.out.println("\n\n----------------doRead method in sessionDAO----------------");
+        System.out.println("\n----------------doRead method in sessionDAO----------------");
         if (serializable == null) {
             return null;
         }
@@ -64,13 +66,16 @@ public class RedisSessionDAO extends AbstractSessionDAO {
 
     @Override
     public void update(Session session) throws UnknownSessionException {
-        System.out.println("\n\n----------------update method in sessionDAO!----------------");
+        System.out.println("\n----------------update method in sessionDAO!----------------");
         String sessionId = (String) session.getId();
         saveSession(sessionId, session);
     }
 
     @Override
     public void delete(Session session) {
+        System.out.println("\n----------------delete method in sessionDAO!----------------");
+        String sessionId = (String) session.getId();
+        redisTemplate.delete(sessionId);
 
     }
 

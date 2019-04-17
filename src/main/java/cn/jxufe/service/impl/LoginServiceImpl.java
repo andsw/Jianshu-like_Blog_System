@@ -2,7 +2,10 @@ package cn.jxufe.service.impl;
 
 import cn.jxufe.dao.UserDao;
 import cn.jxufe.service.LoginService;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.security.auth.login.AccountNotFoundException;
 
 /**
  * @ClassName: LoginServiceImpl
@@ -17,14 +20,10 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private UserDao userDao;
 
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }
-
-
     @Override
-    public String getPassword(String principle) {
+    public String getPassword(String principle) throws AccountNotFoundException {
         String password;
+        System.out.println("\n----------------------------getPassword method in loginService----------------------------");
         if (principle.indexOf(CHAR_IN_EMAIL) != -1) {
             //用邮箱登录
             password = userDao.getPasswordByEmail(principle);
@@ -32,9 +31,9 @@ public class LoginServiceImpl implements LoginService {
             //否则用电话
             password = userDao.getPasswordByTel(principle);
         }
-        if ("".equals(password)) {
+        if (password == null || "".equals(password)) {
             System.out.println("找不到该用户。");
-            throw new org.apache.shiro.authc.UnknownAccountException("用户不存在");
+            throw new AccountNotFoundException("用户不存在");
         }
         return password;
     }

@@ -21,17 +21,14 @@ public class CustomSessionManager extends DefaultWebSessionManager {
 
     @Override
     protected Session retrieveSession(SessionKey sessionKey) throws UnknownSessionException {
-        System.out.println("\n\n----------------进入retrieveSessionMethod!----------------");
+        System.out.println("----------------进入retrieveSessionMethod!----------------");
         Serializable sessionId = getSessionId(sessionKey);
         HttpServletRequest request = (HttpServletRequest) ((WebSessionKey) sessionKey).getServletRequest();
-
-        System.out.println("sessionId is ： " + sessionId);
 
         Session session;
         if (request != null && sessionId != null) {
             session = (Session) request.getAttribute(sessionId.toString());
             if (session != null) {
-                System.out.println("get session from request!");
                 return session;
             }
         }

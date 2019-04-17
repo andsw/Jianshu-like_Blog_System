@@ -1,22 +1,19 @@
 package cn.jxufe.shiro.realm;
 
 import cn.jxufe.service.LoginService;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.session.mgt.SimpleSession;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 
 import javax.annotation.Resource;
+import javax.security.auth.login.AccountNotFoundException;
 
 /**
- * @ClassName: LoginRealm
+ * @ClassName: LonginRealm
  * @author: hsw
  * @date: 2019/4/4 11:18
  * @Description: TODO
@@ -27,37 +24,25 @@ public class LoginRealm extends AuthorizingRealm {
     private LoginService loginService;
 
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        System.out.println("\n\n----------------进入 doGetAuthenticationInfo method in loginRealm!----------------");
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
+            throws AuthenticationException {
+        System.out.println("\n----------------进入 doGetAuthenticationInfo method in LonginRealm!----------------");
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         String username = token.getUsername();
         ByteSource salt = ByteSource.Util.bytes(username);
-        /*String password = loginService.getPassword(username);*/
-        String password;
-
-        AuthenticationInfo info = null;
-        if ("admin".equals(username)) {
-            password = "xB18ZuG4QEVFqjoOziAGrA==";
-            info = new SimpleAuthenticationInfo(username, password, salt, getName());
-            System.out.println("get info admin");
-        } else if ("user".equals(username)) {
-            //password是base64格式不满8个字符的填充
-            password = "K7/66MUt0lMt/mKc7PsshQ==";
-            info = new SimpleAuthenticationInfo(username, password, salt, getName());
-            System.out.println("get info admin");
-
-            Subject currentUser = SecurityUtils.getSubject();
-            Session session = currentUser.getSession();
-            session.setAttribute("status", "online");
-            session.setTimeout(180000);
+        String password = "";
+        try {
+            password = loginService.getPassword(username);
+        } catch (AccountNotFoundException e) {
+            System.out.println("找不到此用户！");
         }
 
-        return info;
+        return new SimpleAuthenticationInfo(username, password, salt, "");
     }
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        System.out.println("\n\n----------------进入 doGetAuthorizationInfo method in loginRealm!----------------");
+        System.out.println("\n----------------进入 doGetAuthorizationInfo method in LonginRealm!----------------");
         String principle = (String) principalCollection.getPrimaryPrincipal();
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         if ("admin".equals(principle)) {
@@ -76,7 +61,7 @@ public class LoginRealm extends AuthorizingRealm {
      * @param args
      */
     public static void main(String[] args) {
-        ByteSource salt = ByteSource.Util.bytes("user");
+        ByteSource salt = ByteSource.Util.bytes("2127804711@qq.com");
 //        base64 xB18ZuG4QEVFqjoOziAGrA== 时间：20ms
 //        hex c41d7c66e1b8404545aa3a0ece2006ac 时间 20ms
         long start = System.currentTimeMillis();
