@@ -21,7 +21,7 @@ public class LoginServiceImpl implements LoginService {
     private UserDao userDao;
 
     @Override
-    public String getPassword(String principle) throws AccountNotFoundException {
+    public String getPassword(String principle) {
         String password;
         System.out.println("\n----------------------------getPassword method in loginService----------------------------");
         if (principle.indexOf(CHAR_IN_EMAIL) != -1) {
@@ -30,10 +30,6 @@ public class LoginServiceImpl implements LoginService {
         } else {
             //否则用电话
             password = userDao.getPasswordByTel(principle);
-        }
-        if (password == null || "".equals(password)) {
-            System.out.println("找不到该用户。");
-            throw new AccountNotFoundException("用户不存在");
         }
         return password;
     }

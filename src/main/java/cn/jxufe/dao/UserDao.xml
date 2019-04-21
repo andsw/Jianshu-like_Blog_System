@@ -42,8 +42,9 @@
         where user_no = #{user_no};
     </select>
 
-    <!--注册用户添加信息-->
-    <insert id="insertUser" parameterType="user" useGeneratedKeys="true" keyProperty="userNo">
+    <!--注册用户添加信息，设置为preparedStatement是因为这里我想分几步
+        注册时可以-->
+    <insert id="insertUser" parameterType="user" useGeneratedKeys="true" keyProperty="userNo" statementType="PREPARED">
         insert into user (username, email, tel, password_tel, password_email, avatar)
         values (#{username}, #{email}, #{tel}, #{passwordTel}, #{passwordEmail}, #{avatar});
     </insert>

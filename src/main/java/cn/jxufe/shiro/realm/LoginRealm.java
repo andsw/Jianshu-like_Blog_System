@@ -29,15 +29,12 @@ public class LoginRealm extends AuthorizingRealm {
         System.out.println("\n----------------进入 doGetAuthenticationInfo method in LonginRealm!----------------");
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         String username = token.getUsername();
-        ByteSource salt = ByteSource.Util.bytes(username);
-        String password = "";
-        try {
-            password = loginService.getPassword(username);
-        } catch (AccountNotFoundException e) {
-            System.out.println("找不到此用户！");
+        String password = loginService.getPassword(username);
+        System.out.println(password);
+        if ("".equals(password)) {
+            throw new AuthenticationException("用户不存在！");
         }
-
-        return new SimpleAuthenticationInfo(username, password, salt, "");
+        return new SimpleAuthenticationInfo(username, password, ByteSource.Util.bytes(username), "");
     }
 
     @Override

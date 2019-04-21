@@ -3,6 +3,13 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <!--序列化和反序列化工具-->
     <bean id="serializingUtil" class="cn.jxufe.util.SerializingUtil" init-method="getInstance"/>
+
+    <!--生成和校验验证码-->
+    <bean id="checkCodeUtil" class="cn.jxufe.util.CheckCodeUtil" scope="prototype"/>
+
+    <!--给密码加密的工具类，虽逻辑简单，但用途有多处，所以提取出来！-->
+    <bean id="passwordEncoderUtil" class="cn.jxufe.util.PasswordEncoderUtil"/>
 
 </beans>

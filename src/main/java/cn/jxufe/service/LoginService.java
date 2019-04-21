@@ -11,5 +11,10 @@ import javax.security.auth.login.AccountNotFoundException;
  * @Description: TODO
  */
 public interface LoginService {
-    String getPassword(String principle) throws AccountNotFoundException;
+    /**
+     * 0
+     * @param principle
+     * @return
+     */
+    String getPassword(String principle);
 }

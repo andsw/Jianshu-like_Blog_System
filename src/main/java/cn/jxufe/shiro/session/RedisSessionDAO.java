@@ -37,8 +37,6 @@ public class RedisSessionDAO extends AbstractSessionDAO {
         return sessionId;
     }
 
-
-
     @Override
     protected Serializable doCreate(Session session) {
         System.out.println("\n----------------doCreate method in sessionDAO----------------");

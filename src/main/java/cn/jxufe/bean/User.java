@@ -7,11 +7,40 @@ package cn.jxufe.bean;
  * @Description: 用户账号信息
  */
 public class User {
+    /**
+     * 自动生成的主键
+     */
     private Integer userNo;
+    /**
+     * 用户名必须unique，插入用户时注意查重，而且注意发生幻读问题，要用好事务！
+     */
     private String username;
+    /**
+     * 同样需要查重
+     */
     private String email;
+    /**
+     * 查重
+     */
     private String tel;
+    /**
+     * 头像图片域名和path以及前缀，所以这个记录图片后缀及其图片类型就行了
+     * 如： 1.png
+     */
     private String avatar;
+
+    /**
+     * email为盐值加密后的密码
+     */
+    private String passwordEmail;
+    /**
+     * tel为盐值加密后的密码
+     */
+    private String passwordTel;
+
+    /**
+     * 下面所有属性注册时不包括，全部为默认值！
+     */
     private String selfSummary;
     private Byte gender;
     private Integer followNum;
@@ -19,9 +48,6 @@ public class User {
     private Integer blogNum;
     private Long wordNum;
     private Integer likeNum;
-
-    private String passwordEmail;
-    private String passwordTel;
 
     public User() {
     }

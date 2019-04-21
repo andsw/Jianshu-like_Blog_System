@@ -37,13 +37,12 @@
             <value>
                 <!--这里填入的是对应url和权限角色信息。遵循优先匹配原则。-->
                 /login.html = anon
-                /user/login=anon
-                /user/admin=perms[admin:get]
-                /user/user=perms[user:get]
+                /user/login = anon
+                /user/checkCode = anon
                 /home.html = authc
-                /error/503.html=anon
-                /page/home.html=authc
-                /**=authc
+                /error/503.html = anon
+                /page/home.html = authc
+                /** = authc
             </value>
         </property>
     </bean>
