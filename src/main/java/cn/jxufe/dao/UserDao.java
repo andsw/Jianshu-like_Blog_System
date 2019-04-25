@@ -2,6 +2,8 @@ package cn.jxufe.dao;
 
 import cn.jxufe.bean.User;
 
+import java.util.List;
+
 /**
  * @ClassName: UserDao
  * @author: hsw
@@ -45,9 +47,20 @@ public interface UserDao {
     User getUserByUserNo(Integer userNo);
 
     /**
-     * 注册时插入用户信息
+     * 注册时插入用户信息,前面一直想着多条语句先检查唯一性再插入，还不如直接在一条sql语句中检查和插入
      * @param user 用户对象
      * @return 添加成功返回用户user_no
      */
     int insertUser(User user);
+
+    /**
+     * 单独用来做某个不唯一字段是否存在的检测
+     * @param username
+     * @return
+     */
+    boolean doseUsernameExisted(String username);
+
+    boolean doseEmailExisted(String email);
+
+    boolean doseTelExisted(String tel);
 }

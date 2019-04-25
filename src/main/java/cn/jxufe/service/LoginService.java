@@ -1,8 +1,8 @@
 package cn.jxufe.service;
 
-import org.springframework.stereotype.Repository;
+import cn.jxufe.bean.User;
 
-import javax.security.auth.login.AccountNotFoundException;
+import java.util.List;
 
 /**
  * @ClassName: LoginService
@@ -13,8 +13,22 @@ import javax.security.auth.login.AccountNotFoundException;
 public interface LoginService {
     /**
      * 0
-     * @param principle
+     * @param principle 用户的登录信息获取密码。
      * @return
      */
     String getPassword(String principle);
+
+    /**
+     * 新增用户
+     * @param user
+     * @return 返回添加成功用户记录数
+     */
+    int insertUser(User user);
+
+    /**
+     * 判断user信息中那个字段在表中已经存在
+     * @param user
+     * @return string[]
+     */
+    List<String> whichInfoIsExisted(User user);
 }

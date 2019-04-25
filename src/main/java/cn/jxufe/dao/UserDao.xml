@@ -43,9 +43,22 @@
     </select>
 
     <!--注册用户添加信息，设置为preparedStatement是因为这里我想分几步
-        注册时可以-->
-    <insert id="insertUser" parameterType="user" useGeneratedKeys="true" keyProperty="userNo" statementType="PREPARED">
-        insert into user (username, email, tel, password_tel, password_email, avatar)
-        values (#{username}, #{email}, #{tel}, #{passwordTel}, #{passwordEmail}, #{avatar});
+        注册时可以  默认是 statementType="PREPARED" 这种sql真的很nice，避免了幻读的情况-->
+    <insert id="insertUser" parameterType="user" useGeneratedKeys="true" keyProperty="userNo">
+        insert into user (username, email, tel, password_email, password_tel, avatar)
+        select #{username}, #{email}, #{tel}, #{passwordEmail}, #{passwordTel}, #{avatar}
+        where not exists(select * from user where username= #{username} or email=#{email} or tel = #{tel});
     </insert>
+
+    <select id="doseUsernameExisted" parameterType="string" resultType="boolean">
+        select ISNULL((select 1 from user where username = #{username} limit 1));
+    </select>
+
+    <select id="doseEmailExisted" parameterType="string" resultType="boolean">
+        select ISNULL((select 1 from user where email = #{email} limit 1));
+    </select>
+
+    <select id="doseTelExisted" parameterType="string" resultType="boolean">
+        select ISNULL((select 1 from user where tel = #{tel} limit 1));
+    </select>
 </mapper>

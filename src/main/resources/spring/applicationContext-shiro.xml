@@ -38,6 +38,7 @@
                 <!--这里填入的是对应url和权限角色信息。遵循优先匹配原则。-->
                 /login.html = anon
                 /user/login = anon
+                /user/register = anon
                 /user/checkCode = anon
                 /home.html = authc
                 /error/503.html = anon

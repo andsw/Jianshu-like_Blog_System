@@ -7,19 +7,26 @@ package cn.jxufe.dto;
  * @Description: TODO
  */
 public class Result<T> {
+    /**
+     * 请求的返回状态
+     */
     private int status;
+    /**
+     * 返回的描述信息
+     */
     private String description;
+    /**
+     * 返回的数据信息，任何类型
+     */
     private T data;
-    private String nextAction;
 
     public Result() {
     }
 
-    public Result(int status, String description, T data, String nextAction) {
+    public Result(int status, String description, T data) {
         this.status = status;
         this.description = description;
         this.data = data;
-        this.nextAction = nextAction;
     }
 
     public int getStatus() {
@@ -46,21 +53,12 @@ public class Result<T> {
         this.data = data;
     }
 
-    public String getNextAction() {
-        return nextAction;
-    }
-
-    public void setNextAction(String nextAction) {
-        this.nextAction = nextAction;
-    }
-
     @Override
     public String toString() {
         return "Result{" +
                 "status=" + status +
                 ", description='" + description + '\'' +
                 ", data=" + data +
-                ", nextAction='" + nextAction + '\'' +
                 '}';
     }
 }
