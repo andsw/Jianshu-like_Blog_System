@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Jianshu-like login</title>
+    <!-- CSS-->
+    <link href="css/ghpages-materialize.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        html, body, .block {
+            height: 100%;
+        }
+        nav ul li a:hover, nav ul li a.active {
+            background-color: rgba(0,0,0,.1);
+        }
+        #login-div{
+            margin: 300px auto;
+        }
+    </style>
+</head>
+<body>
+<!--登录模块-->
+<div id="blue" class="block blue">
+    <nav class="pushpin-demo-nav" data-target="blue">
+        <div class="nav-wrapper light-blue">
+            <div class="container">
+                <a href="#" class="brand-logo">Jianshu-like Blog</a>
+                <a href="#green" class="right">创建一个账户</a>
+            </div>
+        </div>
+    </nav>
+    <form class="row container" id="login-module" action="http://localhost:8080/user/login" method="post">
+        <div id="login-div" class="card col s12 m12 l5 valign-wrapper">
+            <div class="row card-content left">
+                <div class="input-field col s12">
+                    <h5 class="light-blue-text prefix"><i class="material-icons">email</i></h5>
+                    <!--任意格式任意内容-->
+                    <input id="username" name="username" type="text"
+                           required/>
+                    <label for="username">手机或邮箱</label>
+                </div>
+                <div class="input-field col s12">
+                    <h5 class="light-blue-text prefix"><i class="material-icons">lock</i></h5>
+                    <input id="password" name="password" class="validate" type="password"
+                           required/>
+                    <label for="password">密码</label>
+                </div>
+
+                <div style="margin-left: 20px; margin-top: -20px;">
+                    <input type="checkbox" id="rememberPassword"/>
+                    <label for="rememberPassword">记住密码</label>
+                </div>
+
+                <a class="btn waves-effect waves-light col s10 light-blue" href="#modal-check-code"
+                        style="margin-left: 20px;margin-top: 20px"
+                   onclick="document.getElementById('check-code-img').src = 'http://localhost:8080/user/checkCode?tm='
+                   +Math.random()">登录
+                    <i class="material-icons right">send</i>
+                </a>
+            </div>
+            <div class="card-action" style="margin-left: 50px;">
+                <a href="javascript:void(0);" class="col s2">金风玉露一相逢</a>
+                <a href="javascript:void(0);" class="col s2">便胜却人间无数</a>
+            </div>
+        </div>
+
+        <!-- 验证码模块 -->
+        <div id="modal-check-code" class="modal col s4 offset-s2 bottom-sheet" style="opacity: 42%">
+            <div class="modal-content row container valign-wrapper" style="margin: auto;">
+                <img src="" id="check-code-img"
+                     style="display: block; width: 180px;height: 85px; margin: auto" alt="验证码">
+            </div>
+            <p class="range-field col s12">
+                <label for="checkCode">请滑动滑块至指定数值(可用方向键)</label>
+                <input type="range" id="checkCode" name="checkCode" min="100" max="999" step="1"/>
+            </p>
+            <div class="modal-footer">
+                <button  id="login-button" type="submit"
+                         class="btn lighten-1 col s2">好了！</button>
+                <button onclick="document.getElementById('check-code-img').src = 'http://localhost:8080/user/checkCode?tm='
+                    +Math.random()" class="modal-action modal-close waves-effect waves-green btn-flat blue-text">看不清，换一张！</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--注册模块-->
+<div id="green" class="block green lighten-1">
+    <nav class="pushpin-demo-nav" data-target="green">
+        <div class="nav-wrapper green">
+            <div class="container">
+                <a href="#" class="brand-logo">Jianshu-like Blog</a>
+                <a href="#blue" class="right">已有账号，直接登录</a>
+            </div>
+        </div>
+    </nav>
+    <div class="row container" id="register-module">
+        <form id="register-form" class="card col s12 l6 white" style="margin-top: 300px;" action="http://localhost:8080/user/register" method="post">
+            <div class="row card-content">
+                <div id="username-input-in-register-module" class="input-field col s8">
+                    <h5 class="prefix light-green-text"><i class="material-icons prefix">email</i></h5>
+                    <!--任意格式任意内容-->
+                    <input id="email_register" name="email" class="validate" type="email"/>
+                    <label for="email_register" data-error="请填入正确邮箱格式哦！" data-success="right">邮箱</label>
+                </div>
+                <div class="input-field col s4">
+                    <select id="register-way" class="grey-text">
+                        <option selected value="email">邮箱注册</option>
+                        <option value="tel">电话注册</option>
+                    </select>
+                    <label for="register-way" class="grey-text">注册方式</label>
+                </div>
+                <div class="input-field col s6">
+                    <h5 class="prefix light-green-text"><i class="material-icons prefix">lock</i></h5>
+                    <input id="password_register" name="password" class="validate" type="password"
+                           required pattern="^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,20}$"/>
+                    <label for="password_register" data-error="长度6-20，不能为纯数字、字母、符号！" data-success="right">密码</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="password_ensure_register" class="validate" type="password"
+                           onchange="checkPasswordSame(this)"/>
+                    <label for="password_ensure_register" data-error="两次输入密码不一致" data-success="right">确认密码</label>
+                </div>
+                <div class="input-field col s12">
+                    <h5 class="prefix light-green-text"><i class="material-icons prefix">perm_identity</i></h5>
+                    <input id="username_register" name="username" class="validate" type="text"/>
+                    <label for="username_register" data-error="两次输入密码不一致" data-success="right">用户昵称</label>
+                </div>
+            </div>
+            <div class="card-action col s12">
+                <div class="row">
+                    <button class="btn waves-effect waves-light col s12 light-green" type="submit" name="action"
+                            onclick="registerButtonOnclick(this)">注册
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    const _hmt = _hmt || [];
+    (function() {
+        const hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?478902902272d2025e064ebc5eb6c99c";
+        const s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<!--  Scripts-->
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src="js/materialize.js"></script>
+<script src="js/init.js"></script>
+
+<script>
+    <!--实现js的post跳转-->
+    function StandardPost(url)
+    {
+        let form = $("<form method='post'></form>");
+        form.attr({'action':url});
+        $(document.body).append(form);
+        form.submit();
+    }
+    $(document).ready(function () {
+        //如果存在rememberMe的话就自动跳转
+        if ($.cookie('rememberMe') !== undefined) {
+            $.cookie('rememberMe', 'changedCookie',{path: '/'});
+            StandardPost('http://localhost:8080/user/login');
+        }
+
+        //登录后返回此页面显示登录失败的原因！
+        const loginStatus = $.cookie('loginStatus');
+        if (loginStatus != null) {
+            // $('#loginStatus').text($.cookie("loginStatus"));
+            Materialize.toast(loginStatus, 2000 );
+            //注意光是指定cookie名称是无法删除cookie的，还要指定其路径。
+            //又忘了。。。
+            $.removeCookie('loginStatus', {path:'/pin/login&register.html'});
+        }
+
+        const registerStatus = $.cookie('registerStatus');
+        if (registerStatus != null) {
+            Materialize.toast(registerStatus, 2000);
+            $.removeCookie('registerStatus', {path:'/pin/login&register.html'})
+        }
+
+        //记住密码
+        $("#login-module").submit(function () {
+            if ($('#rememberPassword').is(':checked') === true) {
+                $.cookie('remember_pw', 'true', {path: '/pin', expires: 3});
+                $.cookie('username', $("#username").val(), {path: '/pin', expires: 3});
+                $.cookie('password', $("#password").val(), {path: '/pin', expires: 3});
+            } else {
+                $.removeCookie('remember_pw', {path: '/pin'});
+                $.removeCookie('username', {path:'/pin'});
+                $.removeCookie('password', {path:'/pin'});
+            }
+        });
+
+        //加载cookie中记住的登录信息
+        if ($.cookie('remember_pw') !== undefined) {
+            $('#username').val($.cookie('username'));
+            $('#password').val($.cookie('password'));
+            $('#rememberPassword').attr('checked', 'checked');
+        }
+
+        //注册模块中
+        //根据选择的注册方式更改前面的表单类型
+        $("#register-way").change(function () {
+            const way = $(this).val();
+            if (way === 'tel') {
+                $('#username-input-in-register-module').html('<h5 class="prefix light-green-text"><i class="material-icons prefix">phone</i></h5>\n' +
+                    '<input id="email_register" name="tel" class="validate" type="tel"/>\n' +
+                    '<label for="email_register" data-error="请填入正确号码格式哦！" data-success="right">电话</label>');
+
+            } else {
+                $('#username-input-in-register-module').html('<h5 class="prefix light-green-text"><i class="material-icons prefix">email</i></h5>\n' +
+                    '<input id="email_register" name="email" class="validate" type="email"/>\n' +
+                    '<label for="email_register" data-error="请填入正确邮箱格式哦！" data-success="right">邮箱</label>');
+
+            }
+        });
+    });
+
+    //注册按钮点击事件
+    function registerButtonOnclick(self) {
+    //    留空做验证（验证码、验证email或tel）事件
+
+    //    做个加载效果
+
+    //    然后直接获取form，调用其submit方法，这里登录注册都不用ajax来做。
+        $("#register-form").submit();
+    }
+</script>
+<script>
+    window.addEventListener('scroll',function(){
+        if ($(document).scrollTop() > 232) {
+            $("#login-module").hide();
+        } else {
+            $("#login-module").show();
+        }
+    },false);
+
+    function checkPasswordSame(self) {
+        const $passwd_input = $(self);
+        if ($passwd_input.val() === $("#password_register").val()) {
+            self.setCustomValidity("");
+        } else {
+            //里面有内容返回false，空字符串为true！
+            self.setCustomValidity("not same");
+        }
+    }
+</script>
+</body>
+</html>

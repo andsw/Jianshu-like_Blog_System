@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>Starter Template - Materialize</title>
+
+  <!-- CSS  -->
+  <link href="css/prism.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <style>
+    .nav_a {
+      font-size: 18px;
+      margin-left: 3px;
+    }
+    .height_67 {
+      height: 67px;
+    }
+    .avatar_style {
+      width: auto;
+      height: 60px;
+      display: inline-block;
+      margin: 3px -5px;
+      border: 1px grey solid;
+    }
+
+    .avatar_style:hover {
+      border: 2px grey solid;
+    }
+
+    .inline_block_style{
+      display: inline-block;
+    }
+
+    .material-icons.md-18 { font-size: 18px; }
+    .material-icons.md-24 { font-size: 24px; }
+    .material-icons.md-36 { font-size: 36px; }
+    .material-icons.md-48 { font-size: 48px; }
+
+    .material-icons.md-22 { font-size: 22px; }
+  </style>
+</head>
+<body>
+  <nav class="light-green lighten-1" role="navigation">
+    <div class="nav-wrapper container">
+      <a id="logo-container" href="#" class="brand-logo">Jianshu-like Blog</a>
+
+      <ul class="right hide-on-med-and-down">
+        <li>
+          <a href="#" class="height_67">
+            <i class="material-icons prefix md-18" style="display: inline-block">loyalty</i>
+            <span class="nav_a">发现</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="height_67">
+            <i class="material-icons prefix md-18" style="display: inline-block;">today</i>
+            <span class="nav_a">关注</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav_a height_67">
+            <i class="material-icons prefix md-18" style="display: inline-block;">comment</i>
+            <span class="nav_a">消息</span>
+          </a>
+        </li>
+
+        <!-- 顶部菜单 -->
+        <li>
+          <a id="top_menu" class='height_67 dropdown-button' href='#' data-activates="all_about_me_list"
+              style="width:119px">
+            <div>
+              <i class="material-icons right md-24 inline_block_style">keyboard_arrow_down</i>
+              <img src="img/Hajiwon_red.png" class="avatar_style waves-circle materialboxed" alt="下拉框"
+                   data-caption="最爱的河智苑"/>
+            </div>
+          </a>
+          <ul id='all_about_me_list' class='dropdown-content' style=" width: 160px;margin: 67px auto; overflow: visible">
+            <li class="light-green-text valign-wrapper">
+              <i class="material-icons prefix valign" style="display: inline-block;margin-left: 10px;">account_circle</i>
+              <span style="margin-left: -3px; font-size: 20px;" class="black-text">我的主页</span>
+            </li>
+            <li class="light-green-text valign-wrapper">
+              <i class="material-icons prefix valign" style="display: inline-block;margin-left: 10px;">collections</i>
+              <span style="margin-left: -3px; font-size: 20px;" class="black-text">我的收藏</span>
+            </li>
+            <li class="light-green-text valign-wrapper">
+              <i class="material-icons prefix valign" style="display: inline-block;margin-left: 10px;">center_focus_strong</i>
+              <span style="margin-left: -3px; font-size: 20px;" class="black-text">我的关注</span>
+            </li>
+            <li class="light-green-text valign-wrapper">
+              <i class="material-icons prefix valign" style="display: inline-block;margin-left: 10px;">help_outline</i>
+              <span style="margin-left: -3px; font-size: 20px;" class="black-text">帮助与反馈</span>
+            </li>
+            <li class="light-green-text valign-wrapper">
+              <i class="material-icons prefix valign" style="display: inline-block;margin-left: 10px;">settings</i>
+              <span style="margin-left: -3px; font-size: 20px;" class="black-text">设置</span>
+            </li>
+            <li class="light-green-text valign-wrapper">
+              <i class="material-icons prefix valign" style="display: inline-block;margin-left: 10px;">logout</i>
+              <span style="margin-left: -3px; font-size: 20px;" class="black-text">退出</span>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <!--侧边菜单-->
+      <ul id="slide-out" class="side-nav">
+        <li><div class="userView">
+          <div class="background">
+            <img src="img/background.jpg" alt="background">
+          </div>
+          <a href="#"><img class="circle" src="img/Hajiwon_red.png" alt="hajiwon"></a>
+          <a href="#"><span class="white-text name">张三</span></a>
+          <a href="#"><span class="white-text email">jdandturk@sina.com</span></a>
+        </div></li>
+        <li><a href="#"><i class="material-icons">cloud</i>带图标的第一链接</a></li>
+        <li><a href="#">第二链接</a></li>
+        <li><div class="divider"></div></li>
+        <li><a class="subheader">子标题</a></li>
+        <li><a class="waves-effect" href="#">带波纹效果的第三链接</a></li>
+      </ul>
+      <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <br><br>
+      <h1 class="header center orange-text">Starter Template</h1>
+      <div class="row center">
+        <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
+      </div>
+      <div class="row center">
+        <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light orange">Get Started</a>
+      </div>
+      <br><br>
+
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="section">
+
+      <!--   Icon Section   -->
+      <div class="row">
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center light-green-text"><i class="material-icons">flash_on</i></h2>
+            <h5 class="center">Speeds up development</h5>
+
+            <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
+          </div>
+        </div>
+
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center light-green-text"><i class="material-icons">group</i></h2>
+            <h5 class="center">User Experience Focused</h5>
+
+            <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.</p>
+          </div>
+        </div>
+
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center light-green-text"><i class="material-icons">settings</i></h2>
+            <h5 class="center">Easy to work with</h5>
+
+            <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <br><br>
+  </div>
+
+  <footer class="page-footer orange">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Company Bio</h5>
+          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+
+
+        </div>
+        <div class="col l3 s12">
+          <h5 class="white-text">Settings</h5>
+          <ul>
+            <li><a class="white-text" href="#!">Link 1</a></li>
+            <li><a class="white-text" href="#!">Link 2</a></li>
+            <li><a class="white-text" href="#!">Link 3</a></li>
+            <li><a class="white-text" href="#!">Link 4</a></li>
+          </ul>
+        </div>
+        <div class="col l3 s12">
+          <h5 class="white-text">Connect</h5>
+          <ul>
+            <li><a class="white-text" href="#!">Link 1</a></li>
+            <li><a class="white-text" href="#!">Link 2</a></li>
+            <li><a class="white-text" href="#!">Link 3</a></li>
+            <li><a class="white-text" href="#!">Link 4</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+      Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+      </div>
+    </div>
+  </footer>
+
+<!--  悬浮按钮-->
+  <div class="fixed-action-btn horizontal click-to-toggle">
+    <a class="btn-floating btn-large red">
+      <i class="material-icons">menu</i>
+    </a>
+    <ul>
+      <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
+      <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+      <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+      <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+    </ul>
+  </div>
+  <!--  Scripts-->
+  <script src="js/jquery-2.1.4.min.js"></script>
+<!--  <script src="js/materialize_home.js"></script>-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+  <script src="js/init_home.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('.dropdown-button').dropdown({
+                inDuration: 150,
+                outDuration: 100,
+                constrain_width: false, // Does not change width of dropdown to that of the activator
+                hover: true, // Activate on hover
+                gutter: 0, // Spacing from edge
+                belowOrigin: false, // Displays dropdown below the button
+                alignment: 'left' // Displays dropdown with edge aligned to the left of button
+              }
+      );
+
+    });
+  </script>
+  </body>
+</html>
