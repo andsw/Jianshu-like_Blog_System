@@ -12,7 +12,7 @@
     </context:component-scan>
 
     <bean id="resourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/page/"/>
+        <property name="prefix" value="/front_end/"/>
         <property name="suffix" value=".html"/>
     </bean>
 

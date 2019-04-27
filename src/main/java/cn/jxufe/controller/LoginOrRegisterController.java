@@ -32,8 +32,8 @@ import java.util.Random;
 @RequestMapping(value = "/user")
 public class LoginOrRegisterController {
 
-    private static final String HOME_PAGE_NAME = "home";
-    private static final String LOGIN_PAGE_NAME = "http://localhost:63343/pin/login&register.html";
+    private static final String HOME_PAGE_NAME = "index";
+    private static final String REDIRECT_LOGIN_PAGE_NAME = "http://localhost:63343/front_end/login&register.html";
 
 
     private final LoginServiceImpl loginService;
@@ -78,7 +78,7 @@ public class LoginOrRegisterController {
         if (!checkCodeUtil.codeChecking(request)) {
             System.out.println("验证码错误！");
             addCookie(response, "loginStatus", "验证码错误");
-            return "redirect:" + LOGIN_PAGE_NAME;
+            return "redirect:" + REDIRECT_LOGIN_PAGE_NAME;
         }
 
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
@@ -89,11 +89,11 @@ public class LoginOrRegisterController {
         } catch (IncorrectCredentialsException e) {
             System.out.println("登录密码错误！");
             addCookie(response, "loginStatus", "登录密码错误！");
-            return "redirect:" + LOGIN_PAGE_NAME;
+            return "redirect:" + REDIRECT_LOGIN_PAGE_NAME;
         } catch (AuthenticationException e) {
             System.out.println("登录信息有误！");
             addCookie(response, "loginStatus", "登录信息有误！");
-            return "redirect:" + LOGIN_PAGE_NAME;
+            return "redirect:" + REDIRECT_LOGIN_PAGE_NAME;
         }
 
         return HOME_PAGE_NAME;
@@ -137,13 +137,13 @@ public class LoginOrRegisterController {
             });
             reason.append("已存在，其值必须和别人不一样");
             addCookie(response, "registerStatus", reason.toString());
-            return "redirect:" + LOGIN_PAGE_NAME + "#green";
+            return "redirect:" + REDIRECT_LOGIN_PAGE_NAME + "#green";
         }
 
         //登录成功，返回登录界面
 
         addCookie(response, "registerStatus", "注册成功，请登录！");
-        return "redirect:" + LOGIN_PAGE_NAME;
+        return "redirect:" + REDIRECT_LOGIN_PAGE_NAME;
     }
 
 }
