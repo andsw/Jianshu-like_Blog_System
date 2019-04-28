@@ -32,7 +32,7 @@
         </li>
         <li>
           <a href="#" class="nav_a height_67">
-            <i class="material-icons prefix md-18" style="display: inline-block;">comment</i>
+            <i class="material-icons prefix md-18" style="display: inline-block;">mail_outline</i>
             <span class="nav_a">消息</span>
           </a>
         </li>
@@ -78,19 +78,42 @@
 
       <!--侧边菜单-->
       <ul id="slide-out" class="side-nav">
+        
         <li><div class="userView">
           <div class="background">
-            <img src="../front_end/img/background.jpg" alt="background">
+            <img src="../front_end/img/background.jpg" style="width: 100%; height: auto;" alt="background">
           </div>
           <a href="#"><img class="circle" src="../front_end/img/Hajiwon_red.png" alt="hajiwon"></a>
-          <a href="#"><span class="white-text name">张三</span></a>
-          <a href="#"><span class="white-text email">jdandturk@sina.com</span></a>
+          <a href="#"><span class="white-text name">Hajiwon honey
+            <img src="../front_end/img/gender/female.png" style="width: 15px;height: auto;" alt=""></span></a>
+          <a href="#"><span class="white-text email">heshw@hotmail.com</span></a>
         </div></li>
-        <li><a href="#"><i class="material-icons">cloud</i>带图标的第一链接</a></li>
-        <li><a href="#">第二链接</a></li>
+
+        <li><a href="#" class="waves-effect"><i class="material-icons">loyalty</i>发现</a></li>
+        <li><a href="#" class="waves-effect"><i class="material-icons">center_focus_strong</i>关注</a></li>
+        <li><a href="#" class="waves-effect"><i class="material-icons">mail</i>消息</a></li>
+
         <li><div class="divider"></div></li>
-        <li><a class="subheader">子标题</a></li>
-        <li><a class="waves-effect" href="#">带波纹效果的第三链接</a></li>
+
+        <li>
+          <ul class = "collapsible black-text" data-collapsible = "accordion">
+            <li>
+              <!--这里的添加图标导致打开折叠目录时会有残影 TODO 需要修复！-->
+              <div class = "collapsible-header">我的
+                <i class="material-icons right" style="user-select: none;">keyboard_arrow_down</i></div>
+              <div class = "collapsible-body">
+                <ul>
+                  <li><a href="#" class="waves-effect"><i class="material-icons">account_circle</i>我的主页</a></li>
+                  <li><a href="#" class="waves-effect"><i class="material-icons">collections</i>我的收藏</a></li>
+                  <li><a href="#" class="waves-effect"><i class="material-icons">center_focus_strong</i>我的关注</a></li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#" class="waves-effect"><i class="material-icons">help_outline</i>帮助与反馈</a></li>
+        <li><a href="#" class="waves-effect"><i class="material-icons">settings</i>设置</a></li>
+        <li><a href="#" class="waves-effect"><i class="material-icons">logout</i>退出</a></li>
       </ul>
       <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
@@ -106,19 +129,20 @@
         <div class="valign-wrapper hide-on-med-and-up center">
           <hr>
           <img src="../front_end/img/Hajiwon_red.png"
-               class="waves-circle materialboxed"
+               class="waves-circle"
                alt="下拉框" data-caption="最爱的河智苑"
-               style="margin: 3px auto;"/>
+               style="margin: 3px auto; width: 110px;height: auto;"/>
           <hr>
         </div>
         <!--    电脑和平板显示头像    -->
         <div id="info" class="row">
-          <img src="../front_end/img/Hajiwon_red.png"
+          <img id="medium_large_avatar" src="../front_end/img/Hajiwon_red.png"
                class="left avatar_style info_avatar waves-circle materialboxed hide-on-small-and-down"
                alt="下拉框" data-caption="最爱的河智苑" style="width: 100px;"/>
-          <div id="info_data_div" class="inline_block_style col s8">
+          <div id="info_data_div" class="inline_block_style col s12 m8">
 
-            <h5>Hajiwon honey</h5>
+            <i class="material-icons prefix">man</i>
+            <h5>Hajiwon honey<img src="../front_end/img/gender/female.png" alt="女"></h5>
             <div class="personal_data_div">
               <span class="personal_data_num_span">30</span><br>
               <a href="" class="grey-text">关注></a>
@@ -147,10 +171,50 @@
         </div>
       </div>
 
-      <!--   文章列表部分   -->
-      <div id="article_part_div">
-
+      <!--   个人信息和文章列表中间的标签选择项
+             令我苦恼的是其原生背景色无法修改，后面再想办法吧！TODO 修改背景色-->
+      <div class="row col s12">
+        <div class="col s12">
+          <ul class="tabs">
+            <li class="tab col s3"><a class="active" href="#blog_page">文章</a></li>
+            <li class="tab col s3"><a href="#todo_page">TODO</a></li>
+            <li class="tab col s3"><a href="#note_page">笔记</a></li>
+            <li class="tab col s3"><a href="#others_page">其他</a></li>
+          </ul>
+        </div>
+        <div id="blog_page" class="col s12">
+          <div id="article_part_div" class="col s12">
+            <!--   文章列表部分   -->
+            <ul class="article_list_ul row">
+              <li class="grey-text col s12 row horizontal valign-wrapper">
+                <div class="col s12 article_info">
+                  <a href="" class="black-text"><h5>mysql----innoDB事务与锁测试的操作</h5></a>
+                  <p>
+                    关于事务与锁的解释在很多博客中都很详细了，这里大致记下一些简要内容（方便以后复习时对照思考），重点是操作案例，以表现事务与锁的操作的具体样例！
+                    很多都是我自己的理解，有错望指阿斯蒂出...
+                  </p>
+                  <div>
+                    <span class="number article_item_data_span"><i class="material-icons prefix md-10">visibility</i>88</span>
+                    <span class="number article_item_data_span"><i class="material-icons prefix md-10">comment</i>8</span>
+                    <span class="number article_item_data_span"><i class="material-icons prefix md-10">thumb_up</i>23</span>
+                    <!--这里记得用框架显示时间，即jquery_timeago.min.js-->
+                    <span class="article_item_data_span">2019-4-28</span>
+                  </div>
+                </div>
+                <a class="" style="width: 170px;height: auto;" href="">
+                  <img src="../front_end/img/hajiwon_lovely.png" alt="" class="article_summary_image">
+                </a>
+              </li>
+              <!--文章间隔横线-->
+              <hr class="article_hr col s12">
+            </ul>
+          </div>
+        </div>
+        <div id="todo_page" class="col s12">待完成</div>
+        <div id="note_page" class="col s12">笔记</div>
+        <div id="others_page" class="col s12">其他</div>
       </div>
+
     </div>
 
     <!-- 侧边栏，显示个人简介，文集等信息 -->
@@ -169,6 +233,9 @@
         <!--子部件无法撑起父容器时，即子元素脱离文档流，加个这个就可以解决-->
         <div style="clear:both;"></div>
       </div>
+
+      <div class="lighten-1 light-green valign-wrapper white-text" style="height: 50px;padding-left: 110px">功能待添加</div>
+
       <!--   文集列表   -->
       <div id="corpus_list_div" class="valign-wrapper">
         <ul>
@@ -228,6 +295,7 @@
                 alignment: 'left' // Displays dropdown with edge aligned to the left of button
               }
       );
+      $('.collapsible').collapsible();
     });
     function toggleReadonly(self) {
       const temp = $('#self_summary_textarea');

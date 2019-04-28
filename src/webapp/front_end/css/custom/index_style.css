@@ -39,6 +39,11 @@
 
 /*左侧主界面开始*/
 /*个人信息数据部分开始*/
+#medium_large_avatar {
+    margin-top: 30px;
+    margin-left: 40px;
+}
+
 #info_data_div {
     margin: -5px 20px;
 }
@@ -53,8 +58,29 @@
     font-size: 18px;
 }
 
-
 /*个人信息数据部分 结束*/
+/*左侧主界面文章列表css开始*/
+#article_list_ul {
+
+}
+.article_hr {
+    border:0;
+    background-color: rgba(25, 25, 25, 0.1);
+    height: 1px;
+}
+.article_summary_image {
+    width: 140px;
+    height: auto;
+    border: 1px rgba(25, 25, 25, 0.1) solid;
+    border-radius: 6px;
+}
+
+.article_item_data_span {
+    margin-right: 10px;
+    margin-bottom: 20px;
+}
+
+/*左侧主界面文章列表css结束*/
 /*左侧主界面结束*/
 
 /*侧边栏css开始 */
