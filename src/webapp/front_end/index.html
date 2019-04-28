@@ -10,37 +10,7 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
   <link href="../front_end/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <style>
-    .nav_a {
-      font-size: 18px;
-      margin-left: 3px;
-    }
-    .height_67 {
-      height: 67px;
-    }
-    .avatar_style {
-      width: auto;
-      height: 60px;
-      display: inline-block;
-      margin: 3px -5px;
-      border: 1px grey solid;
-    }
-
-    .avatar_style:hover {
-      border: 2px grey solid;
-    }
-
-    .inline_block_style{
-      display: inline-block;
-    }
-
-    .material-icons.md-18 { font-size: 18px; }
-    .material-icons.md-24 { font-size: 24px; }
-    .material-icons.md-36 { font-size: 36px; }
-    .material-icons.md-48 { font-size: 48px; }
-
-    .material-icons.md-22 { font-size: 22px; }
-  </style>
+  <link href="../front_end/css/custom/index_style.css" rel="stylesheet">
 </head>
 <body>
   <nav class="light-green lighten-1" role="navigation">
@@ -73,7 +43,7 @@
               style="width:119px">
             <div>
               <i class="material-icons right md-24 inline_block_style">keyboard_arrow_down</i>
-              <img src="../front_end/img/Hajiwon_red.png" class="avatar_style waves-circle materialboxed" alt="下拉框"
+              <img src="../front_end/img/Hajiwon_red.png" class="avatar_style head_avatar waves-circle materialboxed" alt="下拉框"
                    data-caption="最爱的河智苑"/>
             </div>
           </a>
@@ -126,106 +96,122 @@
     </div>
   </nav>
 
-  <div class="section no-pad-bot" id="index-banner">
-    <div class="container">
-      <br><br>
-      <h1 class="header center orange-text">Starter Template</h1>
-      <div class="row center">
-        <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
-      </div>
-      <div class="row center">
-        <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light orange">Get Started</a>
-      </div>
-      <br><br>
+  <div class="container row">
 
+    <!--  主要部分显示信息和文章列表，右边是侧边栏  -->
+    <div id="main_content" class="col s12 l9">
+      <!--   个人信息部分，包括头像和一些数据   -->
+      <div id="personal_info_div" class="row">
+        <!--   手机显示头像，为了方便布局只能设两个头像一个显示一个隐藏了！     -->
+        <div class="valign-wrapper hide-on-med-and-up center">
+          <hr>
+          <img src="../front_end/img/Hajiwon_red.png"
+               class="waves-circle materialboxed"
+               alt="下拉框" data-caption="最爱的河智苑"
+               style="margin: 3px auto;"/>
+          <hr>
+        </div>
+        <!--    电脑和平板显示头像    -->
+        <div id="info" class="row">
+          <img src="../front_end/img/Hajiwon_red.png"
+               class="left avatar_style info_avatar waves-circle materialboxed hide-on-small-and-down"
+               alt="下拉框" data-caption="最爱的河智苑" style="width: 100px;"/>
+          <div id="info_data_div" class="inline_block_style col s8">
+
+            <h5>Hajiwon honey</h5>
+            <div class="personal_data_div">
+              <span class="personal_data_num_span">30</span><br>
+              <a href="" class="grey-text">关注></a>
+            </div>
+            <span style="color: rgba(25,25,25,0.2)">|</span>
+            <div class="personal_data_div">
+              <span class="personal_data_num_span">2</span><br>
+              <a href="" class="grey-text">粉丝></a>
+            </div>
+            <span style="color: rgba(25,25,25,0.2)">|</span>
+            <div class="personal_data_div">
+              <span class="personal_data_num_span">71</span><br>
+              <a href="" class="grey-text">文章></a>
+            </div>
+            <span style="color: rgba(25,25,25,0.2)">|</span>
+            <div class="personal_data_div">
+              <span class="personal_data_num_span">65532</span><br>
+              <span class="grey-text">字数</span>
+            </div>
+            <span style="color: rgba(25,25,25,0.2)">|</span>
+            <div class="personal_data_div">
+              <span class="personal_data_num_span">36</span><br>
+              <span class="grey-text">收获喜欢</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--   文章列表部分   -->
+      <div id="article_part_div">
+
+      </div>
+    </div>
+
+    <!-- 侧边栏，显示个人简介，文集等信息 -->
+    <div id="side_content" class="col s12 l3">
+      <!--   个人介绍栏   -->
+      <div id="self_summary_div">
+        <label for="self_summary_textarea" class="grey-text left" style="font-size: 20px">
+          个人介绍
+        </label>
+        <i class="material-icons prefix grey-text right md-18">edit</i>
+        <a href="#" onclick="toggleReadonly(this)" class="grey-text right" style="margin-right: -10px;">编辑</a>
+        <textarea name="self_summary_textarea" id="self_summary_textarea"
+                  class="col s12" readonly>之前在csdn上写了许多，懒得全搬过来了，也欢迎访问我的csdn：
+        </textarea>
+        <div class="col s12" id="self_summary_div_from_textarea">之前在csdn上写了许多，懒得全搬过来了，也欢迎访问我的csdn：</div>
+        <!--子部件无法撑起父容器时，即子元素脱离文档流，加个这个就可以解决-->
+        <div style="clear:both;"></div>
+      </div>
+      <!--   文集列表   -->
+      <div id="corpus_list_div" class="valign-wrapper">
+        <ul>
+          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">shiro</a></li>
+          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">J2ee</a></li>
+          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">Linux</a></li>
+          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">Spring</a></li>
+          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">数据库</a></li>
+          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">数据结构与算法</a></li>
+          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">一些错误</a></li>
+          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">一些错误</a></li>
+          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">docker</a></li>
+          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">胡思乱想</a></li>
+          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">一些错误</a></li>
+          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">docker</a></li>
+          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">胡思乱想</a></li>
+          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">一些错误</a></li>
+          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">docker</a></li>
+          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">胡思乱想</a></li>
+          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">docker</a></li>
+          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">胡思乱想</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 
-  <div class="container">
-    <div class="section">
-
-      <!--   Icon Section   -->
-      <div class="row">
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-green-text"><i class="material-icons">flash_on</i></h2>
-            <h5 class="center">Speeds up development</h5>
-
-            <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
-          </div>
-        </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-green-text"><i class="material-icons">group</i></h2>
-            <h5 class="center">User Experience Focused</h5>
-
-            <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.</p>
-          </div>
-        </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-green-text"><i class="material-icons">settings</i></h2>
-            <h5 class="center">Easy to work with</h5>
-
-            <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <br><br>
-  </div>
-
-  <footer class="page-footer orange">
-    <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text">Company Bio</h5>
-          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-
-
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Settings</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Connect</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="footer-copyright">
-      <div class="container">
-      Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
-      </div>
-    </div>
+  <footer class="page-footer white">
   </footer>
 
-<!--  悬浮按钮-->
+  <!--悬浮按钮-->
   <div class="fixed-action-btn horizontal click-to-toggle">
-    <a class="btn-floating btn-large red">
+    <a class="btn-floating btn-large blue">
       <i class="material-icons">menu</i>
     </a>
     <ul>
       <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
       <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
       <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
-      <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+      <li><a class="btn-floating orange"><i class="material-icons">attach_file</i></a></li>
     </ul>
   </div>
+
+
   <!--  Scripts-->
   <script src="../front_end/js/jquery-2.1.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
@@ -242,8 +228,19 @@
                 alignment: 'left' // Displays dropdown with edge aligned to the left of button
               }
       );
-
     });
+    function toggleReadonly(self) {
+      const temp = $('#self_summary_textarea');
+
+      if (temp.attr('readonly') === 'readonly') {
+        self.text = '保存';
+        temp.removeAttr('readonly');
+        temp.prop("border", "1px #000 solid");
+      } else {
+        self.text = '编辑';
+        temp.attr('readonly', 'readonly');
+      }
+    }
   </script>
   </body>
 </html>

@@ -1,0 +1,99 @@
+.material-icons.md-10 { font-size: 10px; }
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+.material-icons.md-22 { font-size: 22px; }
+
+/*导航栏css开始*/
+.nav_a {
+    font-size: 18px;
+    margin-left: 3px;
+}
+.height_67 {
+    height: 67px;
+}
+.avatar_style {
+    height: auto;
+    display: inline-block;
+    margin: 3px -5px;
+}
+
+.head_avatar {
+    width: 60px;
+}
+
+.info_avatar{
+    width: 100px;
+}
+
+.inline_block_style{
+    display: inline-block;
+}
+/*导航栏css结束*/
+
+/*主界面的css开始*/
+#main_content {
+    margin: 20px auto;
+}
+
+/*左侧主界面开始*/
+/*个人信息数据部分开始*/
+#info_data_div {
+    margin: -5px 20px;
+}
+
+.personal_data_div {
+    display: inline-block;
+    margin: 10px 5px;
+}
+.personal_data_num_span {
+    font-weight: bold;
+    font-family: "Adobe Hebrew",serif;
+    font-size: 18px;
+}
+
+
+/*个人信息数据部分 结束*/
+/*左侧主界面结束*/
+
+/*侧边栏css开始 */
+#side_content{
+    margin: 20px auto;
+}
+/*个人简介开始*/
+#self_summary_div {
+    margin-top: 10px;
+    border-bottom: 1px rgba(25,25,25,0.2) solid;
+}
+#self_summary_textarea {
+    resize: none;
+    outline: none;
+    height: 150px;
+    border: none;
+    margin: 5px auto;
+    padding: 20px 0;
+    display: none;
+}
+#self_summary_div_from_textarea{
+    margin: 5px auto;
+    padding: 20px 0;
+}
+/*个人简介结束*/
+/*文集列表开始*/
+#corpus_list_ul {
+
+}
+.corpus_item_li {
+    margin: 10px 1px;
+}
+.corpus_item_li i {
+    margin-right: 10px;
+}
+.corpus_item_li a{
+    font-size: 15px;
+    color: #000;
+}
+/*文集列表结束*/
+/*侧边栏css结束 */
+/*就是主界面的css结束*/
