@@ -61,4 +61,10 @@
     <select id="doseTelExisted" parameterType="string" resultType="boolean">
         select ISNULL((select 1 from user where tel = #{tel} limit 1));
     </select>
+
+    <cache type="cn.jxufe.redis.RedisCache"/>
+    <select id="selectAllUser" resultType="user">
+        select *
+        from user;
+    </select>
 </mapper>

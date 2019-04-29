@@ -1,12 +1,15 @@
 package cn.jxufe.bean;
 
+import java.io.Serializable;
+
 /**
  * @ClassName: PersonalInfo
  * @author: hsw
  * @date: 2019/4/2 11:56
  * @Description: TODO
  */
-public class PersonalInfo {
+public class PersonalInfo implements Serializable {
+    private static final long serialVersionUID = 5695563660997682977L;
     private Integer userNo;
     private String name;
     private String wechatQRLink;

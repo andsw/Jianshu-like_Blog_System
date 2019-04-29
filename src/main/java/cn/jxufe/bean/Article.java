@@ -1,5 +1,6 @@
 package cn.jxufe.bean;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -8,8 +9,9 @@ import java.sql.Timestamp;
  * @date: 2019/4/2 15:25
  * @Description: 文章类型
  */
-public class Article {
+public class Article implements Serializable {
 
+    private static final long serialVersionUID = -683719417348335062L;
     private Integer articleNo;
     private Integer userNo;
     private String articleTitle;

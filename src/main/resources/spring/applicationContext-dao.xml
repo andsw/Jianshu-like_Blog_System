@@ -73,6 +73,12 @@
         <property name="configuration">
             <bean class="org.apache.ibatis.session.Configuration">
                 <property name="mapUnderscoreToCamelCase" value="true"/>
+                <!--开启二级缓存-->
+                <property name="cacheEnabled" value="true"/>
+
+                <!--开启延迟加载-->
+                <property name="lazyLoadingEnabled" value="true"/>
+                <property name="aggressiveLazyLoading" value="false"/>
             </bean>
         </property>
     </bean>

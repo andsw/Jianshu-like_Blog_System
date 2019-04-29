@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!--序列化和反序列化工具-->
-    <bean id="serializingUtil" class="cn.jxufe.util.SerializingUtil" init-method="getInstance"/>
+    <bean id="serializingUtil" class="cn.jxufe.util.SerializingUtil"/>
 
     <!--生成和校验验证码-->
     <bean id="checkCodeUtil" class="cn.jxufe.util.CheckCodeUtil" scope="prototype"/>

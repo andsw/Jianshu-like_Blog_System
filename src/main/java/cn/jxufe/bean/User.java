@@ -1,12 +1,15 @@
 package cn.jxufe.bean;
 
+import java.io.Serializable;
+
 /**
  * @ClassName: User
  * @author: hsw
  * @date: 2019/3/30 19:59
  * @Description: 用户账号信息
  */
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID = -8986314833392281499L;
     /**
      * 自动生成的主键
      */

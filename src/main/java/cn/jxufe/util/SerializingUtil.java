@@ -10,19 +10,7 @@ import java.io.*;
  */
 public class SerializingUtil {
 
-    private SerializingUtil() {
-    }
-
-    /**
-     * 实现单例模式的静态内部类
-     */
-    private static final class InnerClass {
-        private static SerializingUtil util = new SerializingUtil();
-    }
-
-    public SerializingUtil getInstance() {
-        return InnerClass.util;
-    }
+    public SerializingUtil() { }
 
     /**
      * 序列化

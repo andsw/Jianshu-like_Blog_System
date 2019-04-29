@@ -63,4 +63,6 @@ public interface UserDao {
     boolean doseEmailExisted(String email);
 
     boolean doseTelExisted(String tel);
+
+    List<User> selectAllUser();
 }

@@ -58,4 +58,8 @@
 <!--        </property>-->
     </bean>
 
+    <bean id="redisCacheTransfer" class="cn.jxufe.redis.RedisCacheTransfer">
+        <property name="jedisConnectionFactory" ref="connectFactory"/>
+    </bean>
+
 </beans>
