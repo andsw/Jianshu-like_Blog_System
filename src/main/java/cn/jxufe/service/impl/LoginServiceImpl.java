@@ -13,7 +13,7 @@ import java.util.List;
  * @ClassName: LoginServiceImpl
  * @author: hsw
  * @date: 2019/4/3 22:15
- * @Description: TODO
+ * @Description: 该服务类管理范围从 注册 登录直到登录成功返回useNoCookie。
  */
 public class LoginServiceImpl implements LoginService {
 
@@ -21,10 +21,6 @@ public class LoginServiceImpl implements LoginService {
 
     @Autowired
     private UserDao userDao;
-
-    public LoginServiceImpl(UserDao userDao) {
-        this.userDao = userDao;
-    }
 
     @Override
     public String getPassword(String principle) {
@@ -64,7 +60,16 @@ public class LoginServiceImpl implements LoginService {
             infoExisted.add("tel");
         }
 
+        if (infoExisted.isEmpty()) {
+            infoExisted.add("unknown");
+        }
+
         return infoExisted;
+    }
+
+    @Override
+    public int getUserNoWhenLoginSuccessfully(String username) {
+        return username.contains("@") ? userDao.getUserNoByEmail(username) : userDao.getUserNoByTel(username);
     }
 
 }

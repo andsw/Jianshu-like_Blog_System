@@ -67,14 +67,13 @@
                 <value>cn.jxufe.bean.User</value>
                 <value>cn.jxufe.bean.Article</value>
                 <value>cn.jxufe.bean.ArticleContent</value>
-                <value>cn.jxufe.bean.PersonalInfo</value>
             </list>
         </property>
         <property name="configuration">
             <bean class="org.apache.ibatis.session.Configuration">
                 <property name="mapUnderscoreToCamelCase" value="true"/>
-                <!--开启二级缓存-->
-                <property name="cacheEnabled" value="true"/>
+                <!--关闭二级缓存-->
+                <property name="cacheEnabled" value="false"/>
 
                 <!--开启延迟加载-->
                 <property name="lazyLoadingEnabled" value="true"/>

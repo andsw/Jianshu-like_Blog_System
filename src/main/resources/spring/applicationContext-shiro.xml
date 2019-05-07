@@ -29,20 +29,27 @@
     <!--配置shiro的过滤器，核心部分,id必须和web.xml文件中的filter-name或者指定的target-name一致，不然找不到filter会报错!-->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
-        <property name="loginUrl" value="/login.html"/>
-        <property name="successUrl" value="/WEB-INF/page/home.html"/>
+        <property name="loginUrl" value="/front_end/loginAndRegister.html"/>
+        <property name="successUrl" value="/front_end/index.html"/>
         <!-- 无权限访问的时跳转的页面！-->
         <property name="unauthorizedUrl" value="/error/503.html"/>
         <property name="filterChainDefinitions">
             <value>
+
+                /front_end/js/**=anon
+                /front_end/css/**=anon
+                /front_end/img/**=anon
+                /front_end/fonts/**=anon
+
                 <!--这里填入的是对应url和权限角色信息。遵循优先匹配原则。-->
-                /login.html = anon
-                /user/login = anon
-                /user/register = anon
-                /user/checkCode = anon
-                /home.html = authc
-                /error/503.html = anon
-                /page/home.html = authc
+                /user/**=anon
+
+                /error/503.html=anon
+                /frontend/loginAndRegister.html=anon
+
+                <!--操作用户信息的url，需要登陆后才能获取！-->
+                /users/**=authc
+
                 /** = authc
             </value>
         </property>

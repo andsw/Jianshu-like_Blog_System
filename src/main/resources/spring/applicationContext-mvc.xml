@@ -18,9 +18,7 @@
 
     <mvc:default-servlet-handler/>
     <mvc:annotation-driven/>
-    <mvc:resources mapping="/images/**" location="/img/" />
-    <mvc:resources mapping="/css/**" location="/css/" />
-    <mvc:resources mapping="/js/**" location="/js/" />
+<!--    <mvc:resources mapping="/front_end/img/**" location="" />-->
 
     <!--配置前后台数据jackson与其他数据自动转换器-->
     <bean id="mappingJacksonHttpMessageConverter"

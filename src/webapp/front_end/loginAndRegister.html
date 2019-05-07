@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Jianshu-like login</title>
     <!-- CSS-->
-    <link href="css/ghpages-materialize.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="../front_end/css/ghpages-materialize.css" type="text/css" rel="stylesheet" media="screen,projection">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         html, body, .block {
@@ -21,7 +21,7 @@
 <body>
 <!--登录模块-->
 <div id="blue" class="block blue">
-    <nav class="pushpin-demo-nav" data-target="blue">
+    <nav class="pushfront_end-demo-nav" data-target="blue">
         <div class="nav-wrapper light-blue">
             <div class="container">
                 <a href="#" class="brand-logo">Jianshu-like Blog</a>
@@ -53,7 +53,7 @@
 
                 <a class="btn waves-effect waves-light col s10 light-blue" href="#modal-check-code"
                         style="margin-left: 20px;margin-top: 20px"
-                   onclick="document.getElementById('check-code-img').src = 'http://localhost:8080/user/checkCode?tm='
+                   onclick="document.getElementById('check-code-img').src = 'http://localhost:8080/user/check_code?tm='
                    +Math.random()">登录
                     <i class="material-icons right">send</i>
                 </a>
@@ -86,7 +86,7 @@
 
 <!--注册模块-->
 <div id="green" class="block green lighten-1">
-    <nav class="pushpin-demo-nav" data-target="green">
+    <nav class="pushfront_end-demo-nav" data-target="green">
         <div class="nav-wrapper green">
             <div class="container">
                 <a href="#" class="brand-logo">Jianshu-like Blog</a>
@@ -139,7 +139,6 @@
     </div>
 </div>
 <script>
-    const _hmt = _hmt || [];
     (function() {
         const hm = document.createElement("script");
         hm.src = "https://hm.baidu.com/hm.js?478902902272d2025e064ebc5eb6c99c";
@@ -148,10 +147,10 @@
     })();
 </script>
 <!--  Scripts-->
-<script src="js/jquery-2.1.4.min.js"></script>
-<script src="js/jquery.cookie.js"></script>
-<script src="js/materialize.js"></script>
-<script src="js/init.js"></script>
+<script src="../front_end/js/jquery-2.1.4.min.js"></script>
+<script src="../front_end/js/jquery.cookie.js"></script>
+<script src="../front_end/js/materialize.js"></script>
+<script src="../front_end/js/init.js"></script>
 
 <script>
     <!--实现js的post跳转-->
@@ -176,25 +175,25 @@
             Materialize.toast(loginStatus, 2000 );
             //注意光是指定cookie名称是无法删除cookie的，还要指定其路径。
             //又忘了。。。
-            $.removeCookie('loginStatus', {path:'/pin/login&register.html'});
+            $.removeCookie('loginStatus', {path:'/front_end/loginAndRegister.html'});
         }
 
         const registerStatus = $.cookie('registerStatus');
         if (registerStatus != null) {
             Materialize.toast(registerStatus, 2000);
-            $.removeCookie('registerStatus', {path:'/pin/login&register.html'})
+            $.removeCookie('registerStatus', {path:'/front_end/login&register.html'})
         }
 
         //记住密码
         $("#login-module").submit(function () {
             if ($('#rememberPassword').is(':checked') === true) {
-                $.cookie('remember_pw', 'true', {path: '/pin', expires: 3});
-                $.cookie('username', $("#username").val(), {path: '/pin', expires: 3});
-                $.cookie('password', $("#password").val(), {path: '/pin', expires: 3});
+                $.cookie('remember_pw', 'true', {path: '/front_end/', expires: 3});
+                $.cookie('username', $("#username").val(), {path: '/front_end/', expires: 3});
+                $.cookie('password', $("#password").val(), {path: '/front_end/', expires: 3});
             } else {
-                $.removeCookie('remember_pw', {path: '/pin'});
-                $.removeCookie('username', {path:'/pin'});
-                $.removeCookie('password', {path:'/pin'});
+                $.removeCookie('remember_pw', {path: '/front_end/'});
+                $.removeCookie('username', {path:'/front_end/'});
+                $.removeCookie('password', {path:'/front_end/'});
             }
         });
 

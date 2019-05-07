@@ -52,6 +52,9 @@ public class User implements Serializable {
     private Long wordNum;
     private Integer likeNum;
 
+    private String github;
+    private String wechatQrImageLink;
+
     public User() {
     }
 
@@ -69,8 +72,10 @@ public class User implements Serializable {
      * @param blogNum
      * @param wordNum
      * @param likeNum
+     * @param github
+     * @param wechatQrImageLink
      */
-    public User(Integer userNo, String username, String email, String tel, String avatar, String selfSummary, Byte gender, Integer followNum, Integer followerNum, Integer blogNum, Long wordNum, Integer likeNum) {
+    public User(Integer userNo, String username, String email, String tel, String avatar, String selfSummary, Byte gender, Integer followNum, Integer followerNum, Integer blogNum, Long wordNum, Integer likeNum, String github, String wechatQrImageLink) {
         this.userNo = userNo;
         this.username = username;
         this.email = email;
@@ -83,6 +88,8 @@ public class User implements Serializable {
         this.blogNum = blogNum;
         this.wordNum = wordNum;
         this.likeNum = likeNum;
+        this.github = github;
+        this.wechatQrImageLink = wechatQrImageLink;
     }
 
     /**
@@ -219,6 +226,22 @@ public class User implements Serializable {
         this.passwordTel = passwordTel;
     }
 
+    public String getGithub() {
+        return github;
+    }
+
+    public void setGithub(String github) {
+        this.github = github;
+    }
+
+    public String getWechatQrImageLink() {
+        return wechatQrImageLink;
+    }
+
+    public void setWechatQrImageLink(String wechatQrImageLink) {
+        this.wechatQrImageLink = wechatQrImageLink;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -227,6 +250,8 @@ public class User implements Serializable {
                 ", email='" + email + '\'' +
                 ", tel='" + tel + '\'' +
                 ", avatar='" + avatar + '\'' +
+                ", passwordEmail='" + passwordEmail + '\'' +
+                ", passwordTel='" + passwordTel + '\'' +
                 ", selfSummary='" + selfSummary + '\'' +
                 ", gender=" + gender +
                 ", followNum=" + followNum +
@@ -234,8 +259,8 @@ public class User implements Serializable {
                 ", blogNum=" + blogNum +
                 ", wordNum=" + wordNum +
                 ", likeNum=" + likeNum +
-                ", passwordEmail='" + passwordEmail + '\'' +
-                ", passwordTel='" + passwordTel + '\'' +
+                ", github='" + github + '\'' +
+                ", wechatQrImageLink='" + wechatQrImageLink + '\'' +
                 '}';
     }
 }

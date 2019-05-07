@@ -39,7 +39,6 @@ public class RedisSessionDAO extends AbstractSessionDAO {
 
     @Override
     protected Serializable doCreate(Session session) {
-        System.out.println("\n----------------doCreate method in sessionDAO----------------");
 
         String sessionId = (String) generateSessionId(session);
         return saveSession(sessionId, session);
@@ -47,7 +46,6 @@ public class RedisSessionDAO extends AbstractSessionDAO {
 
     @Override
     protected Session doReadSession(Serializable serializable) {
-        System.out.println("\n----------------doRead method in sessionDAO----------------");
         if (serializable == null) {
             return null;
         }
@@ -64,14 +62,12 @@ public class RedisSessionDAO extends AbstractSessionDAO {
 
     @Override
     public void update(Session session) throws UnknownSessionException {
-        System.out.println("\n----------------update method in sessionDAO!----------------");
         String sessionId = (String) session.getId();
         saveSession(sessionId, session);
     }
 
     @Override
     public void delete(Session session) {
-        System.out.println("\n----------------delete method in sessionDAO!----------------");
         String sessionId = (String) session.getId();
         redisTemplate.delete(sessionId);
 

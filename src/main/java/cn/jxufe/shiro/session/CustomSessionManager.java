@@ -35,6 +35,7 @@ public class CustomSessionManager extends DefaultWebSessionManager {
         if (request != null && sessionId != null) {
             session = (Session) request.getAttribute(sessionId.toString());
             if (session != null) {
+                System.out.println("get session from request!");
                 return session;
             }
         }

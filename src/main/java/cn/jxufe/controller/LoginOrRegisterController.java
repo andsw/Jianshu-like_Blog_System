@@ -32,8 +32,8 @@ import java.util.Random;
 @RequestMapping(value = "/user")
 public class LoginOrRegisterController {
 
-    private static final String HOME_PAGE_NAME = "index";
-    private static final String REDIRECT_LOGIN_PAGE_NAME = "http://localhost:63343/front_end/login&register.html";
+    private static final String HOME_PAGE_NAME = "http://localhost:8080/front_end/index.html";
+    private static final String REDIRECT_LOGIN_PAGE_NAME = "http://localhost:8080/front_end/loginAndRegister.html";
 
 
     private final LoginServiceImpl loginService;
@@ -47,9 +47,9 @@ public class LoginOrRegisterController {
         this.loginService = loginService;
     }
 
-    private void addCookie(HttpServletResponse response, String cookieName, String cookieValue) {
+    private void addCookieBackLoginRegPage(HttpServletResponse response, String cookieName, String cookieValue) {
         Cookie cookie = new Cookie(cookieName, cookieValue);
-        cookie.setPath("/pin/login&register.html");
+        cookie.setPath("/front_end/loginAndRegister.html");
         response.addCookie(cookie);
     }
 
@@ -66,20 +66,20 @@ public class LoginOrRegisterController {
                         @RequestParam(value = "password", required = false) String password,
                         HttpServletRequest request,
                         HttpServletResponse response) {
-        System.out.println("\n----------------进入 login method in controller !----------------");
         System.out.println("username : " + username + "\n password : " + password);
 
         //如果已经登录了，就不需要跳转了！
         Subject currentUser = SecurityUtils.getSubject();
         if (currentUser.isAuthenticated() || currentUser.isRemembered()) {
-            return HOME_PAGE_NAME;
+            return "redirect:" + HOME_PAGE_NAME;
         }
 
-        if (!checkCodeUtil.codeChecking(request)) {
-            System.out.println("验证码错误！");
-            addCookie(response, "loginStatus", "验证码错误");
-            return "redirect:" + REDIRECT_LOGIN_PAGE_NAME;
-        }
+        //先不判断验证码！
+//        if (!checkCodeUtil.codeChecking(request)) {
+//            System.out.println("验证码错误！");
+//            addCookieBackLoginRegPage(response, "loginStatus", "验证码错误");
+//            return "redirect:" + REDIRECT_LOGIN_PAGE_NAME;
+//        }
 
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         // rememberMe is aways true
@@ -88,18 +88,23 @@ public class LoginOrRegisterController {
             currentUser.login(token);
         } catch (IncorrectCredentialsException e) {
             System.out.println("登录密码错误！");
-            addCookie(response, "loginStatus", "登录密码错误！");
+            addCookieBackLoginRegPage(response, "loginStatus", "登录密码错误！");
             return "redirect:" + REDIRECT_LOGIN_PAGE_NAME;
         } catch (AuthenticationException e) {
             System.out.println("登录信息有误！");
-            addCookie(response, "loginStatus", "登录信息有误！");
+            addCookieBackLoginRegPage(response, "loginStatus", "登录信息有误！");
             return "redirect:" + REDIRECT_LOGIN_PAGE_NAME;
         }
 
-        return HOME_PAGE_NAME;
+        int userNo = loginService.getUserNoWhenLoginSuccessfully(username);
+        Cookie userNoCookie = new Cookie("user_no", userNo + "");
+        userNoCookie.setDomain("localhost");
+        userNoCookie.setPath("/front_end/index.html");
+        response.addCookie(userNoCookie);
+        return "redirect:" + HOME_PAGE_NAME;
     }
 
-    @RequestMapping("/checkCode")
+    @RequestMapping("/check_code")
     public void checkCode(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("++++++++check code is generating!++++++++++");
 
@@ -130,20 +135,31 @@ public class LoginOrRegisterController {
         User user = new User(username, email, tel, (new Random()).nextInt(10) + ".png",
                 passwordEmail, passwordTel);
         if (loginService.insertUser(user) == 0) {
-            StringBuilder reason = new StringBuilder("注册失败，字段值" );
+
             List<String> list = loginService.whichInfoIsExisted(user);
-            list.forEach((s) -> {
-                reason.append(s).append("、");
-            });
-            reason.append("已存在，其值必须和别人不一样");
-            addCookie(response, "registerStatus", reason.toString());
+
+            addCookieBackLoginRegPage(response, "registerStatus", generateReason(list));
             return "redirect:" + REDIRECT_LOGIN_PAGE_NAME + "#green";
         }
 
-        //登录成功，返回登录界面
+        //注册成功，返回登录界面
 
-        addCookie(response, "registerStatus", "注册成功，请登录！");
+        addCookieBackLoginRegPage(response, "registerStatus", "注册成功，请登录！");
         return "redirect:" + REDIRECT_LOGIN_PAGE_NAME;
+    }
+
+    private String generateReason(List<String> list) {
+        StringBuilder reason = new StringBuilder();
+        for (String s : list) {
+            if ("unknown".equals(s)) {
+                return "发生错误，原因不明！";
+            }
+            reason.append(s).append("、");
+        }
+        //去除最后一个顿号
+        reason.deleteCharAt(reason.length() - 1);
+        reason.append("已存在，其值必须唯一");
+        return reason.toString();
     }
 
 }

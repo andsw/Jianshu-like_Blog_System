@@ -2,7 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
 
     <!--配置自动扫描，除controller，扫描的是cache包，这是redis缓存包-->
     <context:component-scan base-package="cn.jxufe.shiro.cache">
@@ -58,8 +59,20 @@
 <!--        </property>-->
     </bean>
 
-    <bean id="redisCacheTransfer" class="cn.jxufe.redis.RedisCacheTransfer">
-        <property name="jedisConnectionFactory" ref="connectFactory"/>
+    <cache:annotation-driven/>
+    <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+        <property name="caches">
+            <set>
+                <bean class="cn.jxufe.redis.RedisCache">
+                    <property name="redisSerializer">
+                        <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+                    </property>
+                    <property name="name" value="redisCache"/>
+                    <property name="redisTemplate" ref="redisTemplate"/>
+                    <property name="timeOut" value="600"/><!--10分钟过期-->
+                </bean>
+            </set>
+        </property>
     </bean>
 
 </beans>

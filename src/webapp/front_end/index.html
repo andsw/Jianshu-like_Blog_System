@@ -78,7 +78,7 @@
 
       <!--侧边菜单-->
       <ul id="slide-out" class="side-nav">
-        
+
         <li><div class="userView">
           <div class="background">
             <img src="../front_end/img/background.jpg" style="width: 100%; height: auto;" alt="background">
@@ -283,6 +283,7 @@
   <script src="../front_end/js/jquery-2.1.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
   <script src="../front_end/js/init_home.js"></script>
+  <script src="../front_end/js/jquery.cookie.js"></script>
   <script>
     $(document).ready(function () {
       $('.dropdown-button').dropdown({
@@ -296,6 +297,9 @@
               }
       );
       $('.collapsible').collapsible();
+
+      const userNo = $.cookie('userNo');
+      request('', )
     });
     function toggleReadonly(self) {
       const temp = $('#self_summary_textarea');

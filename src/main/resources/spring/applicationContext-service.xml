@@ -11,4 +11,5 @@
 
     <bean id="loginService" class="cn.jxufe.service.impl.LoginServiceImpl"/>
 
+    <bean id="userInfoService" class="cn.jxufe.service.impl.UserInfoServiceImpl"/>
 </beans>

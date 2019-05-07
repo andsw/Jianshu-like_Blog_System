@@ -184,6 +184,7 @@
             <scope>test</scope>
         </dependency>
 
+
         <!--redis 相关依赖-->
         <!-- spring-data-redis -->
         <dependency>

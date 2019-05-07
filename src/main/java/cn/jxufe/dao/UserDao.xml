@@ -7,6 +7,13 @@
     <!--注意resultType注重的不是成员组成的
     对象，所以这里填list会报Cause: java.lang.UnsupportedOperationException错-->
 
+    <!--选择user表中与用户类属性的对应的字段-->
+    <sql id="selectUserInfo">
+        select username, avatar, self_summary,
+               gender,follow_num, follower_num, blog_num, word_num, like_num
+        from user
+    </sql>
+
     <select id="getPasswordByEmail" parameterType="string" resultType="string">
         select password_email
         from user
@@ -19,27 +26,6 @@
         from user
         where tel = #{tel}
         limit 1;
-    </select>
-
-    <!--选择user表中与用户类属性的对应的字段-->
-    <sql id="selectUserInfo">
-        select user_no, username, email, tel, avatar, self_summary,
-               gender,follow_num, follower_num, blog_num, word_num, like_num
-        from user
-    </sql>
-
-    <!--三种方式获取用户信息-->
-    <select id="getUserByTel" parameterType="string" resultType="user">
-        <include refid="selectUserInfo"/>
-        where tel = #{tel};
-    </select>
-    <select id="getUserByEmail" parameterType="string" resultType="user">
-        <include refid="selectUserInfo"/>
-        where email = #{eamil};
-    </select>
-    <select id="getUserByUserNo" parameterType="int" resultType="user">
-        <include refid="selectUserInfo"/>
-        where user_no = #{user_no};
     </select>
 
     <!--注册用户添加信息，设置为preparedStatement是因为这里我想分几步
@@ -62,9 +48,27 @@
         select ISNULL((select 1 from user where tel = #{tel} limit 1));
     </select>
 
-    <cache type="cn.jxufe.redis.RedisCache"/>
-    <select id="selectAllUser" resultType="user">
-        select *
-        from user;
+    <select id="getUserNoByTel" resultType="int" parameterType="string">
+        select user_no
+        from user
+        where tel = #{tel}
+        limit 1;
+    </select>
+
+    <select id="getUserNoByEmail" resultType="int" parameterType="string">
+        select user_no
+        from user
+        where email=#{email}
+        limit 1;
+    </select>
+
+    <!--  size默认1024（表示的是存储对象引用的个数）-->
+<!--    暂时不知道该不该使用二级缓存，先做完数据的操作的sql吧-->
+<!--    <cache type="cn.jxufe.redis.RedisCache" size="1024" blocking="false"/>-->
+
+    <!--获取用户信息，这里去掉了没必要的由邮箱和电话后去user的方式！-->
+    <select id="getUserByUserNo" parameterType="int" resultType="user">
+        <include refid="selectUserInfo"/>
+        where user_no = #{user_no} limit 1;
     </select>
 </mapper>
