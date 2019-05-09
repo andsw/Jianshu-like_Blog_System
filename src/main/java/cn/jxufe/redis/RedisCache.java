@@ -1,7 +1,6 @@
 package cn.jxufe.redis;
 
 
-import com.mysql.cj.util.TimeUtil;
 import org.springframework.cache.Cache;
 import org.springframework.cache.support.SimpleValueWrapper;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -11,7 +10,6 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.util.StringUtils;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
@@ -58,7 +56,7 @@ public class RedisCache implements Cache {
         if (StringUtils.isEmpty(value)) {
             return null;
         }
-        return new SimpleValueWrapper(redisSerializer.deserialize(value.toString().getBytes()));
+        return new SimpleValueWrapper(redisSerializer.deserialize((new String(value.toString().getBytes(), StandardCharsets.UTF_8)).getBytes()));
     }
 
     @Override

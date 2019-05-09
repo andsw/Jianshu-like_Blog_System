@@ -42,7 +42,7 @@
                 /front_end/fonts/**=anon
 
                 <!--这里填入的是对应url和权限角色信息。遵循优先匹配原则。-->
-                /user/**=anon
+                /auth/**=anon
 
                 /error/503.html=anon
                 /frontend/loginAndRegister.html=anon

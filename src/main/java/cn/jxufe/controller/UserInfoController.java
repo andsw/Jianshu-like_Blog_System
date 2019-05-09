@@ -1,10 +1,9 @@
 package cn.jxufe.controller;
 
 import cn.jxufe.bean.User;
+import cn.jxufe.dto.Result;
 import cn.jxufe.service.UserInfoService;
-import cn.jxufe.service.impl.UserInfoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,12 +27,10 @@ public class UserInfoController {
 
     @RequestMapping(value = "/users/{userNo}", method = RequestMethod.GET)
     @ResponseBody
-    public User getUserInfoByUserNo(@PathVariable Integer userNo, HttpHeaders httpHeaders) {
+    public Result<User> getUserInfoByUserNo(@PathVariable("userNo") Integer userNo) {
         User user = userInfoService.getUserByUserNo(userNo);
-        if (user == null) {
 
-        }
-        return user;
+        return user == null ? Result.fail() : Result.success(user);
     }
 
 }

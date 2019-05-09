@@ -29,7 +29,7 @@ import java.util.Random;
  * @Description: TODO
  */
 @Controller
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/auth")
 public class LoginOrRegisterController {
 
     private static final String HOME_PAGE_NAME = "http://localhost:8080/front_end/index.html";

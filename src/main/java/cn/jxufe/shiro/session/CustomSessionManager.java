@@ -35,11 +35,11 @@ public class CustomSessionManager extends DefaultWebSessionManager {
         if (request != null && sessionId != null) {
             session = (Session) request.getAttribute(sessionId.toString());
             if (session != null) {
-                System.out.println("get session from request!");
+                //System.out.println("get session from request!");
                 return session;
             }
         }
-        System.out.println("get session from redis!");
+        //System.out.println("get session from redis!");
         // 从redis中取出后放入request中！
         session = super.retrieveSession(sessionKey);
         if (request != null && session != null) {

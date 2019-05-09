@@ -43,7 +43,7 @@
               style="width:119px">
             <div>
               <i class="material-icons right md-24 inline_block_style">keyboard_arrow_down</i>
-              <img src="../front_end/img/Hajiwon_red.png" class="avatar_style head_avatar waves-circle materialboxed" alt="下拉框"
+              <img src="../front_end/img/hajiwon_black.png" class="avatar_style head_avatar waves-circle materialboxed avatar" alt="下拉框"
                    data-caption="最爱的河智苑"/>
             </div>
           </a>
@@ -83,8 +83,8 @@
           <div class="background">
             <img src="../front_end/img/background.jpg" style="width: 100%; height: auto;" alt="background">
           </div>
-          <a href="#"><img class="circle" src="../front_end/img/Hajiwon_red.png" alt="hajiwon"></a>
-          <a href="#"><span class="white-text name">Hajiwon honey
+          <a href="#"><img class="circle avatar" src="../front_end/img/hajiwon_black.png" alt="hajiwon"></a>
+          <a href="#"><span id="my_username_and_gender" class="white-text name">Hajiwon honey
             <img src="../front_end/img/gender/female.png" style="width: 15px;height: auto;" alt=""></span></a>
           <a href="#"><span class="white-text email">heshw@hotmail.com</span></a>
         </div></li>
@@ -128,21 +128,23 @@
         <!--   手机显示头像，为了方便布局只能设两个头像一个显示一个隐藏了！     -->
         <div class="valign-wrapper hide-on-med-and-up center">
           <hr>
-          <img src="../front_end/img/Hajiwon_red.png"
-               class="waves-circle"
+          <img src="../front_end/img/hajiwon_black.png"
+               class="waves-circle avatar"
                alt="下拉框" data-caption="最爱的河智苑"
                style="margin: 3px auto; width: 110px;height: auto;"/>
           <hr>
         </div>
         <!--    电脑和平板显示头像    -->
         <div id="info" class="row">
-          <img id="medium_large_avatar" src="../front_end/img/Hajiwon_red.png"
-               class="left avatar_style info_avatar waves-circle materialboxed hide-on-small-and-down"
+          <img src="../front_end/img/hajiwon_black.png" id="medium_large_avatar"
+               class="left avatar_style info_avatar waves-circle materialboxed hide-on-small-and-down avatar"
                alt="下拉框" data-caption="最爱的河智苑" style="width: 100px;"/>
           <div id="info_data_div" class="inline_block_style col s12 m8">
 
             <i class="material-icons prefix">man</i>
-            <h5>Hajiwon honey<img src="../front_end/img/gender/female.png" alt="女"></h5>
+            <h5 id="my_or_other's_username_and_gender">Hajiwon honey
+              <img src="../front_end/img/gender/female.png" alt="女">
+            </h5>
             <div class="personal_data_div">
               <span class="personal_data_num_span">30</span><br>
               <a href="" class="grey-text">关注></a>
@@ -284,6 +286,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
   <script src="../front_end/js/init_home.js"></script>
   <script src="../front_end/js/jquery.cookie.js"></script>
+  <script src="../front_end/js/customized/ajax.js"></script>
   <script>
     $(document).ready(function () {
       $('.dropdown-button').dropdown({
@@ -298,8 +301,24 @@
       );
       $('.collapsible').collapsible();
 
-      const userNo = $.cookie('userNo');
-      request('', )
+      const userNo = $.cookie('user_no');
+      console.log(userNo);
+      //第一步获取个人信息
+      request("http://localhost:8080/users/" + userNo, "GET", "", function (data) {
+        //头像
+        $('.avatar').attr('src', data.avatar);
+
+        if (data.gender === 1) {
+
+        }
+      }, defaultErrorMethod, false);
+      //同步获取，因为这个如果不是同步的话页面会很难看！文章和文集都可以先显示加载中！
+      // async异步 sync同步
+
+      //文章列表模块加上缓存条（类似的都可以）
+      //文章列表获取，获取成功后遍历数据现在是相应位置，然后将缓存条设置为不可见！
+
+      //文集区域同文章区域！
     });
     function toggleReadonly(self) {
       const temp = $('#self_summary_textarea');

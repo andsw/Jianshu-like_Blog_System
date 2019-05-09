@@ -7,7 +7,7 @@ function request(url, method, data, successfulMethod, errorMethod, async) {
         success: successfulMethod,
         error: errorMethod,
         async: async,
-        timeout: 2000
+        timeout: 5000
     });
 }
 

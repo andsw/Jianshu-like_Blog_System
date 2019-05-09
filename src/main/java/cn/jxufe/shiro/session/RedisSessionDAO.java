@@ -2,12 +2,10 @@ package cn.jxufe.shiro.session;
 
 import cn.jxufe.util.SerializingUtil;
 import com.alibaba.fastjson.JSON;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.SimpleSession;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
@@ -30,7 +28,7 @@ public class RedisSessionDAO extends AbstractSessionDAO {
     private RedisTemplate<String, Byte[]> redisTemplate;
 
     private Serializable saveSession(String sessionId, Session session) {
-        System.out.println("session in json format : \n"+ JSON.toJSON(session));
+        //System.out.println("session in json format : \n"+ JSON.toJSON(session));
 
         assignSessionId(session, sessionId);
         redisTemplate.opsForValue().set(sessionId, serializingUtil.serialized((SimpleSession)session));

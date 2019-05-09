@@ -3,46 +3,46 @@ package cn.jxufe.dto;
 /**
  * @ClassName: Result
  * @author: hsw
- * @date: 2019/4/20 11:04
+ * @date: 2019/5/9 21:15
  * @Description: TODO
  */
 public class Result<T> {
-    /**
-     * 请求的返回状态
-     */
-    private int status;
-    /**
-     * 返回的描述信息
-     */
-    private String description;
-    /**
-     * 返回的数据信息，任何类型
-     */
+
+    private int code;
+    private String message;
     private T data;
 
     public Result() {
     }
 
-    public Result(int status, String description, T data) {
-        this.status = status;
-        this.description = description;
+    public Result(int code, String message, T data) {
+        this.code = code;
+        this.message = message;
         this.data = data;
     }
 
-    public int getStatus() {
-        return status;
+    public static <T> Result<T> success(T data) {
+        return new Result<>(HttpStatusCode.SERVICE_OK.getCode(), "", data);
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public static <T> Result<T> fail() {
+        return new Result<>(HttpStatusCode.SERVICE_ERROR.getCode(), "请求数据不存在！", null);
     }
 
-    public String getDescription() {
-        return description;
+    public int getCode() {
+        return code;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public T getData() {
@@ -56,8 +56,8 @@ public class Result<T> {
     @Override
     public String toString() {
         return "Result{" +
-                "status=" + status +
-                ", description='" + description + '\'' +
+                "code=" + code +
+                ", message='" + message + '\'' +
                 ", data=" + data +
                 '}';
     }

@@ -43,8 +43,9 @@
           p:hostName="${redis.hostName}" p:port="${redis.port}" p:password="${redis.password}" p:poolConfig-ref="poolConfig"
           p:usePool="true" p:timeout="${redis.timeout}"/>
 
-    <!--redis数据库操作模板-->
-    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+    <!--redis数据库操作模板
+        设置为prototype是为了防止shiro的session缓存会因为SpringCache缓存修改的序列化对象而改变！（默认单例的）-->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate" scope="prototype">
         <property name="connectionFactory" ref="connectFactory"/>
         <property name="keySerializer">
             <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
