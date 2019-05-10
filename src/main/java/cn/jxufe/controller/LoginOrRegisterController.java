@@ -8,9 +8,11 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,7 +36,6 @@ public class LoginOrRegisterController {
 
     private static final String HOME_PAGE_NAME = "http://localhost:8080/front_end/index.html";
     private static final String REDIRECT_LOGIN_PAGE_NAME = "http://localhost:8080/front_end/loginAndRegister.html";
-
 
     private final LoginServiceImpl loginService;
     private final CheckCodeUtil checkCodeUtil;
@@ -62,11 +63,11 @@ public class LoginOrRegisterController {
      * @return string
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(@RequestParam(value = "username", required = false) String username,
-                        @RequestParam(value = "password", required = false) String password,
-                        HttpServletRequest request,
+    public String login(@RequestParam(value = "username") String username,
+                        @RequestParam(value = "password") String password,
+                        @RequestParam(value = "checkCode") String checkCode,
                         HttpServletResponse response) {
-        System.out.println("username : " + username + "\n password : " + password);
+        System.out.println("username : " + username + "\n password : " + password + "\n checkCode ：" + checkCode);
 
         //如果已经登录了，就不需要跳转了！
         Subject currentUser = SecurityUtils.getSubject();
@@ -75,11 +76,11 @@ public class LoginOrRegisterController {
         }
 
         //先不判断验证码！
-//        if (!checkCodeUtil.codeChecking(request)) {
-//            System.out.println("验证码错误！");
-//            addCookieBackLoginRegPage(response, "loginStatus", "验证码错误");
-//            return "redirect:" + REDIRECT_LOGIN_PAGE_NAME;
-//        }
+        if (!checkCodeUtil.codeChecking(checkCode)) {
+            System.out.println("验证码错误！");
+            addCookieBackLoginRegPage(response, "loginStatus", "验证码错误");
+            return "redirect:" + REDIRECT_LOGIN_PAGE_NAME;
+        }
 
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         // rememberMe is aways true
@@ -97,16 +98,25 @@ public class LoginOrRegisterController {
         }
 
         int userNo = loginService.getUserNoWhenLoginSuccessfully(username);
-        Cookie userNoCookie = new Cookie("user_no", userNo + "");
+
+        // 之前考虑过将userNo放在session中，然后一个JSESSIONID的cookie就可以管
+        // 理了，但考虑到每次都要到redis服务器上去取一个来回，还不如直接从前台传过来，挺小一数据。
+        Cookie userNoCookie = new Cookie("userNo", userNo + "");
         userNoCookie.setDomain("localhost");
-        userNoCookie.setPath("/front_end/index.html");
+        userNoCookie.setPath("/");
         response.addCookie(userNoCookie);
+
+        //不过当我们操作一些很有权限的操作时，使用的必须还是session，
+        // 比如修改密码，从session只能获取到自己的userNo，就只能修改自己的密码！
+        //这里不能有参数false，因为虽然前面创建了验证码session，但验证完删掉了，所以有false得到的session就唯为空！
+        Session session = currentUser.getSession(true);
+        session.setAttribute("userNo", userNo);
+
         return "redirect:" + HOME_PAGE_NAME;
     }
 
     @RequestMapping("/check_code")
     public void checkCode(HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("++++++++check code is generating!++++++++++");
 
         try {
             checkCodeUtil.generateImg(request, response);

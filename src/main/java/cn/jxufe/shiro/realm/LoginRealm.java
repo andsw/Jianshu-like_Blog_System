@@ -26,7 +26,7 @@ public class LoginRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
             throws AuthenticationException {
-        System.out.println("\n----------------进入 doGetAuthenticationInfo method in LonginRealm!----------------");
+//        System.out.println("\n----------------进入 doGetAuthenticationInfo method in LonginRealm!----------------");
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         String username = token.getUsername();
         String password = loginService.getPassword(username);
@@ -39,7 +39,7 @@ public class LoginRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        System.out.println("\n----------------进入 doGetAuthorizationInfo method in LonginRealm!----------------");
+//        System.out.println("\n----------------进入 doGetAuthorizationInfo method in LonginRealm!----------------");
         String principle = (String) principalCollection.getPrimaryPrincipal();
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         if ("admin".equals(principle)) {

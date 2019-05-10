@@ -156,7 +156,7 @@
     $(document).ready(function () {
         //如果存在rememberMe的话就自动跳转
         if ($.cookie('rememberMe') !== undefined) {
-            $.cookie('rememberMe', 'changedCookie',{path: '/'});
+            $.cookie('rememberMe', 'changedCookie',{path: '/front_end/loginAndRegister.html'});
             StandardPost('http://localhost:8080/auth/login');
         }
 
@@ -179,13 +179,13 @@
         //记住密码
         $("#login-module").submit(function () {
             if ($('#rememberPassword').is(':checked') === true) {
-                $.cookie('remember_pw', 'true', {path: '/front_end/', expires: 3});
-                $.cookie('username', $("#username").val(), {path: '/front_end/', expires: 3});
-                $.cookie('password', $("#password").val(), {path: '/front_end/', expires: 3});
+                $.cookie('remember_pw', 'true', {path: '/front_end/loginAndRegister.html', expires: 3});
+                $.cookie('username', $("#username").val(), {path: '/front_end/loginAndRegister.html', expires: 3});
+                $.cookie('password', $("#password").val(), {path: '/front_end/loginAndRegister.html', expires: 3});
             } else {
-                $.removeCookie('remember_pw', {path: '/front_end/'});
-                $.removeCookie('username', {path:'/front_end/'});
-                $.removeCookie('password', {path:'/front_end/'});
+                $.removeCookie('remember_pw', {path: '/front_end/loginAndRegister.html'});
+                $.removeCookie('username', {path:'/front_end/loginAndRegister.html'});
+                $.removeCookie('password', {path:'/front_end/loginAndRegister.html'});
             }
         });
 

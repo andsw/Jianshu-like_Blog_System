@@ -3,12 +3,11 @@ package cn.jxufe.controller;
 import cn.jxufe.bean.User;
 import cn.jxufe.dto.Result;
 import cn.jxufe.service.UserInfoService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @ClassName: UserInfoController
@@ -29,8 +28,18 @@ public class UserInfoController {
     @ResponseBody
     public Result<User> getUserInfoByUserNo(@PathVariable("userNo") Integer userNo) {
         User user = userInfoService.getUserByUserNo(userNo);
+        return user == null ? Result.fail("请求数据不存在！") : Result.success(user, null);
+    }
 
-        return user == null ? Result.fail() : Result.success(user);
+    @RequestMapping(value = "/users/password", method = RequestMethod.PUT)
+    @ResponseBody
+    public Result<?> changePassword(@RequestBody String newPassword) {
+        System.out.println("new password : " + newPassword);
+        Session session = SecurityUtils.getSubject().getSession();
+        int myUserNO = (int) session.getAttribute("userNo");
+        System.out.println("my own userNO" + myUserNO);
+        return userInfoService.updatePasswordByUserNo(myUserNO, newPassword) ?
+                Result.success("", "密码修改成功！") : Result.fail("密码修改失败！");
     }
 
 }

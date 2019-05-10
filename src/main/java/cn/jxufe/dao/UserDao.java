@@ -1,6 +1,7 @@
 package cn.jxufe.dao;
 
 import cn.jxufe.bean.User;
+import org.apache.ibatis.annotations.Param;
 
 
 /**
@@ -72,5 +73,30 @@ public interface UserDao {
      * @param userNo 用户
      * @return 用户信息
      */
-    User getUserByUserNo(Integer userNo);
+    User getUserByUserNo(int userNo);
+
+    /**
+     * 获取email，目前用在修改密码时加密上
+     * @param userNo
+     * @return
+     */
+    String getEmailByUserNo(int userNo);
+
+    /**
+     * 获取电话，目前用在修改密码时加密上！
+     * @param userNo
+     * @return
+     */
+    String getTelByUserNo(int userNo);
+
+    /**
+     * 修改密码
+     * @param passwordEmail
+     * @param passwordTel
+     * @param userNo
+     * @return 返回修改行数，当然这里只有0和1
+     */
+    int updatePasswordByUserNo(@Param("passwordEmail") String passwordEmail,
+                               @Param("passwordTel") String passwordTel,
+                               @Param("userNo") int userNo);
 }

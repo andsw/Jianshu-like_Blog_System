@@ -15,4 +15,12 @@ public interface UserInfoService {
      * @return
      */
     User getUserByUserNo(int userNo);
+
+    /**
+     * 修改密码
+     * @param userNo
+     * @param newPassword
+     * @return
+     */
+    boolean updatePasswordByUserNo(int userNo, String newPassword);
 }

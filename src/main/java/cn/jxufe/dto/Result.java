@@ -21,12 +21,11 @@ public class Result<T> {
         this.data = data;
     }
 
-    public static <T> Result<T> success(T data) {
-        return new Result<>(HttpStatusCode.SERVICE_OK.getCode(), "", data);
+    public static <T> Result<T> success(T data,String message) {
+        return new Result<>(HttpStatusCode.SERVICE_OK.getCode(), message, data);
     }
-
-    public static <T> Result<T> fail() {
-        return new Result<>(HttpStatusCode.SERVICE_ERROR.getCode(), "请求数据不存在！", null);
+    public static <T> Result<T> fail(String message) {
+        return new Result<>(HttpStatusCode.SERVICE_ERROR.getCode(), message, null);
     }
 
     public int getCode() {

@@ -105,4 +105,16 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!--  controller发生错误是跳转的页面  -->
+<!--    <error-page>-->
+<!--        &lt;!&ndash;服务器端错误&ndash;&gt;-->
+<!--        <error-code>500</error-code>-->
+<!--        <location>/error/500.html</location>-->
+<!--    </error-page>-->
+<!--    <error-page>-->
+<!--        &lt;!&ndash;么有权限&ndash;&gt;-->
+<!--        <error-code>503</error-code>-->
+<!--        <location>/error/503.html</location>-->
+<!--    </error-page>-->
+
 </web-app>

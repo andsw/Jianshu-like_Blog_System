@@ -69,6 +69,32 @@
     <!--获取用户信息，这里去掉了没必要的由邮箱和电话后去user的方式！-->
     <select id="getUserByUserNo" parameterType="int" resultType="user">
         <include refid="selectUserInfo"/>
-        where user_no = #{user_no} limit 1;
+        where user_no = #{user_no}
+        limit 1;
     </select>
+
+    <!--下面3个为修改密码时用-->
+    <select id="getEmailByUserNo" parameterType="int" resultType="string">
+        select email
+        from user
+        where user_no = #{userNO}
+        limit 1;
+    </select>
+
+    <select id="getTelByUserNo" parameterType="int" resultType="String">
+        select tel
+        from user
+        where user_no = #{userNo}
+        limit 1;
+    </select>
+
+    <update id="updatePasswordByUserNo">
+        update user
+        <set>
+            <if test="!@org.springframework.util.StringUtils@isEmpty(passwordEmail)">password_email=#{passwordEmail},</if>
+            <if test="!@org.springframework.util.StringUtils@isEmpty(passwordTel)">password_tel=#{passwordTel}</if>
+        </set>
+        where user_no = #{userNo}
+        limit 1;
+    </update>
 </mapper>

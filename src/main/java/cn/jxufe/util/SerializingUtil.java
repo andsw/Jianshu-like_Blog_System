@@ -26,7 +26,6 @@ public class SerializingUtil {
             for (int i = 0; i < bytes.length; i++) {
                 boxBytes[i] = bytes[i];
             }
-            System.out.println("=================================序列化后的字节数组长度为 ： " + bytes.length + "==================================");
             return boxBytes;
         } catch (IOException e) {
             System.out.println("SerializingUtil 中序列化失败");
@@ -54,7 +53,7 @@ public class SerializingUtil {
             System.out.println("SerializingUtil IO失败");
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
-            System.out.println("SerializingUtil 中范雪梨花失败");
+            System.out.println("SerializingUtil 中反序列化失败");
             e.printStackTrace();
         }
         return null;

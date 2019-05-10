@@ -1,9 +1,9 @@
 package cn.jxufe.util;
 
-import org.apache.shiro.web.session.HttpServletSession;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -25,11 +25,15 @@ public class CheckCodeUtil {
     private Random random = new Random();
     private StringBuilder builder = new StringBuilder();
 
-    public boolean codeChecking(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        String inputCheckCode = request.getParameter("checkCode");
+    public boolean codeChecking(String inputCheckCode) {
+        Session session = SecurityUtils.getSubject().getSession(false);
+        // 包含验证码信息的session设置过期时间，前台注意要有计时器！session过期就为空！
         if (session != null && !"".equals(inputCheckCode)) {
-            return session.getAttribute("GeneratedCode").equals(inputCheckCode);
+            String checkCode = (String) session.getAttribute("GeneratedCode");
+            System.out.println(inputCheckCode + " " + checkCode);
+            System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+            session.removeAttribute("GeneratedCode");
+            return inputCheckCode.equals(checkCode);
         }
         return false;
     }
@@ -52,9 +56,9 @@ public class CheckCodeUtil {
 
         session.setAttribute("GeneratedCode", builder.toString());
         // 设置session过期时间为1分钟！
-        session.setMaxInactiveInterval(-1);
+        session.setMaxInactiveInterval(60);
 
-        System.out.println("验证码生成成功 ： " + session.getAttribute("GeneratedCode"));
+//        System.out.println("验证码生成成功 ： " + session.getAttribute("GeneratedCode"));
 
         ImageIO.write(img, "png", response.getOutputStream());
         builder.setLength(0);

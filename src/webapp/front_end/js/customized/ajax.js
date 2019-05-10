@@ -12,7 +12,6 @@ function request(url, method, data, successfulMethod, errorMethod, async) {
 }
 
 function defaultErrorMethod(XMLHttpRequest, textStatus, errorThrown) {
-    alert("request failed！");
     console.log(XMLHttpRequest.status);
     console.log(XMLHttpRequest.readyState);
     console.log(textStatus);
