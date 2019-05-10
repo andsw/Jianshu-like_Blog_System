@@ -99,4 +99,20 @@ public interface UserDao {
     int updatePasswordByUserNo(@Param("passwordEmail") String passwordEmail,
                                @Param("passwordTel") String passwordTel,
                                @Param("userNo") int userNo);
+
+    /**
+     * 获取个人简介，因为个人简介内容较多，和其他个人信息一起获取可能会
+     * 很慢，使得登录时显示主页慢，所以分步获取，先显示界面再一步步获取
+     * @param userNo
+     * @return
+     */
+    String getSelfSummaryByUserNo(int userNo);
+
+    /**
+     * 修改个人简介
+     * @param selfSummary
+     * @param userNo
+     * @return 返回的修改条数,只有0和1，因为service是只能获取当前userNo，上同！
+     */
+    int updateSelfSummaryByUserNo(@Param("selfSummary") String selfSummary, @Param("userNo") int userNo);
 }

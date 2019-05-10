@@ -48,7 +48,7 @@
                 /frontend/loginAndRegister.html=anon
 
                 <!--操作用户信息的url，需要登陆后才能获取！-->
-                /users/**=authc
+                /users/**=anon
 
                 /** = authc
             </value>

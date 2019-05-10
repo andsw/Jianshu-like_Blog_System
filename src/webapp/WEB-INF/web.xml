@@ -116,5 +116,10 @@
 <!--        <error-code>503</error-code>-->
 <!--        <location>/error/503.html</location>-->
 <!--    </error-page>-->
+<!--    <error-page>-->
+<!--        &lt;!&ndash;请求url不存在&ndash;&gt;-->
+<!--        <error-code>400</error-code>-->
+<!--        <location>/error/400.html</location>-->
+<!--    </error-page>-->
 
 </web-app>

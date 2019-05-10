@@ -9,7 +9,7 @@
 
     <!--选择user表中与用户类属性的对应的字段-->
     <sql id="selectUserInfo">
-        select username, avatar, self_summary,
+        select username, avatar,
                gender,follow_num, follower_num, blog_num, word_num, like_num
         from user
     </sql>
@@ -33,7 +33,7 @@
     <insert id="insertUser" parameterType="user" useGeneratedKeys="true" keyProperty="userNo">
         insert into user (username, email, tel, password_email, password_tel, avatar)
         select #{username}, #{email}, #{tel}, #{passwordEmail}, #{passwordTel}, #{avatar}
-        where not exists(select * from user where username= #{username} or email=#{email} or tel = #{tel});
+        where not exists(select * from user where username = #{username} or email = #{email} or tel = #{tel});
     </insert>
 
     <select id="doseUsernameExisted" parameterType="string" resultType="boolean">
@@ -58,7 +58,7 @@
     <select id="getUserNoByEmail" resultType="int" parameterType="string">
         select user_no
         from user
-        where email=#{email}
+        where email = #{email}
         limit 1;
     </select>
 
@@ -94,6 +94,20 @@
             <if test="!@org.springframework.util.StringUtils@isEmpty(passwordEmail)">password_email=#{passwordEmail},</if>
             <if test="!@org.springframework.util.StringUtils@isEmpty(passwordTel)">password_tel=#{passwordTel}</if>
         </set>
+        where user_no = #{userNo}
+        limit 1;
+    </update>
+
+    <select id="getSelfSummaryByUserNo" parameterType="int" resultType="string">
+        select self_summary
+        from user
+        where user_no = #{userNO}
+        limit 1;
+    </select>
+
+    <update id="updateSelfSummaryByUserNo">
+        update user
+        set self_summary = #{selfSummary}
         where user_no = #{userNo}
         limit 1;
     </update>

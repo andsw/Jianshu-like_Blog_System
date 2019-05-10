@@ -3,11 +3,11 @@ package cn.jxufe.controller;
 import cn.jxufe.bean.User;
 import cn.jxufe.dto.Result;
 import cn.jxufe.service.UserInfoService;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * @ClassName: UserInfoController
@@ -33,13 +33,34 @@ public class UserInfoController {
 
     @RequestMapping(value = "/users/password", method = RequestMethod.PUT)
     @ResponseBody
-    public Result<?> changePassword(@RequestBody String newPassword) {
+    public Result<?> changePassword(@RequestBody String newPassword, HttpSession session) {
+
         System.out.println("new password : " + newPassword);
-        Session session = SecurityUtils.getSubject().getSession();
+        if (session == null) {
+            return Result.fail("session 不存在！");
+        }
+
         int myUserNO = (int) session.getAttribute("userNo");
-        System.out.println("my own userNO" + myUserNO);
         return userInfoService.updatePasswordByUserNo(myUserNO, newPassword) ?
-                Result.success("", "密码修改成功！") : Result.fail("密码修改失败！");
+                Result.success(null, "密码修改成功！") : Result.fail("密码修改失败！");
+    }
+
+    @RequestMapping(value = "/users/{userNo}/self_summary", method = RequestMethod.GET)
+    @ResponseBody
+    public Result<String> getSelfSummaryByUserNO(@PathVariable int userNo) {
+        String selfSummary = userInfoService.getSelfSummaryByUserNo(userNo);
+        return selfSummary == null ? Result.fail("获取简介失败") : Result.success(selfSummary, null);
+    }
+
+    @RequestMapping(value = "/users/self_summary", method = RequestMethod.PUT)
+    @ResponseBody
+    public Result<?> updateSelfSummaryByUserNO(@RequestBody String selfSummary, HttpSession session) {
+        int userNo = (int) session.getAttribute("userNo");
+
+        System.out.println(selfSummary);
+
+        return userInfoService.updateSelfSummaryByUserNo(selfSummary, userNo) ?
+                Result.success(null, "修改个人简介成功！"):Result.fail("个人简介修改失败！");
     }
 
 }

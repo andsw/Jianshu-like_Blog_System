@@ -23,4 +23,19 @@ public interface UserInfoService {
      * @return
      */
     boolean updatePasswordByUserNo(int userNo, String newPassword);
+
+    /**
+     * 获取简介
+     * @param userNo
+     * @return
+     */
+    String getSelfSummaryByUserNo(int userNo);
+
+    /**
+     * 修改个人简介
+     * @param userNo
+     * @param selfSummary
+     * @return 修改成功与否
+     */
+    boolean updateSelfSummaryByUserNo(String selfSummary, int userNo);
 }

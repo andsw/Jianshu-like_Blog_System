@@ -305,7 +305,7 @@
       const userNo = $.cookie('user_no');
       console.log(userNo);
       //第一步获取个人信息
-      request("http://localhost:8080/users/" + userNo, "GET", "", function (data) {
+      request_application_json("http://localhost:8080/users/" + userNo, "GET", "", function (data) {
         //头像
         $('.avatar').attr('src', data.avatar);
 
