@@ -7,6 +7,9 @@ import cn.jxufe.util.PasswordEncoderUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.StringUtils;
 
@@ -16,6 +19,7 @@ import org.springframework.util.StringUtils;
  * @date: 2019/4/30 15:31
  * @Description: TODO
  */
+@CacheConfig(cacheNames = "redisCache")
 public class UserInfoServiceImpl implements UserInfoService {
 
     @Autowired
@@ -25,7 +29,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     private PasswordEncoderUtil passwordEncoderUtil;
 
     @Override
-    @Cacheable(value = "redisCache", key = "'getUserByUserNo-' + #userNo")
+    @Cacheable(key = "'getUserByUserNo-' + #userNo")
     public User getUserByUserNo(int userNo) {
         return userDao.getUserByUserNo(userNo);
     }
@@ -49,18 +53,20 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
+    @Cacheable(key = "'getSelfSummaryByUserNo-' + #userNo")
     public String getSelfSummaryByUserNo(int userNo) {
         return userDao.getSelfSummaryByUserNo(userNo);
     }
 
     /**
      * 这里记得要淘汰cache
-     *
+     * 先试试，cachePut会先执行方法，然后再将执行的数据以键值对的方式存入缓存，可以直接修改！防止了一次cache miss然后查DB放cache操作！
      * @param userNo
      * @param selfSummary
      * @return
      */
     @Override
+    @CachePut(key = "'getSelfSummaryByUserNo-' + #userNo")
     public boolean updateSelfSummaryByUserNo(String selfSummary, int userNo) {
         return userDao.updateSelfSummaryByUserNo(selfSummary, userNo) == 1;
     }

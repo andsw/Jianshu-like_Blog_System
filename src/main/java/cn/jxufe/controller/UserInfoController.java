@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.xml.crypto.Data;
 
 /**
  * @ClassName: UserInfoController
@@ -28,7 +29,7 @@ public class UserInfoController {
     @ResponseBody
     public Result<User> getUserInfoByUserNo(@PathVariable("userNo") Integer userNo) {
         User user = userInfoService.getUserByUserNo(userNo);
-        return user == null ? Result.fail("请求数据不存在！") : Result.success(user, null);
+        return user == null ? Result.fail("请求数据不存在！") : Result.success(user, "获取user信息成功");
     }
 
     @RequestMapping(value = "/users/password", method = RequestMethod.PUT)
@@ -42,14 +43,14 @@ public class UserInfoController {
 
         int myUserNO = (int) session.getAttribute("userNo");
         return userInfoService.updatePasswordByUserNo(myUserNO, newPassword) ?
-                Result.success(null, "密码修改成功！") : Result.fail("密码修改失败！");
+                Result.success("密码修改成功！") : Result.fail("密码修改失败！");
     }
 
     @RequestMapping(value = "/users/{userNo}/self_summary", method = RequestMethod.GET)
     @ResponseBody
     public Result<String> getSelfSummaryByUserNO(@PathVariable int userNo) {
         String selfSummary = userInfoService.getSelfSummaryByUserNo(userNo);
-        return selfSummary == null ? Result.fail("获取简介失败") : Result.success(selfSummary, null);
+        return selfSummary == null ? Result.fail("获取简介失败") : Result.success(selfSummary,"获取个人简介成功！");
     }
 
     @RequestMapping(value = "/users/self_summary", method = RequestMethod.PUT)
@@ -60,7 +61,9 @@ public class UserInfoController {
         System.out.println(selfSummary);
 
         return userInfoService.updateSelfSummaryByUserNo(selfSummary, userNo) ?
-                Result.success(null, "修改个人简介成功！"):Result.fail("个人简介修改失败！");
+                Result.success("修改个人简介成功！"):Result.fail("个人简介修改失败！");
     }
+
+
 
 }

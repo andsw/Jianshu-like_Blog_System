@@ -21,9 +21,27 @@ public class Result<T> {
         this.data = data;
     }
 
+    /**
+     * message必有好吧！
+     * @param data
+     * @param message
+     * @param <T>
+     * @return
+     */
     public static <T> Result<T> success(T data,String message) {
         return new Result<>(HttpStatusCode.SERVICE_OK.getCode(), message, data);
     }
+
+    /**
+     * 成功但不返回数据！
+     * @param message
+     * @param <T>
+     * @return
+     */
+    public static <T> Result<T> success(String message) {
+        return new Result<>(HttpStatusCode.SERVICE_OK.getCode(), message, null);
+    }
+
     public static <T> Result<T> fail(String message) {
         return new Result<>(HttpStatusCode.SERVICE_ERROR.getCode(), message, null);
     }

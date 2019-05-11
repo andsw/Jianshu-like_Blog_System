@@ -109,7 +109,7 @@ public class LoginOrRegisterController {
         //不过当我们操作一些很有权限的操作时，使用的必须还是session，
         // 比如修改密码，从session只能获取到自己的userNo，就只能修改自己的密码！
         //这里不能有参数false，因为虽然前面创建了验证码session，但验证完删掉了，所以有false得到的session就唯为空！
-        Session session = currentUser.getSession(true);
+        Session session = currentUser.getSession(false);
         session.setAttribute("userNo", userNo);
 
         return "redirect:" + HOME_PAGE_NAME;

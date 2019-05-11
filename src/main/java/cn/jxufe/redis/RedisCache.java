@@ -56,7 +56,8 @@ public class RedisCache implements Cache {
         if (StringUtils.isEmpty(value)) {
             return null;
         }
-        return new SimpleValueWrapper(redisSerializer.deserialize((new String(value.toString().getBytes(), StandardCharsets.UTF_8)).getBytes()));
+        // 千万记住啰！！！ getBytes的默认编码是ISO_8859_1, 所以进入redis后在获取会出现乱码甚至反序列化失败问题！
+        return new SimpleValueWrapper(redisSerializer.deserialize(value.toString().getBytes(StandardCharsets.UTF_8)));
     }
 
     @Override
@@ -72,7 +73,7 @@ public class RedisCache implements Cache {
         System.out.println(value);
         System.out.println(aClass.getName());
         System.out.println("---------------------------------------");
-        return redisSerializer.deserialize(((String) value).getBytes(), aClass);
+        return redisSerializer.deserialize(value.toString().getBytes(StandardCharsets.UTF_8), aClass);
     }
 
     /**
