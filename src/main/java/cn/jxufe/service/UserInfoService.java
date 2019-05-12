@@ -33,9 +33,9 @@ public interface UserInfoService {
 
     /**
      * 修改个人简介
-     * @param userNo
      * @param selfSummary
+     * @param userNo
      * @return 修改成功与否
      */
-    boolean updateSelfSummaryByUserNo(String selfSummary, int userNo);
+    String updateSelfSummaryByUserNo(String selfSummary, int userNo);
 }

@@ -55,13 +55,13 @@ public class UserInfoController {
 
     @RequestMapping(value = "/users/self_summary", method = RequestMethod.PUT)
     @ResponseBody
-    public Result<?> updateSelfSummaryByUserNO(@RequestBody String selfSummary, HttpSession session) {
+    public Result<?> updateSelfSummaryByUserNO(@RequestBody() String selfSummary, HttpSession session) {
         int userNo = (int) session.getAttribute("userNo");
 
         System.out.println(selfSummary);
 
-        return userInfoService.updateSelfSummaryByUserNo(selfSummary, userNo) ?
-                Result.success("修改个人简介成功！"):Result.fail("个人简介修改失败！");
+        return userInfoService.updateSelfSummaryByUserNo(selfSummary, userNo) == null ?
+                Result.fail("个人简介修改失败！") : Result.success("修改个人简介成功！");
     }
 
 

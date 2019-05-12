@@ -4,11 +4,8 @@ import cn.jxufe.bean.User;
 import cn.jxufe.dao.UserDao;
 import cn.jxufe.service.UserInfoService;
 import cn.jxufe.util.PasswordEncoderUtil;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.StringUtils;
@@ -53,7 +50,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    @Cacheable(key = "'getSelfSummaryByUserNo-' + #userNo")
+    @Cacheable(key = "'selfSummary-' + #userNo")
     public String getSelfSummaryByUserNo(int userNo) {
         return userDao.getSelfSummaryByUserNo(userNo);
     }
@@ -61,13 +58,17 @@ public class UserInfoServiceImpl implements UserInfoService {
     /**
      * 这里记得要淘汰cache
      * 先试试，cachePut会先执行方法，然后再将执行的数据以键值对的方式存入缓存，可以直接修改！防止了一次cache miss然后查DB放cache操作！
-     * @param userNo
+     *
+     * 本来是返回boolean直接表示是否运行成功的，但是为了实现上面的功能（cachePut默认使用返回值作为值放入缓存）还是返回String，判断延迟到Controller！
      * @param selfSummary
+     * @param userNo
      * @return
      */
     @Override
-    @CachePut(key = "'getSelfSummaryByUserNo-' + #userNo")
-    public boolean updateSelfSummaryByUserNo(String selfSummary, int userNo) {
-        return userDao.updateSelfSummaryByUserNo(selfSummary, userNo) == 1;
+    @CachePut(key = "'selfSummary-' + #userNo", condition = "#result != null")
+    public String updateSelfSummaryByUserNo(String selfSummary, int userNo) {
+        // 因为返回null表示操作失败嘛！所以要确保selfSummary不能为null！
+        selfSummary = selfSummary == null ? "" : selfSummary;
+        return userDao.updateSelfSummaryByUserNo(selfSummary, userNo) == 1 ? selfSummary : null;
     }
 }
