@@ -1,6 +1,8 @@
 package cn.jxufe.controller;
 
 import cn.jxufe.bean.User;
+import cn.jxufe.exception.PasswordModificationFailedException;
+import cn.jxufe.service.LoginService;
 import cn.jxufe.service.impl.LoginServiceImpl;
 import cn.jxufe.util.CheckCodeUtil;
 import cn.jxufe.util.PasswordEncoderUtil;
@@ -36,14 +38,12 @@ public class LoginOrRegisterController {
     private static final String HOME_PAGE_NAME = "http://localhost:8080/front_end/index.html";
     private static final String REDIRECT_LOGIN_PAGE_NAME = "http://localhost:8080/front_end/loginAndRegister.html";
 
-    private final LoginServiceImpl loginService;
+    private final LoginService loginService;
     private final CheckCodeUtil checkCodeUtil;
-    private final PasswordEncoderUtil passwordEncoderUtil;
 
     @Autowired
-    public LoginOrRegisterController(CheckCodeUtil checkCodeUtil, PasswordEncoderUtil passwordEncoderUtil, LoginServiceImpl loginService) {
+    public LoginOrRegisterController(CheckCodeUtil checkCodeUtil, LoginService loginService) {
         this.checkCodeUtil = checkCodeUtil;
-        this.passwordEncoderUtil = passwordEncoderUtil;
         this.loginService = loginService;
     }
 
@@ -66,7 +66,6 @@ public class LoginOrRegisterController {
                         @RequestParam(value = "password") String password,
                         @RequestParam(value = "checkCode") String checkCode,
                         HttpServletResponse response) {
-        System.out.println("username : " + username + "\n password : " + password + "\n checkCode ：" + checkCode);
 
         //如果已经登录了，就不需要跳转了！
         Subject currentUser = SecurityUtils.getSubject();
@@ -80,7 +79,7 @@ public class LoginOrRegisterController {
             addCookieBackLoginRegPage(response, "loginStatus", "验证码错误");
             return "redirect:" + REDIRECT_LOGIN_PAGE_NAME;
         }
-        //这个方法要改名
+        //这个方法要改名!!!
         int userNo = loginService.getUserNoWhenLoginSuccessfully(username);
 
         UsernamePasswordToken token = new UsernamePasswordToken(String.valueOf(userNo), password);
@@ -135,19 +134,18 @@ public class LoginOrRegisterController {
                            @RequestParam(value = "password") String password,
                            @RequestParam(value = "username") String username,
                            HttpServletResponse response) {
-        String passwordTel = "", passwordEmail = "";
-        if ("".equals(email)) {
-            passwordTel = passwordEncoderUtil.encode(tel, password);
-        } else {
-            passwordEmail = passwordEncoderUtil.encode(email, password);
-        }
-        User user = new User(username, email, tel, (new Random()).nextInt(10) + ".png",
-                passwordEmail, passwordTel);
-        if (loginService.insertUser(user) == 0) {
+        // 因为是先插入才能生成useNo，所以先插入信息，然后再修改密码！
+        User user = new User(username, email, tel, (new Random()).nextInt(10) + ".png", "");
+        try {
+            if (loginService.registerUser(user, password)) {
 
-            List<String> list = loginService.whichInfoIsExisted(user);
+                List<String> list = loginService.whichInfoIsExisted(user);
 
-            addCookieBackLoginRegPage(response, "registerStatus", generateReason(list));
+                addCookieBackLoginRegPage(response, "registerStatus", generateReason(list));
+                return "redirect:" + REDIRECT_LOGIN_PAGE_NAME + "#green";
+            }
+        } catch (PasswordModificationFailedException e) {
+            addCookieBackLoginRegPage(response, "registerStatus", "密码修改失败导致注册失败！");
             return "redirect:" + REDIRECT_LOGIN_PAGE_NAME + "#green";
         }
 

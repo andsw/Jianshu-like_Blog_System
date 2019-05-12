@@ -1,6 +1,7 @@
 package cn.jxufe.service;
 
 import cn.jxufe.bean.User;
+import cn.jxufe.exception.PasswordModificationFailedException;
 
 import java.util.List;
 
@@ -12,18 +13,28 @@ import java.util.List;
  */
 public interface LoginService {
     /**
-     * 0
-     * @param principle 用户的登录信息获取密码。
+     * 根据登录时用户名获取userNo,然后再通过userNo生成或获取密码！
+     * @param principle
      * @return
      */
-    String getPassword(String principle);
+    Integer getUserNoByPrinciple(String principle);
 
     /**
-     * 新增用户
-     * @param user
-     * @return 返回添加成功用户记录数
+     * 0
+     *
+     * @param userNo 。
+     * @return
      */
-    int insertUser(User user);
+    String getPasswordByUserNo(int userNo);
+
+    /**
+     * 注册用户
+     * @param user
+     * @param realPassword
+     * @return 返回结果
+     * @throws PasswordModificationFailedException
+     */
+    boolean registerUser(User user, String realPassword) throws PasswordModificationFailedException;
 
     /**
      * 判断user信息中是哪个字段在表中已经存在

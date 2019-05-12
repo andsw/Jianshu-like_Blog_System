@@ -14,26 +14,17 @@
         from user
     </sql>
 
-    <select id="getPasswordByEmail" parameterType="string" resultType="string">
-        select password_email
-        from user
-        where email = #{email}
-        limit 1;
-    </select>
-
-    <select id="getPasswordByTel" parameterType="string"  resultType="string">
-        select password_tel
-        from user
-        where tel = #{tel}
-        limit 1;
-    </select>
-
     <!--注册用户添加信息，设置为preparedStatement是因为这里我想分几步
         注册时可以  默认是 statementType="PREPARED" 这种sql真的很nice，避免了幻读的情况-->
     <insert id="insertUser" parameterType="cn.jxufe.bean.User" useGeneratedKeys="true" keyProperty="userNo">
-        insert into user (username, email, tel, password_email, password_tel, avatar)
-        select #{username}, #{email}, #{tel}, #{passwordEmail}, #{passwordTel}, #{avatar}
-        where not exists(select * from user where username = #{username} or email = #{email} or tel = #{tel});
+        insert into user (username, email, tel, password, avatar)
+        select #{user.username}, #{user.email}, #{user.tel}, #{user.password}, #{user.avatar}
+        where not exists(select *
+                         from user
+                         where username = #{user.username}
+                            or email = #{user.email}
+                            or tel = #{user.tel}
+                         limit 1);
     </insert>
 
     <select id="doseUsernameExisted" parameterType="string" resultType="boolean">
@@ -48,14 +39,14 @@
         select ISNULL((select 1 from user where tel = #{tel} limit 1));
     </select>
 
-    <select id="getUserNoByTel" resultType="int" parameterType="string">
+    <select id="getUserNoByTel" resultType="Integer" parameterType="string">
         select user_no
         from user
         where tel = #{tel}
         limit 1;
     </select>
 
-    <select id="getUserNoByEmail" resultType="int" parameterType="string">
+    <select id="getUserNoByEmail" resultType="Integer" parameterType="string">
         select user_no
         from user
         where email = #{email}
@@ -90,10 +81,7 @@
 
     <update id="updatePasswordByUserNo">
         update user
-        <set>
-            <if test="!@org.springframework.util.StringUtils@isEmpty(passwordEmail)">password_email = #{passwordEmail},</if>
-            <if test="!@org.springframework.util.StringUtils@isEmpty(passwordTel)">password_tel = #{passwordTel}</if>
-        </set>
+        set password = #{password}
         where user_no = #{userNo}
         limit 1;
     </update>
@@ -102,6 +90,13 @@
         select self_summary
         from user
         where user_no = #{userNO}
+        limit 1;
+    </select>
+
+    <select id="getPasswordByUserNo" resultType="string" parameterType="int">
+        select password
+        from user
+        where user_no = #{userNo}
         limit 1;
     </select>
 

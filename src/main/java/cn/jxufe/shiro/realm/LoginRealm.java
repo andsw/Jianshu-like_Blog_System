@@ -28,12 +28,14 @@ public class LoginRealm extends AuthorizingRealm {
             throws AuthenticationException {
 //        System.out.println("\n----------------进入 doGetAuthenticationInfo method in LoginRealm!----------------");
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
+
         String userNo = token.getUsername();
-        String password = loginService.getPassword(userNo);
-        System.out.println(password);
+        String password = loginService.getPasswordByUserNo(Integer.parseInt(userNo));
+
         if ("".equals(password)) {
-            throw new AuthenticationException("用户不存在！");
+            throw new AuthenticationException();
         }
+
         return new SimpleAuthenticationInfo(userNo, password, ByteSource.Util.bytes(userNo), "");
     }
 
@@ -59,7 +61,7 @@ public class LoginRealm extends AuthorizingRealm {
      * @param args
      */
     public static void main(String[] args) {
-        ByteSource salt = ByteSource.Util.bytes("121");
+        ByteSource salt = ByteSource.Util.bytes("1");
 //        base64 xB18ZuG4QEVFqjoOziAGrA== 时间：20ms
 //        hex c41d7c66e1b8404545aa3a0ece2006ac 时间 20ms
         long start = System.currentTimeMillis();

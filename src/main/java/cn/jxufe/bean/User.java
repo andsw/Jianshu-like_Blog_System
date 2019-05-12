@@ -42,13 +42,9 @@ public class User implements Serializable {
     private String avatar;
 
     /**
-     * email为盐值加密后的密码
+     * userNo为盐值加密后的密码
      */
-    private String passwordEmail;
-    /**
-     * tel为盐值加密后的密码
-     */
-    private String passwordTel;
+    private String password;
 
     /**
      * 下面所有属性注册时不包括，全部为默认值！
@@ -108,15 +104,13 @@ public class User implements Serializable {
      * @param email
      * @param tel
      * @param avatar
-     * @param passwordEmail
-     * @param passwordTel
+     * @param password
      */
-    public User(String username, String email, String tel, String avatar, String passwordEmail, String passwordTel) {
+    public User(String username, String email, String tel, String avatar, String password) {
         this.username = username;
         this.email = email;
         this.tel = tel;
         this.avatar = avatar;
-        this.passwordEmail = passwordEmail;
-        this.passwordTel = passwordTel;
+        this.password = password;
     }
 }

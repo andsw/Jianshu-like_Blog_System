@@ -2,9 +2,11 @@ package cn.jxufe.service.impl;
 
 import cn.jxufe.bean.User;
 import cn.jxufe.dao.UserDao;
+import cn.jxufe.exception.PasswordModificationFailedException;
 import cn.jxufe.service.LoginService;
-import javafx.beans.binding.ListBinding;
+import cn.jxufe.util.PasswordEncoderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,28 +24,42 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private PasswordEncoderUtil passwordEncoderUtil;
+
+    /**
+     * 根据登录时的用户名获取userNo然后再获取密码！或者在注册时也能用上！
+     * @param principle
+     * @return
+     */
     @Override
-    public String getPassword(String principle) {
-        String password;
-        System.out.println("\n----------------------------getPassword method in loginService----------------------------");
-        if (principle.indexOf(CHAR_IN_EMAIL) != -1) {
-            //用邮箱登录
-            password = userDao.getPasswordByEmail(principle);
-        } else {
-            //否则用电话
-            password = userDao.getPasswordByTel(principle);
-        }
-        return password;
+    public Integer getUserNoByPrinciple(String principle) {
+        return principle.indexOf(CHAR_IN_EMAIL) != -1 ? userDao.getUserNoByEmail(principle) : userDao.getUserNoByTel(principle);
+    }
+
+    @Override
+    public String getPasswordByUserNo(int userNo) {
+        return userDao.getPasswordByUserNo(userNo);
     }
 
     /**
-     * 确保添加
+     * 这里先添加密码为空字符串的用户，获取到自增的userNo后再用useNo作为盐值加密密码，然后再修改密码
      * @param user
      * @return 返回的是自增主键id的值，int类型。
      */
     @Override
-    public int insertUser(User user) {
-        return userDao.insertUser(user);
+    @Transactional(rollbackFor = PasswordModificationFailedException.class)
+    public boolean registerUser(User user, String realPassword) throws PasswordModificationFailedException {
+        int num = userDao.insertUser(user);
+        // 插入成功就再设置密码，否则就不设置！
+        if (num == 1) {
+            String passwordUserNo = passwordEncoderUtil.encode(user.getUserNo(), realPassword);
+            if (userDao.updatePasswordByUserNo(passwordUserNo, user.getUserNo()) == 0) {
+                throw new PasswordModificationFailedException("注册时密码修改失败，导致用户注册失败！");
+            }
+            return true;
+        }
+        return false;
     }
 
     @Override

@@ -9,7 +9,6 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.util.StringUtils;
 
 /**
  * @ClassName: UserInfoServiceImpl
@@ -35,19 +34,8 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public boolean updatePasswordByUserNo(int userNo, String newPassword) {
         //userDao中获取email和tel的方法赞数先不写service方法！
-        String email = userDao.getEmailByUserNo(userNo);
-        String tel = userDao.getTelByUserNo(userNo);
-        String passwordEmail = "";
-        String passwordTel = "";
-        if (!StringUtils.isEmpty(email)) {
-            passwordEmail = passwordEncoderUtil.encode(email, newPassword);
-        }
-        if (!StringUtils.isEmpty(tel)) {
-            passwordTel = passwordEncoderUtil.encode(tel, newPassword);
-        }
-        System.out.println(passwordTel + " " + tel);
-        System.out.println(passwordEmail + " " + email);
-        return userDao.updatePasswordByUserNo(passwordEmail, passwordTel, userNo) == 1;
+        String passwordUserNo = passwordEncoderUtil.encode(userNo, newPassword);
+        return userDao.updatePasswordByUserNo(passwordUserNo, userNo) == 1;
     }
 
     @Override
