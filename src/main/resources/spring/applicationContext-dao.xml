@@ -62,13 +62,17 @@
         <property name="dataSource" ref="dataSource"/>
         <!--Property 'configuration' and 'configLocation' can not specified with together-->
         <!--<property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>-->
-        <property name="typeAliases">
-            <list>
-                <value>cn.jxufe.bean.User</value>
-                <value>cn.jxufe.bean.Article</value>
-                <value>cn.jxufe.bean.ArticleContent</value>
-            </list>
-        </property>
+<!--        <property name="typeAliases">-->
+<!--            <set>-->
+<!--                <value type="cn.jxufe.bean.User"/>-->
+<!--                <value type="cn.jxufe.bean.Article"/>-->
+<!--                <value type="cn.jxufe.bean.ArticleContent"/>-->
+<!--                <value type="cn.jxufe.bean.Corpus"/>-->
+<!--                <value type="cn.jxufe.bean.Comment"/>-->
+<!--                <value type="cn.jxufe.bean.Follow"/>-->
+<!--                <value type="cn.jxufe.bean.Tag"/>-->
+<!--            </set>-->
+<!--        </property>-->
         <property name="configuration">
             <bean class="org.apache.ibatis.session.Configuration">
                 <property name="mapUnderscoreToCamelCase" value="true"/>

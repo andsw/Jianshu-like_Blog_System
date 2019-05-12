@@ -1,6 +1,7 @@
 package cn.jxufe.service;
 
 import cn.jxufe.bean.User;
+import org.springframework.cache.annotation.CacheEvict;
 
 /**
  * @ClassName: UserInfoService
@@ -38,4 +39,25 @@ public interface UserInfoService {
      * @return 修改成功与否
      */
     String updateSelfSummaryByUserNo(String selfSummary, int userNo);
+
+    /**
+     * 更新账户信息
+     * @param userNo
+     * @param avatar
+     * @param username
+     * @param email
+     * @param tel
+     * @return
+     */
+    boolean updateAccountInfo(int userNo, String avatar, String username, String email, String tel);
+
+    /**
+     * 更新个人信息
+     * @param userNo
+     * @param gender
+     * @param github
+     * @param wechatQrImgLink
+     * @return
+     */
+    boolean updatePersonalInfo(int userNo, byte gender, String github, String wechatQrImgLink);
 }

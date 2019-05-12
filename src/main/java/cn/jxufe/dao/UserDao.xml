@@ -30,7 +30,7 @@
 
     <!--注册用户添加信息，设置为preparedStatement是因为这里我想分几步
         注册时可以  默认是 statementType="PREPARED" 这种sql真的很nice，避免了幻读的情况-->
-    <insert id="insertUser" parameterType="user" useGeneratedKeys="true" keyProperty="userNo">
+    <insert id="insertUser" parameterType="cn.jxufe.bean.User" useGeneratedKeys="true" keyProperty="userNo">
         insert into user (username, email, tel, password_email, password_tel, avatar)
         select #{username}, #{email}, #{tel}, #{passwordEmail}, #{passwordTel}, #{avatar}
         where not exists(select * from user where username = #{username} or email = #{email} or tel = #{tel});
@@ -67,7 +67,7 @@
 <!--    <cache type="cn.jxufe.redis.RedisCache" size="1024" blocking="false"/>-->
 
     <!--获取用户信息，这里去掉了没必要的由邮箱和电话后去user的方式！-->
-    <select id="getUserByUserNo" parameterType="int" resultType="user">
+    <select id="getUserByUserNo" parameterType="int" resultType="cn.jxufe.bean.User">
         <include refid="selectUserInfo"/>
         where user_no = #{user_no}
         limit 1;
@@ -124,11 +124,11 @@
         limit 1;
     </update>
 
-    <update id="updateGenderByUserNo">
+    <update id="updatePersonalInfoByUserNo">
         update user
         <set>
-            <if test="gender != null">gender = #{gender}</if>
-            <if test="github != null">github = #{github}</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="github != null">github = #{github},</if>
             <if test="wechatQrImgLink != null">wechat_qr_img_link = #{wechatQrImgLink}</if>
         </set>
         where user_no = #{userNo}

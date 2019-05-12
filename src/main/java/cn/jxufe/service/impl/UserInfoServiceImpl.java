@@ -6,6 +6,7 @@ import cn.jxufe.service.UserInfoService;
 import cn.jxufe.util.PasswordEncoderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.StringUtils;
@@ -26,7 +27,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     private PasswordEncoderUtil passwordEncoderUtil;
 
     @Override
-    @Cacheable(key = "'getUserByUserNo-' + #userNo")
+    @Cacheable(key = "'userInfo-' + #userNo")
     public User getUserByUserNo(int userNo) {
         return userDao.getUserByUserNo(userNo);
     }
@@ -70,5 +71,17 @@ public class UserInfoServiceImpl implements UserInfoService {
         // 因为返回null表示操作失败嘛！所以要确保selfSummary不能为null！
         selfSummary = selfSummary == null ? "" : selfSummary;
         return userDao.updateSelfSummaryByUserNo(selfSummary, userNo) == 1 ? selfSummary : null;
+    }
+
+    @Override
+    @CacheEvict(key = "'userInfo-' + #userNo")
+    public boolean updateAccountInfo(int userNo, String avatar, String username, String email, String tel) {
+        return userDao.updateAccountInfoByUserNo(userNo, avatar, username, email, tel) == 1;
+    }
+
+    @Override
+    @CacheEvict()
+    public boolean updatePersonalInfo(int userNo, byte gender, String github, String wechatQrImgLink) {
+        return userDao.updatePersonalInfoByUserNo(userNo, gender, github, wechatQrImgLink) == 1;
     }
 }

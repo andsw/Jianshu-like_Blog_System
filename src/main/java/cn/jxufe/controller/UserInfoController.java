@@ -1,6 +1,7 @@
 package cn.jxufe.controller;
 
 import cn.jxufe.bean.User;
+import cn.jxufe.dao.UserDao;
 import cn.jxufe.dto.Result;
 import cn.jxufe.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,50 +21,82 @@ import javax.xml.crypto.Data;
 public class UserInfoController {
     private final UserInfoService userInfoService;
 
+    private final HttpSession session;
+
     @Autowired
-    public UserInfoController(UserInfoService userInfoService) {
+    public UserInfoController(UserInfoService userInfoService, HttpSession session) {
         this.userInfoService = userInfoService;
+        this.session = session;
+    }
+
+    private Integer getUserNoFromSession() {
+        return (Integer) session.getAttribute("userNo");
     }
 
     @RequestMapping(value = "/users/{userNo}", method = RequestMethod.GET)
     @ResponseBody
     public Result<User> getUserInfoByUserNo(@PathVariable("userNo") Integer userNo) {
         User user = userInfoService.getUserByUserNo(userNo);
-        return user == null ? Result.fail("请求数据不存在！") : Result.success(user, "获取user信息成功");
+        return user == null ? Result.fail("请求数据不存在！") : Result.successWithDataOnly(user);
     }
 
     @RequestMapping(value = "/users/password", method = RequestMethod.PUT)
     @ResponseBody
-    public Result<?> changePassword(@RequestBody String newPassword, HttpSession session) {
-
-        System.out.println("new password : " + newPassword);
-        if (session == null) {
-            return Result.fail("session 不存在！");
+    public Result<?> changePassword(@RequestBody String newPassword) {
+        Integer userNo = getUserNoFromSession();
+        if (userNo == null) {
+            return Result.fail("找不到session！");
         }
-
-        int myUserNO = (int) session.getAttribute("userNo");
-        return userInfoService.updatePasswordByUserNo(myUserNO, newPassword) ?
+        return userInfoService.updatePasswordByUserNo(userNo, newPassword) ?
                 Result.success("密码修改成功！") : Result.fail("密码修改失败！");
     }
 
     @RequestMapping(value = "/users/{userNo}/self_summary", method = RequestMethod.GET)
     @ResponseBody
-    public Result<String> getSelfSummaryByUserNO(@PathVariable int userNo) {
+    public Result<String> getSelfSummaryByUserNo(@PathVariable int userNo) {
         String selfSummary = userInfoService.getSelfSummaryByUserNo(userNo);
-        return selfSummary == null ? Result.fail("获取简介失败") : Result.success(selfSummary,"获取个人简介成功！");
+        return selfSummary == null ? Result.fail("获取简介失败") : Result.successWithDataOnly(selfSummary);
     }
 
     @RequestMapping(value = "/users/self_summary", method = RequestMethod.PUT)
     @ResponseBody
-    public Result<?> updateSelfSummaryByUserNO(@RequestBody() String selfSummary, HttpSession session) {
-        int userNo = (int) session.getAttribute("userNo");
+    public Result<?> updateSelfSummary(@RequestBody() String selfSummary) {
+        Integer userNo = getUserNoFromSession();
 
-        System.out.println(selfSummary);
+        if (userNo == null) {
+            return Result.fail("找不到session！");
+        }
 
         return userInfoService.updateSelfSummaryByUserNo(selfSummary, userNo) == null ?
                 Result.fail("个人简介修改失败！") : Result.success("修改个人简介成功！");
     }
 
+    /**
+     * 注意！！！前台设置界面必须先判断是否有修改的信息，没有就不用传至后台了！
+     * 所以这里必要判断是否全为空！
+     *
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "/users/Account_info", method = RequestMethod.PUT)
+    @ResponseBody
+    public Result<?> updateAccountInfo(User user, HttpSession session) {
+        Integer userNo = (Integer) session.getAttribute("userNo");
+        if (userNo == null) {
+            return Result.fail("找不到session！");
+        }
+        return userInfoService.updateAccountInfo(userNo, user.getAvatar(), user.getUsername(), user.getEmail(), user.getTel()) ?
+                Result.success("保存成功！") : Result.fail("保存失败！");
+    }
 
-
+    @RequestMapping("/users/personal_info")
+    @ResponseBody
+    public Result<?> updatePersonalInfo(User user) {
+        Integer userNo = getUserNoFromSession();
+        if (userNo == null) {
+            return Result.fail("找不到session！");
+        }
+        return userInfoService.updatePersonalInfo(user.getUserNo(), user.getGender(), user.getGithub(), user.getWechatQrImageLink()) ?
+                Result.success("保存成功！") : Result.fail("保存失败！");
+    }
 }

@@ -1,25 +1,27 @@
 package cn.jxufe.dto;
 
+import lombok.*;
+import lombok.experimental.Accessors;
+import org.apache.shiro.session.UnknownSessionException;
+
 /**
+ * 使用Accessors能使该类链式创建：result.setCode(200).setMessage("成功").setData(null);
  * @ClassName: Result
  * @author: hsw
  * @date: 2019/5/9 21:15
  * @Description: TODO
  */
+@Accessors(chain = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
 public class Result<T> {
 
     private int code;
     private String message;
     private T data;
-
-    public Result() {
-    }
-
-    public Result(int code, String message, T data) {
-        this.code = code;
-        this.message = message;
-        this.data = data;
-    }
 
     /**
      * message必有好吧！
@@ -42,40 +44,16 @@ public class Result<T> {
         return new Result<>(HttpStatusCode.SERVICE_OK.getCode(), message, null);
     }
 
+    /**
+     * 成功，返回数据就行，不需要message！(为避免T为String搞错方法所以不用重载，重新命名方法吧！)
+     * @param <T>
+     * @return
+     */
+    public static <T> Result<T> successWithDataOnly(T data) {
+        return new Result<>(HttpStatusCode.SERVICE_OK.getCode(), null, data);
+    }
+
     public static <T> Result<T> fail(String message) {
         return new Result<>(HttpStatusCode.SERVICE_ERROR.getCode(), message, null);
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
-
-    @Override
-    public String toString() {
-        return "Result{" +
-                "code=" + code +
-                ", message='" + message + '\'' +
-                ", data=" + data +
-                '}';
     }
 }

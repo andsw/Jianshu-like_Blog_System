@@ -12,7 +12,6 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -115,7 +114,7 @@ public class LoginOrRegisterController {
         return "redirect:" + HOME_PAGE_NAME;
     }
 
-    @RequestMapping("/check_code")
+    @RequestMapping(value = "/check_code", method = RequestMethod.GET)
     public void checkCode(HttpServletRequest request, HttpServletResponse response) {
 
         try {

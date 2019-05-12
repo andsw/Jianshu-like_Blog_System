@@ -135,14 +135,15 @@ public interface UserDao {
 
     /**
      * 修改个人信息
+     *
      * @param userNo
-     * @param gender 同样 0表示女，1表示男，2表示保密，这里用来Byte是因为要用null来表示不用修改性别！
+     * @param gender          同样 0表示女，1表示男，2表示保密，这里用来Byte是因为要用null来表示不用修改性别！
      * @param github
      * @param wechatQrImgLink
      * @return
      */
-    int updateGenderByUserNo(@Param("userNo") int userNo,
-                             @Param("gender") Byte gender,
-                             @Param("github") String github,
-                             @Param("wechatQrImgLink") String wechatQrImgLink);
+    int updatePersonalInfoByUserNo(@Param("userNo") int userNo,
+                                   @Param("gender") Byte gender,
+                                   @Param("github") String github,
+                                   @Param("wechatQrImgLink") String wechatQrImgLink);
 }
