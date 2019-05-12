@@ -26,28 +26,29 @@ public class LoginRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
             throws AuthenticationException {
-//        System.out.println("\n----------------进入 doGetAuthenticationInfo method in LonginRealm!----------------");
+//        System.out.println("\n----------------进入 doGetAuthenticationInfo method in LoginRealm!----------------");
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
-        String username = token.getUsername();
-        String password = loginService.getPassword(username);
+        String userNo = token.getUsername();
+        String password = loginService.getPassword(userNo);
         System.out.println(password);
         if ("".equals(password)) {
             throw new AuthenticationException("用户不存在！");
         }
-        return new SimpleAuthenticationInfo(username, password, ByteSource.Util.bytes(username), "");
+        return new SimpleAuthenticationInfo(userNo, password, ByteSource.Util.bytes(userNo), "");
     }
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-//        System.out.println("\n----------------进入 doGetAuthorizationInfo method in LonginRealm!----------------");
-        String principle = (String) principalCollection.getPrimaryPrincipal();
-        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        if ("admin".equals(principle)) {
-            info.addStringPermission("admin:get");
-        } else if ("user".equals(principle)) {
-            info.addStringPermission("user:get");
-        }
-        return info;
+//        System.out.println("\n----------------进入 doGetAuthorizationInfo method in LoginRealm!----------------");
+//        String principle = (String) principalCollection.getPrimaryPrincipal();
+//        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+//        if ("admin".equals(principle)) {
+//            info.addStringPermission("admin:get");
+//        } else if ("user".equals(principle)) {
+//            info.addStringPermission("user:get");
+//        }
+//        return info;
+        return null;
     }
 
     /**
@@ -58,7 +59,7 @@ public class LoginRealm extends AuthorizingRealm {
      * @param args
      */
     public static void main(String[] args) {
-        ByteSource salt = ByteSource.Util.bytes("2127804711@qq.com");
+        ByteSource salt = ByteSource.Util.bytes("121");
 //        base64 xB18ZuG4QEVFqjoOziAGrA== 时间：20ms
 //        hex c41d7c66e1b8404545aa3a0ece2006ac 时间 20ms
         long start = System.currentTimeMillis();

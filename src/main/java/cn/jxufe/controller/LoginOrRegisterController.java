@@ -80,8 +80,10 @@ public class LoginOrRegisterController {
             addCookieBackLoginRegPage(response, "loginStatus", "验证码错误");
             return "redirect:" + REDIRECT_LOGIN_PAGE_NAME;
         }
+        //这个方法要改名
+        int userNo = loginService.getUserNoWhenLoginSuccessfully(username);
 
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        UsernamePasswordToken token = new UsernamePasswordToken(String.valueOf(userNo), password);
         // rememberMe is aways true
         token.setRememberMe(true);
         try {
@@ -95,8 +97,6 @@ public class LoginOrRegisterController {
             addCookieBackLoginRegPage(response, "loginStatus", "登录信息有误！");
             return "redirect:" + REDIRECT_LOGIN_PAGE_NAME;
         }
-
-        int userNo = loginService.getUserNoWhenLoginSuccessfully(username);
 
         // 之前考虑过将userNo放在session中，然后一个JSESSIONID的cookie就可以管
         // 理了，但考虑到每次都要到redis服务器上去取一个来回，还不如直接从前台传过来，挺小一数据。
