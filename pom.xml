@@ -197,6 +197,15 @@
             <artifactId>jedis</artifactId>
             <version>${jedis.version}</version>
         </dependency>
+
+        <!--lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <properties>
@@ -218,6 +227,7 @@
         <slf4j.version>1.7.26</slf4j.version>
         <jedis.version>2.9.1</jedis.version>
         <spring-data-redis.version>1.7.2.release</spring-data-redis.version>
+        <lombok.version>1.18.8</lombok.version>
     </properties>
 
     <build>

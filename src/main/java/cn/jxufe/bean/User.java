@@ -1,5 +1,10 @@
 package cn.jxufe.bean;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +13,10 @@ import java.io.Serializable;
  * @date: 2019/3/30 19:59
  * @Description: 用户账号信息
  */
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class User implements Serializable {
     private static final long serialVersionUID = -8986314833392281499L;
     /**
@@ -54,9 +63,6 @@ public class User implements Serializable {
 
     private String github;
     private String wechatQrImageLink;
-
-    public User() {
-    }
 
     /**
      * 除去密码后的属性值，作为从数据库中获取用户信息的封装构造方法
@@ -112,155 +118,5 @@ public class User implements Serializable {
         this.avatar = avatar;
         this.passwordEmail = passwordEmail;
         this.passwordTel = passwordTel;
-    }
-
-    public Integer getUserNo() {
-        return userNo;
-    }
-
-    public void setUserNo(Integer userNo) {
-        this.userNo = userNo;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getTel() {
-        return tel;
-    }
-
-    public void setTel(String tel) {
-        this.tel = tel;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getSelfSummary() {
-        return selfSummary;
-    }
-
-    public void setSelfSummary(String selfSummary) {
-        this.selfSummary = selfSummary;
-    }
-
-    public Byte getGender() {
-        return gender;
-    }
-
-    public void setGender(Byte gender) {
-        this.gender = gender;
-    }
-
-    public Integer getFollowNum() {
-        return followNum;
-    }
-
-    public void setFollowNum(Integer followNum) {
-        this.followNum = followNum;
-    }
-
-    public Integer getFollowerNum() {
-        return followerNum;
-    }
-
-    public void setFollowerNum(Integer followerNum) {
-        this.followerNum = followerNum;
-    }
-
-    public Integer getBlogNum() {
-        return blogNum;
-    }
-
-    public void setBlogNum(Integer blogNum) {
-        this.blogNum = blogNum;
-    }
-
-    public Long getWordNum() {
-        return wordNum;
-    }
-
-    public void setWordNum(Long wordNum) {
-        this.wordNum = wordNum;
-    }
-
-    public Integer getLikeNum() {
-        return likeNum;
-    }
-
-    public void setLikeNum(Integer likeNum) {
-        this.likeNum = likeNum;
-    }
-
-    public String getPasswordEmail() {
-        return passwordEmail;
-    }
-
-    public void setPasswordEmail(String passwordEmail) {
-        this.passwordEmail = passwordEmail;
-    }
-
-    public String getPasswordTel() {
-        return passwordTel;
-    }
-
-    public void setPasswordTel(String passwordTel) {
-        this.passwordTel = passwordTel;
-    }
-
-    public String getGithub() {
-        return github;
-    }
-
-    public void setGithub(String github) {
-        this.github = github;
-    }
-
-    public String getWechatQrImageLink() {
-        return wechatQrImageLink;
-    }
-
-    public void setWechatQrImageLink(String wechatQrImageLink) {
-        this.wechatQrImageLink = wechatQrImageLink;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userNo=" + userNo +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", tel='" + tel + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", passwordEmail='" + passwordEmail + '\'' +
-                ", passwordTel='" + passwordTel + '\'' +
-                ", selfSummary='" + selfSummary + '\'' +
-                ", gender=" + gender +
-                ", followNum=" + followNum +
-                ", followerNum=" + followerNum +
-                ", blogNum=" + blogNum +
-                ", wordNum=" + wordNum +
-                ", likeNum=" + likeNum +
-                ", github='" + github + '\'' +
-                ", wechatQrImageLink='" + wechatQrImageLink + '\'' +
-                '}';
     }
 }

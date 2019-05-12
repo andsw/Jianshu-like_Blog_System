@@ -115,4 +115,34 @@ public interface UserDao {
      * @return 返回的修改条数,只有0和1，因为service是只能获取当前userNo，上同！
      */
     int updateSelfSummaryByUserNo(@Param("selfSummary") String selfSummary, @Param("userNo") int userNo);
+
+    /**
+     * 因为一个设置页面可以选择部分信息修改，而没有修
+     * 改的信息就没有从前台传递过来的需要了，所以虽然
+     * 放一个方法中，但有些值没有修改就直接设置为空，sql中再判断！
+     * @param userNo
+     * @param avatar
+     * @param username
+     * @param email
+     * @param tel
+     * @return
+     */
+    int updateAccountInfoByUserNo(@Param("userNo") int userNo,
+                             @Param("avatar") String avatar,
+                             @Param("username") String username,
+                             @Param("email") String email,
+                             @Param("tel") String tel);
+
+    /**
+     * 修改个人信息
+     * @param userNo
+     * @param gender 同样 0表示女，1表示男，2表示保密，这里用来Byte是因为要用null来表示不用修改性别！
+     * @param github
+     * @param wechatQrImgLink
+     * @return
+     */
+    int updateGenderByUserNo(@Param("userNo") int userNo,
+                             @Param("gender") Byte gender,
+                             @Param("github") String github,
+                             @Param("wechatQrImgLink") String wechatQrImgLink);
 }
