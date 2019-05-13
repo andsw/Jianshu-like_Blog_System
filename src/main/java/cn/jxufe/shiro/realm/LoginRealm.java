@@ -8,6 +8,7 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.security.auth.login.AccountNotFoundException;
@@ -32,7 +33,7 @@ public class LoginRealm extends AuthorizingRealm {
         String userNo = token.getUsername();
         String password = loginService.getPasswordByUserNo(Integer.parseInt(userNo));
 
-        if ("".equals(password)) {
+        if (StringUtils.isEmpty(password)) {
             throw new AuthenticationException();
         }
 

@@ -48,5 +48,5 @@ public interface LoginService {
      * @param username email或tel
      * @return 返回user序号
      */
-    int getUserNoWhenLoginSuccessfully(String username);
+    Integer getUserNoWhenLoginSuccessfully(String username);
 }

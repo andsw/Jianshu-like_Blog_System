@@ -80,7 +80,13 @@ public class LoginOrRegisterController {
 //            return "redirect:" + REDIRECT_LOGIN_PAGE_NAME;
 //        }
         //这个方法要改名!!!
-        int userNo = loginService.getUserNoWhenLoginSuccessfully(username);
+        Integer userNo = loginService.getUserNoWhenLoginSuccessfully(username);
+
+        if (userNo == null) {
+            System.out.println("登录信息有误！或不存在session");
+            addCookieBackLoginRegPage(response, "loginStatus", "登录信息有误，用户不存在");
+            return "redirect:" + REDIRECT_LOGIN_PAGE_NAME;
+        }
 
         UsernamePasswordToken token = new UsernamePasswordToken(String.valueOf(userNo), password);
         // rememberMe is aways true
@@ -112,6 +118,8 @@ public class LoginOrRegisterController {
 
         return "redirect:" + HOME_PAGE_NAME;
     }
+
+
 
     @RequestMapping(value = "/check_code", method = RequestMethod.GET)
     public void checkCode(HttpServletRequest request, HttpServletResponse response) {

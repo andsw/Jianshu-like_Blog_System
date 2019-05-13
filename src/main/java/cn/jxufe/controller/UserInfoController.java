@@ -90,9 +90,7 @@ public class UserInfoController {
     @RequestMapping(value = "/users/personal_info", method = RequestMethod.PUT)
     @ResponseBody
     public Result<?> updatePersonalInfo(@RequestBody User user) {
-        System.out.println(user);
         Integer userNo = getUserNoFromSession();
-        System.out.println("userNo : " + userNo);
         if (user == null) {
             return Result.fail("user is null!");
         }

@@ -45,14 +45,14 @@ public interface UserDao {
      * @param tel 电话
      * @return userNO
      */
-    int getUserNoByTel(String tel);
+    Integer getUserNoByTel(String tel);
 
     /**
      * email获取userNo，然后再用userNo获取user信息
      * @param email
      * @return userNO
      */
-    int getUserNoByEmail(String email);
+    Integer getUserNoByEmail(String email);
 
     /**
      * 先获取userNo，再根据userNo获取密码

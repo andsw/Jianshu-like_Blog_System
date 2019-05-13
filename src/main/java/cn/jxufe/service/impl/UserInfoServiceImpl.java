@@ -68,7 +68,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    @CacheEvict()
+    @CacheEvict(key = "'userInfo-' + #userNo")
     public boolean updatePersonalInfo(int userNo, byte gender, String github, String wechatQrImgLink) {
         return userDao.updatePersonalInfoByUserNo(userNo, gender, github, wechatQrImgLink) == 1;
     }

@@ -84,7 +84,7 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public int getUserNoWhenLoginSuccessfully(String username) {
+    public Integer getUserNoWhenLoginSuccessfully(String username) {
         return username.contains("@") ? userDao.getUserNoByEmail(username) : userDao.getUserNoByTel(username);
     }
 
