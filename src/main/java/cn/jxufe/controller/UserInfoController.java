@@ -1,7 +1,6 @@
 package cn.jxufe.controller;
 
 import cn.jxufe.bean.User;
-import cn.jxufe.dao.UserDao;
 import cn.jxufe.dto.Result;
 import cn.jxufe.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import javax.xml.crypto.Data;
 
 /**
  * @ClassName: UserInfoController
@@ -60,7 +58,7 @@ public class UserInfoController {
 
     @RequestMapping(value = "/users/self_summary", method = RequestMethod.PUT)
     @ResponseBody
-    public Result<?> updateSelfSummary(@RequestBody() String selfSummary) {
+    public Result<?> updateSelfSummary(@RequestBody String selfSummary) {
         Integer userNo = getUserNoFromSession();
 
         if (userNo == null) {
@@ -78,9 +76,9 @@ public class UserInfoController {
      * @param user
      * @return
      */
-    @RequestMapping(value = "/users/Account_info", method = RequestMethod.PUT)
+    @RequestMapping(value = "/users/account_info", method = RequestMethod.PUT)
     @ResponseBody
-    public Result<?> updateAccountInfo(User user, HttpSession session) {
+    public Result<?> updateAccountInfo(@RequestBody User user, HttpSession session) {
         Integer userNo = (Integer) session.getAttribute("userNo");
         if (userNo == null) {
             return Result.fail("找不到session！");
@@ -89,14 +87,20 @@ public class UserInfoController {
                 Result.success("保存成功！") : Result.fail("保存失败！");
     }
 
-    @RequestMapping("/users/personal_info")
+    @RequestMapping(value = "/users/personal_info", method = RequestMethod.PUT)
     @ResponseBody
-    public Result<?> updatePersonalInfo(User user) {
+    public Result<?> updatePersonalInfo(@RequestBody User user) {
+        System.out.println(user);
         Integer userNo = getUserNoFromSession();
+        System.out.println("userNo : " + userNo);
+        if (user == null) {
+            return Result.fail("user is null!");
+        }
         if (userNo == null) {
             return Result.fail("找不到session！");
         }
-        return userInfoService.updatePersonalInfo(user.getUserNo(), user.getGender(), user.getGithub(), user.getWechatQrImageLink()) ?
+        return userInfoService.updatePersonalInfo(userNo, user.getGender(), user.getGithub(), user.getWechatQrImgLink()) ?
                 Result.success("保存成功！") : Result.fail("保存失败！");
     }
+
 }

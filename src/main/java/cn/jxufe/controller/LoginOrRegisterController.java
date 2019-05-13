@@ -74,11 +74,11 @@ public class LoginOrRegisterController {
         }
 
         //先不判断验证码！
-        if (!checkCodeUtil.codeChecking(checkCode)) {
-            System.out.println("验证码错误！");
-            addCookieBackLoginRegPage(response, "loginStatus", "验证码错误");
-            return "redirect:" + REDIRECT_LOGIN_PAGE_NAME;
-        }
+//        if (!checkCodeUtil.codeChecking(checkCode)) {
+//            System.out.println("验证码错误！");
+//            addCookieBackLoginRegPage(response, "loginStatus", "验证码错误");
+//            return "redirect:" + REDIRECT_LOGIN_PAGE_NAME;
+//        }
         //这个方法要改名!!!
         int userNo = loginService.getUserNoWhenLoginSuccessfully(username);
 

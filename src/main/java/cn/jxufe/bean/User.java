@@ -58,7 +58,7 @@ public class User implements Serializable {
     private Integer likeNum;
 
     private String github;
-    private String wechatQrImageLink;
+    private String wechatQrImgLink;
 
     /**
      * 除去密码后的属性值，作为从数据库中获取用户信息的封装构造方法
@@ -75,9 +75,9 @@ public class User implements Serializable {
      * @param wordNum
      * @param likeNum
      * @param github
-     * @param wechatQrImageLink
+     * @param wechatQrImgLink
      */
-    public User(Integer userNo, String username, String email, String tel, String avatar, String selfSummary, Byte gender, Integer followNum, Integer followerNum, Integer blogNum, Long wordNum, Integer likeNum, String github, String wechatQrImageLink) {
+    public User(Integer userNo, String username, String email, String tel, String avatar, String selfSummary, Byte gender, Integer followNum, Integer followerNum, Integer blogNum, Long wordNum, Integer likeNum, String github, String wechatQrImgLink) {
         this.userNo = userNo;
         this.username = username;
         this.email = email;
@@ -91,7 +91,7 @@ public class User implements Serializable {
         this.wordNum = wordNum;
         this.likeNum = likeNum;
         this.github = github;
-        this.wechatQrImageLink = wechatQrImageLink;
+        this.wechatQrImgLink = wechatQrImgLink;
     }
 
     /**
