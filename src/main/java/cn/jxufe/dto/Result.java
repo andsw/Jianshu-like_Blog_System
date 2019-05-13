@@ -2,7 +2,8 @@ package cn.jxufe.dto;
 
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.apache.shiro.session.UnknownSessionException;
+
+import my_enum.HttpStatusCode;
 
 /**
  * 使用Accessors能使该类链式创建：result.setCode(200).setMessage("成功").setData(null);

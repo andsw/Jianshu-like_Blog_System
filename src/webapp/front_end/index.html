@@ -70,7 +70,7 @@
             </li>
             <li class="light-green-text valign-wrapper">
               <i class="material-icons prefix valign" style="display: inline-block;margin-left: 10px;">logout</i>
-              <span style="margin-left: -3px; font-size: 20px;" class="black-text">退出</span>
+              <a style="margin-left: -3px; font-size: 20px;" class="black-text" onclick="logout()">退出</a>
             </li>
           </ul>
         </li>
@@ -113,7 +113,7 @@
         </li>
         <li><a href="#" class="waves-effect"><i class="material-icons">help_outline</i>帮助与反馈</a></li>
         <li><a href="#" class="waves-effect"><i class="material-icons">settings</i>设置</a></li>
-        <li><a href="#" class="waves-effect"><i class="material-icons">logout</i>退出</a></li>
+        <li><a href="#" class="waves-effect" onclick="logout()"><i class="material-icons">logout</i>退出</a></li>
       </ul>
       <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
@@ -290,6 +290,7 @@
   <script src="../front_end/js/customized/ajax.js"></script>
   <script>
     $(document).ready(function () {
+
       $('.dropdown-button').dropdown({
                 inDuration: 150,
                 outDuration: 100,
@@ -332,6 +333,18 @@
         self.text = '编辑';
         temp.attr('readonly', 'readonly');
       }
+    }
+
+    function logout(){
+      //这步删除session成功了，才能有下一步的删除刷新操作！
+      request_plain_text("http://localhost:8080/auth/logout", "get", "", null, null, false);
+      $.removeCookie("rememberMe", {path:"/"});
+      $.removeCookie("userNo", {path:"/"});
+      location.reload();
+
+      //方便性的提示下，这里是用了登录时发生错误提示所用的cookie
+      $.cookie('loginStatus', "登出成功", {path:'/front_end/loginAndRegister.html'});
+      return false;
     }
   </script>
   </body>

@@ -6,6 +6,7 @@ import cn.jxufe.service.LoginService;
 import cn.jxufe.service.impl.LoginServiceImpl;
 import cn.jxufe.util.CheckCodeUtil;
 import cn.jxufe.util.PasswordEncoderUtil;
+import my_enum.PageName;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -35,8 +36,8 @@ import java.util.Random;
 @RequestMapping(value = "/auth")
 public class LoginOrRegisterController {
 
-    private static final String HOME_PAGE_NAME = "http://localhost:8080/front_end/index.html";
-    private static final String REDIRECT_LOGIN_PAGE_NAME = "http://localhost:8080/front_end/loginAndRegister.html";
+    private static final String HOME_PAGE_NAME = PageName.HOME_PAGE.getPageUrl();
+    private static final String REDIRECT_LOGIN_PAGE_NAME = PageName.LOGIN_PAGE.getPageUrl();
 
     private final LoginService loginService;
     private final CheckCodeUtil checkCodeUtil;
@@ -106,6 +107,8 @@ public class LoginOrRegisterController {
         // 之前考虑过将userNo放在session中，然后一个JSESSIONID的cookie就可以管
         // 理了，但考虑到每次都要到redis服务器上去取一个来回，还不如直接从前台传过来，挺小一数据。
         Cookie userNoCookie = new Cookie("userNo", userNo + "");
+        // 一个月
+        userNoCookie.setMaxAge(2592000);
         userNoCookie.setDomain("localhost");
         userNoCookie.setPath("/");
         response.addCookie(userNoCookie);

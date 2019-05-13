@@ -145,19 +145,11 @@
 <script src="../front_end/js/init.js"></script>
 
 <script>
-    <!--实现js的post跳转-->
-    function StandardPost(url)
-    {
-        let form = $("<form method='post'></form>");
-        form.attr({'action':url});
-        $(document.body).append(form);
-        form.submit();
-    }
     $(document).ready(function () {
         //如果存在rememberMe的话就自动跳转
         if ($.cookie('rememberMe') !== undefined) {
-            $.cookie('rememberMe', 'changedCookie',{path: '/front_end/loginAndRegister.html'});
-            StandardPost('http://localhost:8080/auth/login');
+            //这里即使别人伪造了一个rememberMe，没有合格的jsessionid也是无法进入的！
+            window.location.href="http://localhost:8080/front_end/index.html"
         }
 
         //登录后返回此页面显示登录失败的原因！

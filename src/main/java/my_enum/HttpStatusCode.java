@@ -1,4 +1,4 @@
-package cn.jxufe.dto;
+package my_enum;
 
 /**
  * @author hsw
