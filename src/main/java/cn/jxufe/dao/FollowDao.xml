@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.jxufe.dao.FollowDao">
+
+    <select id="getAllFollowersNoByUserNo" resultType="Integer">
+        select follower_user_no
+        from follow
+        where followed_user_no = #{userNo}
+        limit #{followerNum};
+    </select>
+    <select id="getAllFollowsNoByUserNO" resultType="Integer">
+        select followed_user_no
+        from follow
+        where follower_user_no = #{userNo}
+        limit #{followNum};
+    </select>
+</mapper>

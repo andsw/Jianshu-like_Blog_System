@@ -26,7 +26,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     private PasswordEncoderUtil passwordEncoderUtil;
 
     @Override
-    @Cacheable(key = "'userInfo-' + #userNo")
+    @Cacheable(key = "'user-' + #userNo")
     public User getUserByUserNo(int userNo) {
         return userDao.getUserByUserNo(userNo);
     }
@@ -62,13 +62,13 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    @CacheEvict(key = "'userInfo-' + #userNo")
+    @CacheEvict(key = "'user-' + #userNo")
     public boolean updateAccountInfo(int userNo, String avatar, String username, String email, String tel) {
         return userDao.updateAccountInfoByUserNo(userNo, avatar, username, email, tel) == 1;
     }
 
     @Override
-    @CacheEvict(key = "'userInfo-' + #userNo")
+    @CacheEvict(key = "'user-' + #userNo")
     public boolean updatePersonalInfo(int userNo, byte gender, String github, String wechatQrImgLink) {
         return userDao.updatePersonalInfoByUserNo(userNo, gender, github, wechatQrImgLink) == 1;
     }

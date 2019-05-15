@@ -5,6 +5,8 @@ import cn.jxufe.dao.CorpusDao;
 import cn.jxufe.exception.UpdateDbException;
 import cn.jxufe.service.CorpusInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,16 +25,26 @@ public class CorpusInfoServiceImpl implements CorpusInfoService {
     private CorpusDao corpusDao;
 
     @Override
+    @Cacheable(value = "redisCache", key = "'corpus-' + #userNo")
     public List<Corpus> getAllCorpusByUserNo(int userNo) {
         return corpusDao.getAllCorpusByUserNo(userNo);
     }
 
     @Override
+    @CacheEvict(value = "redisCache", key = "'corpus-' + #userNo")
     public boolean deleteCorpusByUserNoAndCorpusName(int userNo,String corpusName) {
         return corpusDao.deleteCorpus(userNo, corpusName) == 1;
     }
 
+    /**
+     * 注意想想，其实根本不用判断重名问题！
+     * @param userNo
+     * @param corpusName
+     * @param newName
+     * @return
+     */
     @Override
+    @CacheEvict(value = "redisCache", key = "'corpus-' + #userNo")
     public boolean renameCorpus(int userNo, String corpusName, String newName) {
         return corpusDao.updateCorpusNameByCorpusNo(userNo, corpusName, newName) == 1;
     }
