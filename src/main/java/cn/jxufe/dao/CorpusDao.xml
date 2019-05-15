@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.jxufe.dao.CorpusDao">
+    <select id="getAllCorpusByUserNo" resultType="cn.jxufe.bean.Corpus" parameterType="int">
+        select *
+        from corpus
+        where user_no = #{userNo};
+    </select>
+
+    <insert id="insertCorpus" parameterType="cn.jxufe.bean.Corpus">
+        insert into corpus(corpus_name, user_no)
+        values (#{corpus.corpusName}, #{corpus.userNo});
+    </insert>
+
+    <delete id="deleteCorpus">
+        delete
+        from corpus
+        where user_no = #{userNo}
+          and corpus_name = #{corpusName}
+        limit 1;
+    </delete>
+
+    <update id="updateCorpusNameByCorpusNo">
+        update corpus
+        set corpus_name = #{newCorpusName}
+        where user_no = #{userNo}
+          and corpus_name = #{corpusName}
+        limit 1;
+    </update>
+    <update id="incrBlogNumByCorpusNo">
+        update corpus
+        set blog_num = blog_num + 1
+        where user_no = #{userNo}
+          and corpus_name = #{corpusName}
+        limit 1;
+    </update>
+    <update id="descBlogNumByCorpusNo">
+        update corpus
+        set blog_num = blog_num - 1
+        where user_no = #{userNo}
+          and corpus_name = #{corpusName}
+        limit 1;
+    </update>
+</mapper>

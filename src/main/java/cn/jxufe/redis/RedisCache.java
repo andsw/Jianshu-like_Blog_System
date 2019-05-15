@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -81,10 +82,18 @@ public class RedisCache implements Cache {
      * @param key
      * @param callable
      * @param <T>
-     * @return
+     * @return TODO 等我先搞清楚callable怎么使用
      */
     @Override
     public <T> T get(Object key, Callable<T> callable) {
+        if (StringUtils.isEmpty(key) || callable == null) {
+            return null;
+        }
+        try {
+            return callable.call();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

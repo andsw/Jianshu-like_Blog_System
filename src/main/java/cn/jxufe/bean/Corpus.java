@@ -17,8 +17,17 @@ import java.io.Serializable;
 @ToString
 public class Corpus implements Serializable {
     private static final long serialVersionUID = 5179560096777477623L;
-    private Integer corpusNo;
     private String corpusName;
-    private Integer userNO;
+    private Integer userNo;
     private Integer blogNum;
+
+    /**
+     * corpus自增，添加时blogNum默认为0！
+     * @param corpusName
+     * @param userNo
+     */
+    public Corpus(String corpusName, int userNo) {
+        this.corpusName = corpusName;
+        this.userNo = userNo;
+    }
 }

@@ -50,12 +50,12 @@
                 /front_end/img/**=anon
                 /front_end/fonts/**=anon
 
+                /error/503.html=anon
+                /frontend/loginAndRegister.html=anon
+
                 <!--这里填入的是对应url和权限角色信息。遵循优先匹配原则。-->
                 /auth/logout=logout
                 /auth/**=anon
-
-                /error/503.html=anon
-                /frontend/loginAndRegister.html=anon
 
                 <!--操作用户信息的url，因为信息不会危及账号安全而且可以匿名访问博客，所以不需要登陆后才能获取！-->
                 /users/**=anon

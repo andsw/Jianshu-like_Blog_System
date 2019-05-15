@@ -8,7 +8,12 @@ import org.apache.ibatis.annotations.Param;
  * @ClassName: UserDao
  * @author: hsw
  * @date: 2019/3/30 20:06
- * @Description: 一些需求：通过
+ * @Description: 一些未完成需求：各种数量的存在和增加问题！
+ *               比如一些数据比如文章数，是获取时统计还是留一个字段记录？
+ *               比如是每次操作更新还是定时更新？
+ *
+ *               因为文集是一次性加载的，所以加载完文集后可以在前台计算所以user列文集数没有存在的意义
+ *               TODO
  */
 public interface UserDao {
 
