@@ -3,6 +3,7 @@ package cn.jxufe.service;
 import cn.jxufe.bean.Corpus;
 import cn.jxufe.exception.UpdateDbException;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 /**
@@ -18,6 +19,13 @@ public interface CorpusInfoService {
      * @return
      */
     List<Corpus> getAllCorpusByUserNo(int userNo);
+
+    /**
+     * 添加文集
+     * @param corpus
+     * @return
+     */
+    boolean insertCorpus(Corpus corpus);
 
     /**
      * 1

@@ -12,7 +12,11 @@
 
     <insert id="insertCorpus" parameterType="cn.jxufe.bean.Corpus">
         insert into corpus(corpus_name, user_no)
-        values (#{corpus.corpusName}, #{corpus.userNo});
+        select #{corpus.corpusName}, #{corpus.userNo}
+        where not exists(select *
+                         from corpus
+                         where corpus_name = #{corpus.corpusName}
+                           and user_no =#{corpus.userNo});
     </insert>
 
     <delete id="deleteCorpus">

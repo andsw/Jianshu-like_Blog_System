@@ -45,6 +45,21 @@ public class CorpusController {
         return Result.successWithDataOnly(corpuses);
     }
 
+    @RequestMapping(value = "/users/corpuses/{corpusName}", method = RequestMethod.POST)
+    @ResponseBody
+    public Result<?> addCorpus(@PathVariable String corpusName) {
+        Integer userNo = getUserNoFromSession();
+        if (userNo == null) {
+            return Result.fail("找不到session！");
+        }
+
+        Corpus corpus = new Corpus();
+        corpus.setCorpusName(corpusName);
+        corpus.setUserNo(userNo);
+        return corpusInfoService.insertCorpus(corpus)?
+                Result.success("添加成功！") : Result.fail("添加失败！");
+    }
+
     @RequestMapping(value = "/users/corpuses/{corpusName}", method = RequestMethod.DELETE)
     @ResponseBody
     public Result<?> deleteCorpusByCorpusNo(@PathVariable String corpusName) {

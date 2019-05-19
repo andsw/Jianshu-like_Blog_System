@@ -3,6 +3,7 @@ package cn.jxufe.dao;
 import cn.jxufe.bean.Corpus;
 import org.apache.ibatis.annotations.Param;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 /**
@@ -21,9 +22,10 @@ public interface CorpusDao {
     List<Corpus> getAllCorpusByUserNo(int userNo);
 
     /**
-     * 新建文集
+     * 新建文集！
      * @param corpus
      * @return
+     * @throws SQLIntegrityConstraintViolationException
      */
     int insertCorpus(@Param("corpus") Corpus corpus);
 

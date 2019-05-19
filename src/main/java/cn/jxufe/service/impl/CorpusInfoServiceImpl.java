@@ -10,7 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSession;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 /**
@@ -28,6 +28,17 @@ public class CorpusInfoServiceImpl implements CorpusInfoService {
     @Cacheable(value = "redisCache", key = "'corpus-' + #userNo")
     public List<Corpus> getAllCorpusByUserNo(int userNo) {
         return corpusDao.getAllCorpusByUserNo(userNo);
+    }
+
+    /**
+     * 判重还是在前端哦
+     * @param corpus
+     * @return
+     */
+    @Override
+    @CacheEvict(value = "redisCache", key = "'corpus-' + #corpus.userNo")
+    public boolean insertCorpus(Corpus corpus) {
+        return corpusDao.insertCorpus(corpus) == 1;
     }
 
     @Override
