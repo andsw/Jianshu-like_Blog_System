@@ -36,5 +36,20 @@ public class Article implements Serializable {
     private Integer articleCollectNum;
     private Integer articleWordNum;
     private Integer articleTagNum;
+
+    public Article(String articleTitle, String articleSummary, String articleImg,
+                   Timestamp articleReleaseTime, String articlePrivate, Integer articleReadNum,
+                   Integer articleLikeNum, Integer articleCommentNum) {
+        this.articleTitle = articleTitle;
+        this.articleSummary = articleSummary;
+        this.articleImg = articleImg;
+        this.articleReleaseTime = articleReleaseTime;
+        this.articlePrivate = articlePrivate;
+        this.articleReadNum = articleReadNum;
+        this.articleLikeNum = articleLikeNum;
+        this.articleCommentNum = articleCommentNum;
+    }
+
+
 }
 

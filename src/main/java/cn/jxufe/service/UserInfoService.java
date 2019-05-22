@@ -2,6 +2,9 @@ package cn.jxufe.service;
 
 import cn.jxufe.bean.User;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.dao.DataAccessException;
+
+import java.sql.SQLIntegrityConstraintViolationException;
 
 /**
  * @ClassName: UserInfoService
@@ -49,7 +52,7 @@ public interface UserInfoService {
      * @param tel
      * @return
      */
-    boolean updateAccountInfo(int userNo, String avatar, String username, String email, String tel);
+    boolean updateAccountInfo(int userNo, String avatar, String username, String email, String tel) throws DataAccessException;
 
     /**
      * 更新个人信息
@@ -60,4 +63,13 @@ public interface UserInfoService {
      * @return
      */
     boolean updatePersonalInfo(int userNo, byte gender, String github, String wechatQrImgLink);
+
+    /**
+     * 判断哪个字段值发生重复
+     * @param username
+     * @param email
+     * @param tel
+     * @return
+     */
+    String whichInfoExisted(String username, String email, String tel);
 }

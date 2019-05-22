@@ -2,8 +2,7 @@ package cn.jxufe.service;
 
 import cn.jxufe.bean.Corpus;
 import cn.jxufe.exception.UpdateDbException;
-
-import java.sql.SQLIntegrityConstraintViolationException;
+import org.springframework.dao.DataAccessException;
 import java.util.List;
 
 /**
@@ -40,9 +39,10 @@ public interface CorpusInfoService {
      * @param userNo
      * @param corpusName
      * @param newName
+     * @throws DataAccessException 主键冲突
      * @return
      */
-    boolean renameCorpus(int userNo, String corpusName, String newName);
+    boolean renameCorpus(int userNo, String corpusName, String newName) throws DataAccessException;
 
     /**
      * 1

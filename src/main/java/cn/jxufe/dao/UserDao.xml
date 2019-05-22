@@ -27,16 +27,16 @@
                          limit 1);
     </insert>
 
-    <select id="doseUsernameExisted" parameterType="string" resultType="boolean">
-        select ISNULL((select 1 from user where username = #{username} limit 1));
+    <select id="isUsernameExisted" parameterType="string" resultType="boolean">
+        select NOT ISNULL((select 1 from user where username = #{username} limit 1));
     </select>
 
-    <select id="doseEmailExisted" parameterType="string" resultType="boolean">
-        select ISNULL((select 1 from user where email = #{email} limit 1));
+    <select id="isEmailExisted" parameterType="string" resultType="boolean">
+        select NOT ISNULL((select 1 from user where email = #{email} limit 1));
     </select>
 
-    <select id="doseTelExisted" parameterType="string" resultType="boolean">
-        select ISNULL((select 1 from user where tel = #{tel} limit 1));
+    <select id="isTelExisted" parameterType="string" resultType="boolean">
+        select NOT ISNULL((select 1 from user where tel = #{tel} limit 1));
     </select>
 
     <select id="getUserNoByTel" resultType="Integer" parameterType="string">

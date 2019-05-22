@@ -66,13 +66,13 @@ public class LoginServiceImpl implements LoginService {
     public List<String> whichInfoIsExisted(User user) {
         System.out.println(user);
         List<String> infoExisted = new ArrayList<>(3);
-        if (!userDao.doseUsernameExisted(user.getUsername())) {
+        if (!userDao.isUsernameExisted(user.getUsername())) {
             infoExisted.add("username");
         }
-        if (!userDao.doseEmailExisted(user.getEmail())) {
+        if (!userDao.isEmailExisted(user.getEmail())) {
             infoExisted.add("email");
         }
-        if (!userDao.doseTelExisted(user.getTel())) {
+        if (!userDao.isTelExisted(user.getTel())) {
             infoExisted.add("tel");
         }
 

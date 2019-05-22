@@ -16,7 +16,8 @@
         where not exists(select *
                          from corpus
                          where corpus_name = #{corpus.corpusName}
-                           and user_no =#{corpus.userNo});
+                           and user_no = #{corpus.userNo}
+                         limit 1);
     </insert>
 
     <delete id="deleteCorpus">

@@ -4,10 +4,12 @@ import cn.jxufe.bean.User;
 import cn.jxufe.dto.Result;
 import cn.jxufe.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 /**
  * @ClassName: UserInfoController
@@ -83,8 +85,14 @@ public class UserInfoController {
         if (userNo == null) {
             return Result.fail("找不到session！");
         }
-        return userInfoService.updateAccountInfo(userNo, user.getAvatar(), user.getUsername(), user.getEmail(), user.getTel()) ?
-                Result.success("保存成功！") : Result.fail("保存失败！");
+        Result<?> result;
+        try {
+            result = userInfoService.updateAccountInfo(userNo, user.getAvatar(), user.getUsername(), user.getEmail(), user.getTel()) ?
+                    Result.success("保存成功！") : Result.fail("保存失败！");
+        } catch (DataAccessException e) {
+            result = Result.fail(userInfoService.whichInfoExisted(user.getUsername(), user.getEmail(), user.getTel()));
+        }
+        return result;
     }
 
     @RequestMapping(value = "/users/personal_info", method = RequestMethod.PUT)

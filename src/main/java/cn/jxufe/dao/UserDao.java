@@ -2,6 +2,9 @@ package cn.jxufe.dao;
 
 import cn.jxufe.bean.User;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.dao.DataAccessException;
+
+import java.sql.SQLIntegrityConstraintViolationException;
 
 
 /**
@@ -29,21 +32,21 @@ public interface UserDao {
      * @param username
      * @return
      */
-    boolean doseUsernameExisted(String username);
+    boolean isUsernameExisted(String username);
 
     /**
      * email是否已存在，在注册时插入失败后的判断
      * @param email
      * @return
      */
-    boolean doseEmailExisted(String email);
+    boolean isEmailExisted(String email);
 
     /**
      * tel是否已存在，在注册时插入失败后的判断
      * @param tel
      * @return
      */
-    boolean doseTelExisted(String tel);
+    boolean isTelExisted(String tel);
 
     /**
      * 电话获取userNo，然后再用userNo获取user信息
@@ -123,12 +126,13 @@ public interface UserDao {
      * @param email
      * @param tel
      * @return
+     * @throws DataAccessException mybatis不提倡捕捉异常，如果真要，mybatis将所有sql操作异常封装成DataAccessException，普通的是无法捕捉的！
      */
     int updateAccountInfoByUserNo(@Param("userNo") int userNo,
                              @Param("avatar") String avatar,
                              @Param("username") String username,
                              @Param("email") String email,
-                             @Param("tel") String tel);
+                             @Param("tel") String tel) throws DataAccessException;
 
     /**
      * 修改个人信息

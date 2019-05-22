@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.jxufe.dao.ArticleDao">
+    <select id="getArticleByUserNo" resultType="cn.jxufe.bean.Article">
+        select article_title, article_summary, article_img, article_release_time, article_read_num, article_comment_num, article_like_num
+        from article
+        where user_no = #{userNO}
+        limit #{articleNUm};
+    </select>
+
+    <insert id="insertArticleInfo">
+
+    </insert>
+</mapper>

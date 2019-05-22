@@ -7,10 +7,12 @@ import cn.jxufe.service.CorpusInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.DuplicateFormatFlagsException;
 import java.util.List;
 
 /**
@@ -56,7 +58,7 @@ public class CorpusInfoServiceImpl implements CorpusInfoService {
      */
     @Override
     @CacheEvict(value = "redisCache", key = "'corpus-' + #userNo")
-    public boolean renameCorpus(int userNo, String corpusName, String newName) {
+    public boolean renameCorpus(int userNo, String corpusName, String newName) throws DataAccessException {
         return corpusDao.updateCorpusNameByCorpusNo(userNo, corpusName, newName) == 1;
     }
 

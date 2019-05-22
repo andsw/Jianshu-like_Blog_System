@@ -4,6 +4,7 @@ import cn.jxufe.bean.Corpus;
 import cn.jxufe.dto.Result;
 import cn.jxufe.service.CorpusInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -81,6 +82,7 @@ public class CorpusController {
      * @return
      */
     @RequestMapping(value = "/users/corpuses/{corpusName}", method = RequestMethod.PUT)
+    @ResponseBody
     public Result<?> renameCorpus(@PathVariable String corpusName, @RequestBody String newName) {
         Integer userNo = getUserNoFromSession();
 
@@ -88,8 +90,14 @@ public class CorpusController {
             return Result.fail("找不到session！");
         }
 
-        return corpusInfoService.renameCorpus(userNo, corpusName, newName) ?
-                Result.success("修改成功！") : Result.fail("修改失败！");
+        Result<?> result;
+        try {
+            result = corpusInfoService.renameCorpus(userNo, corpusName, newName) ?
+                    Result.success("修改成功！") : Result.fail("修改失败！");
+        } catch (DataAccessException e) {
+            result = Result.fail("此文集已存在！");
+        }
+        return result;
     }
 
 }

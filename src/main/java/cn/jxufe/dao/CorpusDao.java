@@ -2,15 +2,17 @@ package cn.jxufe.dao;
 
 import cn.jxufe.bean.Corpus;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.dao.DataAccessException;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.DuplicateFormatFlagsException;
 import java.util.List;
 
 /**
  * @ClassName: CorpusDao
  * @author: hsw
  * @date: 2019/5/14 10:51
- * @Description:
+ * @Description: 文集数据操作类
  */
 public interface CorpusDao {
 
@@ -37,15 +39,17 @@ public interface CorpusDao {
      */
     int deleteCorpus(@Param("userNo") int userNo, @Param("corpusName") String corpusName);
 
+
     /**
-     * 重命名
+     * 重命名文集
      * @param userNo
      * @param corpusName
      * @param newCorpusName
      * @return
+     * @throws DataAccessException 有重复的就报错,mybatis的异常封装
      */
     int updateCorpusNameByCorpusNo(@Param("userNo") int userNo, @Param("corpusName") String corpusName,
-                                   @Param("newCorpusName") String newCorpusName);
+                                   @Param("newCorpusName") String newCorpusName) throws DataAccessException;
 
 
     /**

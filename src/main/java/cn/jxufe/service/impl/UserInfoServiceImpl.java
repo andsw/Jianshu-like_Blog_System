@@ -9,6 +9,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.dao.DataAccessException;
 
 /**
  * @ClassName: UserInfoServiceImpl
@@ -63,7 +64,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     @CacheEvict(key = "'user-' + #userNo")
-    public boolean updateAccountInfo(int userNo, String avatar, String username, String email, String tel) {
+    public boolean updateAccountInfo(int userNo, String avatar, String username, String email, String tel) throws DataAccessException {
         return userDao.updateAccountInfoByUserNo(userNo, avatar, username, email, tel) == 1;
     }
 
@@ -71,5 +72,17 @@ public class UserInfoServiceImpl implements UserInfoService {
     @CacheEvict(key = "'user-' + #userNo")
     public boolean updatePersonalInfo(int userNo, byte gender, String github, String wechatQrImgLink) {
         return userDao.updatePersonalInfoByUserNo(userNo, gender, github, wechatQrImgLink) == 1;
+    }
+
+    @Override
+    public String whichInfoExisted(String username, String email, String tel) {
+        if (userDao.isUsernameExisted(username)) {
+            return "用户名已被使用！";
+        } else if (userDao.isEmailExisted(email)) {
+            return "邮箱已注册！";
+        } else if (userDao.isTelExisted(tel)) {
+            return "电话已注册！";
+        }
+        return "未知错误！";
     }
 }
