@@ -53,7 +53,8 @@ public class User implements Serializable {
     private Byte gender;
     private Integer followNum;
     private Integer followerNum;
-    private Integer blogNum;
+    private Integer blogNumPrivate;
+    private Integer blogNumPublic;
     private Long wordNum;
     private Integer likeNum;
 
@@ -71,13 +72,14 @@ public class User implements Serializable {
      * @param gender
      * @param followNum
      * @param followerNum
-     * @param blogNum
+     * @param blogNumPrivate
+     * @param blogNumPublic
      * @param wordNum
      * @param likeNum
      * @param github
      * @param wechatQrImgLink
      */
-    public User(Integer userNo, String username, String email, String tel, String avatar, String selfSummary, Byte gender, Integer followNum, Integer followerNum, Integer blogNum, Long wordNum, Integer likeNum, String github, String wechatQrImgLink) {
+    public User(Integer userNo, String username, String email, String tel, String avatar, String selfSummary, Byte gender, Integer followNum, Integer followerNum, Integer blogNumPrivate, Integer blogNumPublic, Long wordNum, Integer likeNum, String github, String wechatQrImgLink) {
         this.userNo = userNo;
         this.username = username;
         this.email = email;
@@ -87,7 +89,8 @@ public class User implements Serializable {
         this.gender = gender;
         this.followNum = followNum;
         this.followerNum = followerNum;
-        this.blogNum = blogNum;
+        this.blogNumPrivate = blogNumPrivate;
+        this.blogNumPublic = blogNumPublic;
         this.wordNum = wordNum;
         this.likeNum = likeNum;
         this.github = github;

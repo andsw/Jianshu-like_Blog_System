@@ -26,30 +26,19 @@ public class Article implements Serializable {
     private String articleSummary;
     private String articleImg;
     private java.sql.Timestamp articleReleaseTime;
-    private Integer articleCorpusId;
-    private String articleType;
-    private String articleCommentable;
-    private String articlePrivate;
+    private String articleCorpusName;
+    /**
+     * 默认原创
+     * 0原创，1转载，2翻译
+     */
+    private Byte articleType;
+    private Boolean articleCommentable;
+    private Boolean articlePrivate;
     private Integer articleReadNum;
     private Integer articleLikeNum;
     private Integer articleCommentNum;
     private Integer articleCollectNum;
     private Integer articleWordNum;
     private Integer articleTagNum;
-
-    public Article(String articleTitle, String articleSummary, String articleImg,
-                   Timestamp articleReleaseTime, String articlePrivate, Integer articleReadNum,
-                   Integer articleLikeNum, Integer articleCommentNum) {
-        this.articleTitle = articleTitle;
-        this.articleSummary = articleSummary;
-        this.articleImg = articleImg;
-        this.articleReleaseTime = articleReleaseTime;
-        this.articlePrivate = articlePrivate;
-        this.articleReadNum = articleReadNum;
-        this.articleLikeNum = articleLikeNum;
-        this.articleCommentNum = articleCommentNum;
-    }
-
-
 }
 

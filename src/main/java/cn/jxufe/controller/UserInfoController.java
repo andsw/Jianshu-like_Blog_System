@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.sql.SQLIntegrityConstraintViolationException;
 
 /**
  * @ClassName: UserInfoController
@@ -43,11 +42,11 @@ public class UserInfoController {
     @RequestMapping(value = "/users/password", method = RequestMethod.PUT)
     @ResponseBody
     public Result<?> changePassword(@RequestBody String newPassword) {
-        Integer userNo = getUserNoFromSession();
-        if (userNo == null) {
+        Integer currentUserNo = getUserNoFromSession();
+        if (currentUserNo == null) {
             return Result.fail("找不到session！");
         }
-        return userInfoService.updatePasswordByUserNo(userNo, newPassword) ?
+        return userInfoService.updatePasswordByUserNo(currentUserNo, newPassword) ?
                 Result.success("密码修改成功！") : Result.fail("密码修改失败！");
     }
 
@@ -61,13 +60,13 @@ public class UserInfoController {
     @RequestMapping(value = "/users/self_summary", method = RequestMethod.PUT)
     @ResponseBody
     public Result<?> updateSelfSummary(@RequestBody String selfSummary) {
-        Integer userNo = getUserNoFromSession();
+        Integer currentUserNo = getUserNoFromSession();
 
-        if (userNo == null) {
+        if (currentUserNo == null) {
             return Result.fail("找不到session！");
         }
 
-        return userInfoService.updateSelfSummaryByUserNo(selfSummary, userNo) == null ?
+        return userInfoService.updateSelfSummaryByUserNo(selfSummary, currentUserNo) == null ?
                 Result.fail("个人简介修改失败！") : Result.success("修改个人简介成功！");
     }
 
@@ -81,13 +80,13 @@ public class UserInfoController {
     @RequestMapping(value = "/users/account_info", method = RequestMethod.PUT)
     @ResponseBody
     public Result<?> updateAccountInfo(@RequestBody User user, HttpSession session) {
-        Integer userNo = (Integer) session.getAttribute("userNo");
-        if (userNo == null) {
+        Integer currentUserNo = (Integer) session.getAttribute("userNo");
+        if (currentUserNo == null) {
             return Result.fail("找不到session！");
         }
         Result<?> result;
         try {
-            result = userInfoService.updateAccountInfo(userNo, user.getAvatar(), user.getUsername(), user.getEmail(), user.getTel()) ?
+            result = userInfoService.updateAccountInfo(currentUserNo, user.getAvatar(), user.getUsername(), user.getEmail(), user.getTel()) ?
                     Result.success("保存成功！") : Result.fail("保存失败！");
         } catch (DataAccessException e) {
             result = Result.fail(userInfoService.whichInfoExisted(user.getUsername(), user.getEmail(), user.getTel()));
@@ -98,14 +97,14 @@ public class UserInfoController {
     @RequestMapping(value = "/users/personal_info", method = RequestMethod.PUT)
     @ResponseBody
     public Result<?> updatePersonalInfo(@RequestBody User user) {
-        Integer userNo = getUserNoFromSession();
+        Integer currentUserNo = getUserNoFromSession();
         if (user == null) {
             return Result.fail("user is null!");
         }
-        if (userNo == null) {
+        if (currentUserNo == null) {
             return Result.fail("找不到session！");
         }
-        return userInfoService.updatePersonalInfo(userNo, user.getGender(), user.getGithub(), user.getWechatQrImgLink()) ?
+        return userInfoService.updatePersonalInfo(currentUserNo, user.getGender(), user.getGithub(), user.getWechatQrImgLink()) ?
                 Result.success("保存成功！") : Result.fail("保存失败！");
     }
 

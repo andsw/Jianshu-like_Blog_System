@@ -49,14 +49,14 @@ public class CorpusController {
     @RequestMapping(value = "/users/corpuses/{corpusName}", method = RequestMethod.POST)
     @ResponseBody
     public Result<?> addCorpus(@PathVariable String corpusName) {
-        Integer userNo = getUserNoFromSession();
-        if (userNo == null) {
+        Integer currentUserNo = getUserNoFromSession();
+        if (currentUserNo == null) {
             return Result.fail("找不到session！");
         }
 
         Corpus corpus = new Corpus();
         corpus.setCorpusName(corpusName);
-        corpus.setUserNo(userNo);
+        corpus.setUserNo(currentUserNo);
         return corpusInfoService.insertCorpus(corpus)?
                 Result.success("添加成功！") : Result.fail("添加失败！");
     }
@@ -65,13 +65,13 @@ public class CorpusController {
     @ResponseBody
     public Result<?> deleteCorpusByCorpusNo(@PathVariable String corpusName) {
 
-        Integer userNo = getUserNoFromSession();
+        Integer currentUserNo = getUserNoFromSession();
 
-        if (userNo == null) {
+        if (currentUserNo == null) {
             return Result.fail("找不到session！");
         }
 
-        return corpusInfoService.deleteCorpusByUserNoAndCorpusName(userNo, corpusName) ?
+        return corpusInfoService.deleteCorpusByUserNoAndCorpusName(currentUserNo, corpusName) ?
                 Result.success("删除成功！") : Result.fail("删除失败！");
     }
 
@@ -84,15 +84,15 @@ public class CorpusController {
     @RequestMapping(value = "/users/corpuses/{corpusName}", method = RequestMethod.PUT)
     @ResponseBody
     public Result<?> renameCorpus(@PathVariable String corpusName, @RequestBody String newName) {
-        Integer userNo = getUserNoFromSession();
+        Integer currentUserNo = getUserNoFromSession();
 
-        if (userNo == null) {
+        if (currentUserNo == null) {
             return Result.fail("找不到session！");
         }
 
         Result<?> result;
         try {
-            result = corpusInfoService.renameCorpus(userNo, corpusName, newName) ?
+            result = corpusInfoService.renameCorpus(currentUserNo, corpusName, newName) ?
                     Result.success("修改成功！") : Result.fail("修改失败！");
         } catch (DataAccessException e) {
             result = Result.fail("此文集已存在！");

@@ -11,8 +11,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.DuplicateFormatFlagsException;
 import java.util.List;
 
 /**
@@ -44,27 +42,27 @@ public class CorpusInfoServiceImpl implements CorpusInfoService {
     }
 
     @Override
-    @CacheEvict(value = "redisCache", key = "'corpus-' + #userNo")
-    public boolean deleteCorpusByUserNoAndCorpusName(int userNo,String corpusName) {
-        return corpusDao.deleteCorpus(userNo, corpusName) == 1;
+    @CacheEvict(value = "redisCache", key = "'corpus-' + #currentUserNo")
+    public boolean deleteCorpusByUserNoAndCorpusName(int currentUserNo, String corpusName) {
+        return corpusDao.deleteCorpus(currentUserNo, corpusName) == 1;
     }
 
     /**
      * 注意想想，其实根本不用判断重名问题！
-     * @param userNo
+     * @param currentUserNo
      * @param corpusName
      * @param newName
      * @return
      */
     @Override
-    @CacheEvict(value = "redisCache", key = "'corpus-' + #userNo")
-    public boolean renameCorpus(int userNo, String corpusName, String newName) throws DataAccessException {
-        return corpusDao.updateCorpusNameByCorpusNo(userNo, corpusName, newName) == 1;
+    @CacheEvict(value = "redisCache", key = "'corpus-' + #currentUserNo")
+    public boolean renameCorpus(int currentUserNo, String corpusName, String newName) throws DataAccessException {
+        return corpusDao.updateCorpusNameByCorpusNo(currentUserNo, corpusName, newName) == 1;
     }
 
     /**
      * required 如果调用此方法的方法是事务，则加入该事务，否则新建一个事务！
-     * @param userNo
+     * @param currentUserNo
      * @param fromCorpusName
      * @param toCorpusName
      * @return
@@ -72,24 +70,24 @@ public class CorpusInfoServiceImpl implements CorpusInfoService {
      */
     @Transactional(rollbackFor = UpdateDbException.class, propagation = Propagation.REQUIRED)
     @Override
-    public boolean updateBlogNumWhenMoveBlog(int userNo, String fromCorpusName, String toCorpusName) throws UpdateDbException {
-        if (updateBlogNumWhenDeleteBlog(userNo, fromCorpusName)) {
+    public boolean updateBlogNumWhenMoveBlog(int currentUserNo, String fromCorpusName, String toCorpusName) throws UpdateDbException {
+        if (updateBlogNumWhenDeleteBlog(currentUserNo, fromCorpusName)) {
             throw new UpdateDbException();
         }
-        if (updateBlogNumWhenCreateBlog(userNo, toCorpusName)) {
+        if (updateBlogNumWhenCreateBlog(currentUserNo, toCorpusName)) {
             throw new UpdateDbException();
         }
         return true;
     }
 
     @Override
-    public boolean updateBlogNumWhenDeleteBlog(int userNo, String fromCorpusName) {
-        return corpusDao.descBlogNumByCorpusNo(userNo, fromCorpusName) == 1;
+    public boolean updateBlogNumWhenDeleteBlog(int currentUserNo, String fromCorpusName) {
+        return corpusDao.descBlogNumByCorpusNo(currentUserNo, fromCorpusName) == 1;
     }
 
     @Override
-    public boolean updateBlogNumWhenCreateBlog(int userNo, String toCorpusName) {
-        return corpusDao.incrBlogNumByCorpusNo(userNo, toCorpusName) == 1;
+    public boolean updateBlogNumWhenCreateBlog(int currentUserNo, String toCorpusName) {
+        return corpusDao.incrBlogNumByCorpusNo(currentUserNo, toCorpusName) == 1;
     }
 
 }

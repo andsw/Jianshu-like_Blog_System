@@ -70,7 +70,6 @@
 <!--                <value type="cn.jxufe.bean.Corpus"/>-->
 <!--                <value type="cn.jxufe.bean.Comment"/>-->
 <!--                <value type="cn.jxufe.bean.Follow"/>-->
-<!--                <value type="cn.jxufe.bean.Tag"/>-->
 <!--            </set>-->
 <!--        </property>-->
         <property name="configuration">

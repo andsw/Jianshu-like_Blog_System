@@ -23,7 +23,7 @@
     <delete id="deleteCorpus">
         delete
         from corpus
-        where user_no = #{userNo}
+        where user_no = #{currentUserNo}
           and corpus_name = #{corpusName}
         limit 1;
     </delete>
@@ -31,21 +31,21 @@
     <update id="updateCorpusNameByCorpusNo">
         update corpus
         set corpus_name = #{newCorpusName}
-        where user_no = #{userNo}
+        where user_no = #{currentUserNo}
           and corpus_name = #{corpusName}
         limit 1;
     </update>
     <update id="incrBlogNumByCorpusNo">
         update corpus
         set blog_num = blog_num + 1
-        where user_no = #{userNo}
+        where user_no = #{currentUserNo}
           and corpus_name = #{corpusName}
         limit 1;
     </update>
     <update id="descBlogNumByCorpusNo">
         update corpus
         set blog_num = blog_num - 1
-        where user_no = #{userNo}
+        where user_no = #{currentUserNo}
           and corpus_name = #{corpusName}
         limit 1;
     </update>

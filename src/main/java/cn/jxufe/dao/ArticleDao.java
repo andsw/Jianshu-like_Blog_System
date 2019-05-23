@@ -12,14 +12,28 @@ import java.util.List;
  * @Description: 文章信息（不包含文章内容）
  */
 public interface ArticleDao {
+
     /**
-     * 进入用户主页时，根据userNo和文章数获取所有本用户文章列表！
-     * （注意这里是获取所有，也分为私密文章和公开文章，所以在服务类和controller类中可以分开！）
-     * @param userNO
-     * @param articleNum
+     * 获取私密文章
+     * @param currentUserNo
+     * @param privateArticleNum
      * @return
      */
-    List<Article> getArticleByUserNo(@Param("userNo") int userNO, @Param("article") int articleNum);
+    List<Article> getPrivateArticleByUserNo(@Param("currentUserNo") int currentUserNo, @Param("privateArticleNum") int privateArticleNum);
 
-    int insertArticleInfo(Article article);
+    /**
+     * 只获取某用户的所有公开文章
+     * @param userNo
+     * @param publicArticleNum
+     * @return
+     */
+    List<Article> getPublicArticleByUserNo(@Param("userNo") int userNo, @Param("publicArticleNum") int publicArticleNum);
+
+    /**
+     * 添加文章信息,注意此操作是在点击新建文章选项后就触发的，所以现在预先填入的
+     * 属性只有：所属文集名称，用户号，其他默认就好，待编辑文章时再一一修改
+     * @param article
+     * @return
+     */
+    int insertArticleInfo(@Param("article") Article article);
 }

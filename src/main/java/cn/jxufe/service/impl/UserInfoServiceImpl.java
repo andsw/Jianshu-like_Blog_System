@@ -33,10 +33,10 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public boolean updatePasswordByUserNo(int userNo, String newPassword) {
+    public boolean updatePasswordByUserNo(int currentUserNo, String newPassword) {
         //userDao中获取email和tel的方法赞数先不写service方法！
-        String passwordUserNo = passwordEncoderUtil.encode(userNo, newPassword);
-        return userDao.updatePasswordByUserNo(passwordUserNo, userNo) == 1;
+        String passwordUserNo = passwordEncoderUtil.encode(currentUserNo, newPassword);
+        return userDao.updatePasswordByUserNo(passwordUserNo, currentUserNo) == 1;
     }
 
     @Override
@@ -51,27 +51,27 @@ public class UserInfoServiceImpl implements UserInfoService {
      *
      * 本来是返回boolean直接表示是否运行成功的，但是为了实现上面的功能（cachePut默认使用返回值作为值放入缓存）还是返回String，判断延迟到Controller！
      * @param selfSummary
-     * @param userNo
+     * @param currentUserNo
      * @return
      */
     @Override
-    @CachePut(key = "'selfSummary-' + #userNo", condition = "#result != null")
-    public String updateSelfSummaryByUserNo(String selfSummary, int userNo) {
+    @CachePut(key = "'selfSummary-' + #currentUserNo", condition = "#result != null")
+    public String updateSelfSummaryByUserNo(String selfSummary, int currentUserNo) {
         // 因为返回null表示操作失败嘛！所以要确保selfSummary不能为null！
         selfSummary = selfSummary == null ? "" : selfSummary;
-        return userDao.updateSelfSummaryByUserNo(selfSummary, userNo) == 1 ? selfSummary : null;
+        return userDao.updateSelfSummaryByUserNo(selfSummary, currentUserNo) == 1 ? selfSummary : null;
     }
 
     @Override
-    @CacheEvict(key = "'user-' + #userNo")
-    public boolean updateAccountInfo(int userNo, String avatar, String username, String email, String tel) throws DataAccessException {
-        return userDao.updateAccountInfoByUserNo(userNo, avatar, username, email, tel) == 1;
+    @CacheEvict(key = "'user-' + #currentUserNo")
+    public boolean updateAccountInfo(int currentUserNo, String avatar, String username, String email, String tel) throws DataAccessException {
+        return userDao.updateAccountInfoByUserNo(currentUserNo, avatar, username, email, tel) == 1;
     }
 
     @Override
-    @CacheEvict(key = "'user-' + #userNo")
-    public boolean updatePersonalInfo(int userNo, byte gender, String github, String wechatQrImgLink) {
-        return userDao.updatePersonalInfoByUserNo(userNo, gender, github, wechatQrImgLink) == 1;
+    @CacheEvict(key = "'user-' + #currentUserNo")
+    public boolean updatePersonalInfo(int currentUserNo, byte gender, String github, String wechatQrImgLink) {
+        return userDao.updatePersonalInfoByUserNo(currentUserNo, gender, github, wechatQrImgLink) == 1;
     }
 
     @Override

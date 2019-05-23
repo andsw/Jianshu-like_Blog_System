@@ -4,14 +4,41 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.jxufe.dao.ArticleDao">
-    <select id="getArticleByUserNo" resultType="cn.jxufe.bean.Article">
-        select article_title, article_summary, article_img, article_release_time, article_read_num, article_comment_num, article_like_num
+
+    <sql id="getArticleInfo">
+        select article_no,
+               user_no,
+               article_title,
+               article_summary,
+               article_img,
+               article_release_time,
+               article_read_num,
+               article_like_num,
+               article_comment_num,
+               article_word_num
         from article
-        where user_no = #{userNO}
-        limit #{articleNUm};
+    </sql>
+
+    <select id="getPrivateArticleByUserNo" resultType="cn.jxufe.bean.Article">
+        <include refid="getArticleInfo"/>
+        where user_no=#{currentUserNo}
+          and article_private=1
+        limit #{privateArticleNum};
     </select>
 
-    <insert id="insertArticleInfo">
+    <select id="getPublicArticleByUserNo" resultType="cn.jxufe.bean.Article">
+        <include refid="getArticleInfo"/>
+        where user_no = #{userNo}
+          and article_private=0
+        limit #{publicArticleNum};
+    </select>
 
+    <insert id="insertArticleInfo" useGeneratedKeys="true" keyProperty="articleNo" parameterType="cn.jxufe.bean.Article">
+        insert into article(user_no, article_corpus_name)
+        select #{article.userNo}, #{article.articleCorpusName}
+        where exists(select *
+                     from corpus
+                     where corpus_name = #{article.articleCorpusName}
+                     limit 1);
     </insert>
 </mapper>

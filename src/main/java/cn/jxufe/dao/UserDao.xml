@@ -10,7 +10,7 @@
     <!--选择user表中与用户类属性的对应的字段-->
     <sql id="selectUserInfo">
         select username, avatar,
-               gender,follow_num, follower_num, blog_num, word_num, like_num
+               gender,follow_num, follower_num, blog_num_private, blog_num_public, word_num, like_num
         from user
     </sql>
 
@@ -60,7 +60,7 @@
     <!--获取用户信息，这里去掉了没必要的由邮箱和电话后去user的方式！-->
     <select id="getUserByUserNo" parameterType="int" resultType="cn.jxufe.bean.User">
         <include refid="selectUserInfo"/>
-        where user_no = #{user_no}
+        where user_no = #{currentUserNo}
         limit 1;
     </select>
 
@@ -82,7 +82,7 @@
     <update id="updatePasswordByUserNo">
         update user
         set password = #{password}
-        where user_no = #{userNo}
+        where user_no = #{currentUserNo}
         limit 1;
     </update>
 
@@ -96,14 +96,14 @@
     <select id="getPasswordByUserNo" resultType="string" parameterType="int">
         select password
         from user
-        where user_no = #{userNo}
+        where user_no = #{currentUserNo}
         limit 1;
     </select>
 
     <update id="updateSelfSummaryByUserNo">
         update user
         set self_summary = #{selfSummary}
-        where user_no = #{userNo}
+        where user_no = #{currentUserNo}
         limit 1;
     </update>
 
@@ -115,7 +115,7 @@
             <if test="email != null">email = #{email},</if>
             <if test="tel != null">tel = #{tel}</if>
         </set>
-        where user_no = #{userNo}
+        where user_no = #{currentUserNo}
         limit 1;
     </update>
 
@@ -126,7 +126,7 @@
             <if test="github != null">github = #{github},</if>
             <if test="wechatQrImgLink != null">wechat_qr_img_link = #{wechatQrImgLink}</if>
         </set>
-        where user_no = #{userNo}
+        where user_no = #{currentUserNo}
         limit 1;
     </update>
 </mapper>
