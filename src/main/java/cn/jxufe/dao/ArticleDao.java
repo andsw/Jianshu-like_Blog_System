@@ -12,22 +12,29 @@ import java.util.List;
  * @Description: 文章信息（不包含文章内容）
  */
 public interface ArticleDao {
-
     /**
-     * 获取私密文章
+     * 获取用户所有文章
      * @param currentUserNo
-     * @param privateArticleNum
+     * @param articlePrivate
+     * @param articleNum
      * @return
      */
-    List<Article> getPrivateArticleByUserNo(@Param("currentUserNo") int currentUserNo, @Param("privateArticleNum") int privateArticleNum);
+    List<Article> getArticleByUserNo(@Param("userNo") int currentUserNo,
+                                     @Param("articlePrivate") byte articlePrivate,
+                                     @Param("articleNum") int articleNum);
 
     /**
-     * 只获取某用户的所有公开文章
+     * 获取文集所有文章
+     *
      * @param userNo
-     * @param publicArticleNum
+     * @param articleCorpusName
+     * @param articlePrivate
      * @return
      */
-    List<Article> getPublicArticleByUserNo(@Param("userNo") int userNo, @Param("publicArticleNum") int publicArticleNum);
+    List<Article> getArticleByUserNoAndCorpusName(@Param("userNo") int userNo,
+                                                  @Param("articleCorpusName") String articleCorpusName,
+                                                  @Param("articlePrivate") byte articlePrivate);
+
 
     /**
      * 添加文章信息,注意此操作是在点击新建文章选项后就触发的，所以现在预先填入的

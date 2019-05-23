@@ -5,6 +5,7 @@ import cn.jxufe.dao.CorpusDao;
 import cn.jxufe.exception.UpdateDbException;
 import cn.jxufe.service.CorpusInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
@@ -19,6 +20,7 @@ import java.util.List;
  * @date: 2019/5/14 17:14
  * @Description: TODO
  */
+@CacheConfig(cacheNames = "redisCache")
 public class CorpusInfoServiceImpl implements CorpusInfoService {
 
     @Autowired
@@ -36,13 +38,13 @@ public class CorpusInfoServiceImpl implements CorpusInfoService {
      * @return
      */
     @Override
-    @CacheEvict(value = "redisCache", key = "'corpus-' + #corpus.userNo")
+    @CacheEvict(key = "'corpus-' + #corpus.userNo")
     public boolean insertCorpus(Corpus corpus) {
         return corpusDao.insertCorpus(corpus) == 1;
     }
 
     @Override
-    @CacheEvict(value = "redisCache", key = "'corpus-' + #currentUserNo")
+    @CacheEvict(key = "'corpus-' + #currentUserNo")
     public boolean deleteCorpusByUserNoAndCorpusName(int currentUserNo, String corpusName) {
         return corpusDao.deleteCorpus(currentUserNo, corpusName) == 1;
     }
@@ -55,7 +57,7 @@ public class CorpusInfoServiceImpl implements CorpusInfoService {
      * @return
      */
     @Override
-    @CacheEvict(value = "redisCache", key = "'corpus-' + #currentUserNo")
+    @CacheEvict(key = "'corpus-' + #currentUserNo")
     public boolean renameCorpus(int currentUserNo, String corpusName, String newName) throws DataAccessException {
         return corpusDao.updateCorpusNameByCorpusNo(currentUserNo, corpusName, newName) == 1;
     }

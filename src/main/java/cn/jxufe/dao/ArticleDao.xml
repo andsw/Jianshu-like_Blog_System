@@ -19,18 +19,18 @@
         from article
     </sql>
 
-    <select id="getPrivateArticleByUserNo" resultType="cn.jxufe.bean.Article">
+    <select id="getArticleByUserNo" resultType="cn.jxufe.bean.Article">
         <include refid="getArticleInfo"/>
-        where user_no=#{currentUserNo}
-          and article_private=1
-        limit #{privateArticleNum};
+        where user_no=#{userNo}
+          and article_private=#{articlePrivate}
+        limit #{articleNum};
     </select>
 
-    <select id="getPublicArticleByUserNo" resultType="cn.jxufe.bean.Article">
+    <select id="getArticleByUserNoAndCorpusName" resultType="cn.jxufe.bean.Article">
         <include refid="getArticleInfo"/>
-        where user_no = #{userNo}
-          and article_private=0
-        limit #{publicArticleNum};
+        where user_no=#{userNo}
+          and article_corpus_name=#{articleCorpusName}
+          and article_private = #{articlePrivate}
     </select>
 
     <insert id="insertArticleInfo" useGeneratedKeys="true" keyProperty="articleNo" parameterType="cn.jxufe.bean.Article">

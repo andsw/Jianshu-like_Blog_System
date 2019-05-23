@@ -11,7 +11,7 @@
  Target Server Version : 80015
  File Encoding         : 65001
 
- Date: 14/05/2019 16:18:52
+ Date: 23/05/2019 22:09:53
 */
 
 SET NAMES utf8mb4;
@@ -28,7 +28,7 @@ CREATE TABLE `article`  (
   `article_summary` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '概要',
   `article_img` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '缩略图',
   `article_release_time` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6) COMMENT '更新时间就是发布时间',
-  `article_corpus_id` int(10) UNSIGNED NOT NULL COMMENT '所属文集',
+  `article_corpus_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '所属文集',
   `article_type` bit(2) NOT NULL DEFAULT b'0' COMMENT '文章类型',
   `article_commentable` bit(1) NOT NULL DEFAULT b'1' COMMENT '可否评论',
   `article_private` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否私密文章',
@@ -37,9 +37,17 @@ CREATE TABLE `article`  (
   `article_comment_num` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '评论数',
   `article_collect_num` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '被收藏数',
   `article_word_num` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '字数',
-  `article_tag_num` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '标签数',
   PRIMARY KEY (`article_no`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of article
+-- ----------------------------
+INSERT INTO `article` VALUES (3, 1, '', '', '', '2019-05-23 07:20:05.085591', 'linux', b'00', b'1', b'1', 0, 0, 0, 0, 0);
+INSERT INTO `article` VALUES (4, 121, '', '', '', '2019-05-23 07:16:24.171959', 'linux', b'00', b'1', b'1', 0, 0, 0, 0, 0);
+INSERT INTO `article` VALUES (5, 121, '', '', '', '2019-05-23 07:20:08.474048', 'restful', b'00', b'1', b'1', 0, 0, 0, 0, 0);
+INSERT INTO `article` VALUES (6, 121, '', '', '', '2019-05-23 07:19:48.974002', 'c++', b'00', b'1', b'1', 0, 0, 0, 0, 0);
+INSERT INTO `article` VALUES (7, 121, '', '', '', '2019-05-23 07:19:41.271167', 'c++', b'00', b'1', b'0', 0, 0, 0, 0, 0);
 
 -- ----------------------------
 -- Table structure for article_content
@@ -82,27 +90,23 @@ CREATE TABLE `comment`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `corpus`;
 CREATE TABLE `corpus`  (
-  `corpus_no` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '文集序号，主键值',
-  `corpus_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '文集名字，需去重',
+  `corpus_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '文集名字，需去重',
   `user_no` int(10) UNSIGNED NOT NULL COMMENT '所属用户id',
   `blog_num` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '文集文章数',
-  PRIMARY KEY (`corpus_no`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`corpus_name`, `user_no`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of corpus
 -- ----------------------------
-INSERT INTO `corpus` VALUES (1, 'java', 1, 0);
-INSERT INTO `corpus` VALUES (2, 'c++', 1, 0);
-INSERT INTO `corpus` VALUES (3, '计算机网络', 1, 0);
-INSERT INTO `corpus` VALUES (4, 'linux', 1, 0);
-INSERT INTO `corpus` VALUES (5, '随笔', 1, 0);
-INSERT INTO `corpus` VALUES (6, 'java', 121, 0);
-INSERT INTO `corpus` VALUES (7, 'c++', 121, 0);
-INSERT INTO `corpus` VALUES (8, '计算机网络', 121, 0);
-INSERT INTO `corpus` VALUES (9, 'linux', 121, 0);
-INSERT INTO `corpus` VALUES (10, '随笔', 121, 0);
-INSERT INTO `corpus` VALUES (11, '操作系统', 1, 0);
+INSERT INTO `corpus` VALUES ('c++', 1, 1);
+INSERT INTO `corpus` VALUES ('java', 121, 0);
+INSERT INTO `corpus` VALUES ('linux', 1, 3);
+INSERT INTO `corpus` VALUES ('restful', 121, 0);
+INSERT INTO `corpus` VALUES ('操作系统', 1, 4);
+INSERT INTO `corpus` VALUES ('计算机网络', 121, 30);
+INSERT INTO `corpus` VALUES ('随笔', 1, 4);
+INSERT INTO `corpus` VALUES ('随笔', 121, 3);
 
 -- ----------------------------
 -- Table structure for follow
@@ -115,15 +119,15 @@ CREATE TABLE `follow`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for tag
+-- Records of follow
 -- ----------------------------
-DROP TABLE IF EXISTS `tag`;
-CREATE TABLE `tag`  (
-  `tag_no` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '标签序号',
-  `tag_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '标签名称',
-  `tag_article_num` int(11) NOT NULL COMMENT '具有此标签的文章数目',
-  PRIMARY KEY (`tag_no`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+INSERT INTO `follow` VALUES (103, 1);
+INSERT INTO `follow` VALUES (121, 1);
+INSERT INTO `follow` VALUES (125, 1);
+INSERT INTO `follow` VALUES (125, 103);
+INSERT INTO `follow` VALUES (125, 121);
+INSERT INTO `follow` VALUES (125, 127);
+INSERT INTO `follow` VALUES (127, 1);
 
 -- ----------------------------
 -- Table structure for user
@@ -138,24 +142,27 @@ CREATE TABLE `user`  (
   `avatar` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_bin NOT NULL DEFAULT '' COMMENT '头像图片链接。默认值为服务器中的一张图片的资源定位符',
   `self_summary` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '个人简介，默认是空字符串，前台检测到是空就直接显示默认值',
   `gender` bit(2) NOT NULL DEFAULT b'10' COMMENT '性别0W,1M，2保密',
-  `follow_num` int(10) UNSIGNED NOT NULL DEFAULT 0,
-  `follower_num` int(10) UNSIGNED NOT NULL DEFAULT 0,
-  `blog_num` int(4) UNSIGNED NOT NULL DEFAULT 0,
-  `word_num` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
-  `like_num` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `follow_num` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '关注博主数',
+  `follower_num` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '粉丝数',
+  `blog_num_private` int(8) UNSIGNED NOT NULL DEFAULT 0 COMMENT '私密博客数',
+  `blog_num_public` int(8) UNSIGNED NOT NULL DEFAULT 0 COMMENT '公开博客数',
+  `word_num` bigint(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '所有博客总字数',
+  `like_num` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '获取喜欢数',
   `github` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '个人github网址',
   `wechat_qr_img_link` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '微信二维码图片地址',
   PRIMARY KEY (`user_no`) USING BTREE,
-  UNIQUE INDEX `username`(`username`) USING BTREE
+  UNIQUE INDEX `uniq_username`(`username`) USING BTREE,
+  UNIQUE INDEX `uniq_email`(`email`) USING BTREE,
+  UNIQUE INDEX `uniq_tel`(`tel`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 128 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '账号信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'heshaowen', '985934131@qq.com', '19876543211', 'aTIFiYAGDyyRMLWf1TsGOw==', 'www.baidu.com/imagte/1.png', '金风玉露一相逢，便胜却人间无数。', b'01', 0, 0, 0, 0, 0, 'www.github.com/hswbug', 'wechat23333.png');
-INSERT INTO `user` VALUES (103, 'user', '2127804711@qq.com', '18779340049', 'KYuYKcNbCBagq+AtDBF7Wg==', '456789', '456456456', b'10', 0, 0, 0, 0, 0, '', '');
-INSERT INTO `user` VALUES (121, 'hajiwon', '', '12345678900', 'Bohb6IOr/MPgGNOCNp1cXg==', 'hajiwon.png', '琵琶弦上说相思，当时明月在，曾照彩云归！', b'01', 0, 0, 0, 0, 0, 'https://www.github.com/hesw', 'wechat.png');
-INSERT INTO `user` VALUES (125, 'user1', '1111111@qq,com', '1821111111', '123123123', '123456788', '', b'10', 0, 0, 0, 0, 0, '', '');
-INSERT INTO `user` VALUES (127, '123123', '123456789@qq.com', '', 'S4rjznXYtp4Nqq70GBGtGA==', '9.png', '', b'10', 0, 0, 0, 0, 0, '', '');
+INSERT INTO `user` VALUES (1, '你好', '985934131@qq.com', '19876543211', 'aTIFiYAGDyyRMLWf1TsGOw==', 'www.baidu.com/imagte/1.png', '金风玉露一相逢，便胜却人间无数。', b'01', 0, 0, 0, 0, 0, 0, 'www.github.com/hswbug', 'wechat23333.png');
+INSERT INTO `user` VALUES (103, 'user', '2127804711@qq.com', '18779340049', 'KYuYKcNbCBagq+AtDBF7Wg==', '456789', '456456456', b'10', 0, 0, 0, 0, 0, 0, '', '');
+INSERT INTO `user` VALUES (121, 'hajiwon', '', '12345678900', 'Bohb6IOr/MPgGNOCNp1cXg==', 'hajiwon.png', '琵琶弦上说相思，当时明月在，曾照彩云归！', b'01', 0, 0, 0, 0, 0, 0, 'https://www.github.com/hesw', 'wechat.png');
+INSERT INTO `user` VALUES (125, 'user1', '1111111@qq,com', '1821111111', '123123123', '123456788', '', b'10', 0, 0, 0, 0, 0, 0, '', '');
+INSERT INTO `user` VALUES (127, '123123', '123456789@qq.com', '', 'S4rjznXYtp4Nqq70GBGtGA==', '9.png', '', b'10', 0, 0, 0, 0, 0, 0, '', '');
 
 SET FOREIGN_KEY_CHECKS = 1;

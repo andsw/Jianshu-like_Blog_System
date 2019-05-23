@@ -19,6 +19,9 @@ import java.util.List;
 @Controller
 public class ArticleInfoController {
 
+    private static final byte ARTICLE_IS_PRIVATE = 1;
+    private static final byte ARTICLE_IS_PUBLIC = 0;
+
     private final HttpSession session;
     private final ArticleInfoService articleInfoService;
 
@@ -35,7 +38,7 @@ public class ArticleInfoController {
     @RequestMapping(value = "/users/{userNo}/article_info/pub", method = RequestMethod.GET)
     @ResponseBody
     public Result<List<Article>> getPublicArticleByUserNo(@PathVariable Integer userNo, @RequestParam Integer publicArticleNum) {
-        List<Article> publicArticleList = articleInfoService.getPublicArticlesInfoByUserNo(userNo, publicArticleNum);
+        List<Article> publicArticleList = articleInfoService.getArticlesInfoByUserNo(userNo, publicArticleNum, ARTICLE_IS_PUBLIC);
         return publicArticleList == null ? Result.fail("获取文章信息列表失败！") : Result.successWithDataOnly(publicArticleList);
     }
 
@@ -46,7 +49,27 @@ public class ArticleInfoController {
         if (currentUserNo == null) {
             return Result.fail("找不到session！");
         }
-        List<Article> privateArticleList = articleInfoService.getPrivateArticlesInfoByUserNo(currentUserNo, privateArticleNum);
+        List<Article> privateArticleList = articleInfoService.getArticlesInfoByUserNo(currentUserNo, privateArticleNum, ARTICLE_IS_PRIVATE);
         return privateArticleList == null ? Result.fail("获取私有文章信息列表失败！") : Result.successWithDataOnly(privateArticleList);
     }
+
+    @RequestMapping(value = "/users/{userNo}/corpus/{corpusName}/article_info/pub", method = RequestMethod.GET)
+    @ResponseBody
+    public Result<List<Article>> getPublicArticleByUserNoAndCorpusName(@PathVariable Integer userNo, @PathVariable String corpusName) {
+        List<Article> publicCorpusArticles = articleInfoService.getArticlesInfoByUserNoAndCorpusNum(userNo, corpusName, ARTICLE_IS_PUBLIC);
+        return publicCorpusArticles == null ? Result.fail("获取文章信息列表失败！") : Result.successWithDataOnly(publicCorpusArticles);
+    }
+
+    @RequestMapping(value = "/users/corpus/{articleCorpusName}/article_info/priv", method = RequestMethod.GET)
+    @ResponseBody
+    public Result<List<Article>> getPrivateArticleByUserNoAndCorpusName(@PathVariable String articleCorpusName) {
+        Integer currentUserNo = getUserNoFromSession();
+        if (currentUserNo == null) {
+            return Result.fail("找不到session！");
+        }
+        List<Article> privateCorpusArticles = articleInfoService.getArticlesInfoByUserNoAndCorpusNum(currentUserNo, articleCorpusName,
+                                                                                                                    ARTICLE_IS_PRIVATE);
+        return privateCorpusArticles == null ? Result.fail("获取文集文章列表失败！") : Result.successWithDataOnly(privateCorpusArticles);
+    }
+
 }

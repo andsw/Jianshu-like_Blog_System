@@ -1,7 +1,6 @@
 package cn.jxufe.service;
 
 import cn.jxufe.bean.Article;
-import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
@@ -12,20 +11,21 @@ import java.util.List;
  * @Description: TODO
  */
 public interface ArticleInfoService {
-
     /**
-     * 获取公开文章
+     * 获取文章
      * @param userNo
      * @param publicArticleNum
+     * @param articlePrivate
      * @return
      */
-    List<Article> getPublicArticlesInfoByUserNo(int userNo, int publicArticleNum);
+    List<Article> getArticlesInfoByUserNo(int userNo, int publicArticleNum, byte articlePrivate);
 
     /**
-     * 获取私密文章
-     * @param currentUserNo
-     * @param privateArticleNum
+     * 获取文集中文章列表.
+     * @param userNo
+     * @param articleCorpusName
+     * @param articlePrivate
      * @return
      */
-    List<Article> getPrivateArticlesInfoByUserNo(int currentUserNo, int privateArticleNum);
+    List<Article> getArticlesInfoByUserNoAndCorpusNum(int userNo, String articleCorpusName, byte articlePrivate);
 }

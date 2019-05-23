@@ -22,15 +22,14 @@ public class ArticleInfoServiceImpl implements ArticleInfoService {
     private ArticleDao articleDao;
 
     @Override
-    @Cacheable(key = "'public-' + #userNo")
-    public List<Article> getPublicArticlesInfoByUserNo(int userNo, int publicArticleNum) {
-        return articleDao.getPublicArticleByUserNo(userNo, publicArticleNum);
+    @Cacheable(key = "'users-' + #userNo + '-private-' + #articlePrivate")
+    public List<Article> getArticlesInfoByUserNo(int userNo, int articleNum, byte articlePrivate) {
+        return articleDao.getArticleByUserNo(userNo, articlePrivate, articleNum);
     }
 
     @Override
-    @Cacheable(value = "redisCache", key = "'private-' + #currentUserNo")
-    public List<Article> getPrivateArticlesInfoByUserNo(int currentUserNo, int privateArticleNum) {
-        return articleDao.getPrivateArticleByUserNo(currentUserNo, privateArticleNum);
+    @Cacheable(key = "'users-' + #userNo + '-corpusName-' + #articleCorpusName + '-private-' + #articlePrivate")
+    public List<Article> getArticlesInfoByUserNoAndCorpusNum(int userNo, String articleCorpusName, byte articlePrivate) {
+        return articleDao.getArticleByUserNoAndCorpusName(userNo, articleCorpusName, articlePrivate);
     }
-
 }

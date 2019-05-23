@@ -28,9 +28,6 @@ public class RedisSessionDAO extends AbstractSessionDAO {
     private RedisTemplate<String, Byte[]> redisTemplate;
 
     private Serializable saveSession(String sessionId, Session session) {
-        System.out.println("session in json format : \n" + JSON.toJSON(session));
-
-
         assignSessionId(session, sessionId);
         redisTemplate.opsForValue().set(sessionId, serializingUtil.serialized((SimpleSession)session));
         return sessionId;

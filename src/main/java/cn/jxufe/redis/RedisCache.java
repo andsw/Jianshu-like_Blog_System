@@ -71,9 +71,6 @@ public class RedisCache implements Cache {
         if (StringUtils.isEmpty(value)) {
             return null;
         }
-        System.out.println(value);
-        System.out.println(aClass.getName());
-        System.out.println("---------------------------------------");
         return redisSerializer.deserialize(value.toString().getBytes(StandardCharsets.UTF_8), aClass);
     }
 
@@ -102,8 +99,6 @@ public class RedisCache implements Cache {
         if (StringUtils.isEmpty(key) || value == null) {
             return;
         }
-        // 设置超时时间！
-        System.out.println(new String(redisSerializer.serialize(value), StandardCharsets.UTF_8));
 
         // 注意第三个参数指的是offset即偏移量用来更精准更新子字符串，之前以为是保存时间，设置为600，然后值前面就出现600个空格字符！
         String finalKey = getFinalKey(key);
