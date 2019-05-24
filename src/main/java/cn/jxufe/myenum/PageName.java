@@ -1,4 +1,4 @@
-package my_enum;
+package cn.jxufe.myenum;
 
 import lombok.Getter;
 

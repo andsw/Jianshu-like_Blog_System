@@ -3,7 +3,7 @@ package cn.jxufe.dto;
 import lombok.*;
 import lombok.experimental.Accessors;
 
-import my_enum.HttpStatusCode;
+import cn.jxufe.myenum.HttpStatusCode;
 
 /**
  * 使用Accessors能使该类链式创建：result.setCode(200).setMessage("成功").setData(null);

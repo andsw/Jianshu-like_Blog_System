@@ -1,6 +1,7 @@
 package cn.jxufe.bean;
 
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -17,6 +18,7 @@ import java.sql.Timestamp;
 @Setter
 @Getter
 @ToString
+@Accessors(chain = true)
 public class Article implements Serializable {
 
     private static final long serialVersionUID = -683719417348335062L;

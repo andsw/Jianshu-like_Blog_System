@@ -30,15 +30,26 @@
         <include refid="getArticleInfo"/>
         where user_no=#{userNo}
           and article_corpus_name=#{articleCorpusName}
-          and article_private = #{articlePrivate}
+          and article_private = #{articlePrivate};
     </select>
 
     <insert id="insertArticleInfo" useGeneratedKeys="true" keyProperty="articleNo" parameterType="cn.jxufe.bean.Article">
-        insert into article(user_no, article_corpus_name)
-        select #{article.userNo}, #{article.articleCorpusName}
+        insert into article(user_no, article_corpus_name, article_private)
+        select #{article.userNo}, #{article.articleCorpusName}, #{article.articlePrivate}
         where exists(select *
                      from corpus
                      where corpus_name = #{article.articleCorpusName}
                      limit 1);
     </insert>
+
+    <update id="updateOriginInfoByArticleNo">
+        update article
+        set article_title=#{article.articleTitle},
+            article_summary=#{article.articleSummary},
+            article_img=#{article.articleImg},
+            article_type=#{article.articleType},
+            article_commentable=#{article.articleCommentable}
+        where article_no = #{article.articleNo}
+        limit 1;
+    </update>
 </mapper>

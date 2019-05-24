@@ -1,15 +1,12 @@
 package cn.jxufe.filter;
 
-import my_enum.PageName;
+import cn.jxufe.myenum.PageName;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.LogoutFilter;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @ClassName: SystemLogoutFilter

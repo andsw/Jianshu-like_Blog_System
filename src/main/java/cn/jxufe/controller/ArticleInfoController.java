@@ -19,8 +19,8 @@ import java.util.List;
 @Controller
 public class ArticleInfoController {
 
-    private static final byte ARTICLE_IS_PRIVATE = 1;
-    private static final byte ARTICLE_IS_PUBLIC = 0;
+    private static final boolean ARTICLE_IS_PRIVATE = true;
+    private static final boolean ARTICLE_IS_PUBLIC = false;
 
     private final HttpSession session;
     private final ArticleInfoService articleInfoService;
@@ -39,7 +39,8 @@ public class ArticleInfoController {
     @ResponseBody
     public Result<List<Article>> getPublicArticleByUserNo(@PathVariable Integer userNo, @RequestParam Integer publicArticleNum) {
         List<Article> publicArticleList = articleInfoService.getArticlesInfoByUserNo(userNo, publicArticleNum, ARTICLE_IS_PUBLIC);
-        return publicArticleList == null ? Result.fail("获取文章信息列表失败！") : Result.successWithDataOnly(publicArticleList);
+        return publicArticleList == null ?
+                Result.fail("获取文章信息列表失败！") : Result.successWithDataOnly(publicArticleList);
     }
 
     @RequestMapping(value = "/users/article_info/priv", method = RequestMethod.GET)
@@ -72,4 +73,27 @@ public class ArticleInfoController {
         return privateCorpusArticles == null ? Result.fail("获取文集文章列表失败！") : Result.successWithDataOnly(privateCorpusArticles);
     }
 
+    @RequestMapping(value = "/users/corpus/{articleCorpusName}/article_info/{articlePrivate}", method = RequestMethod.POST)
+    @ResponseBody
+    public Result<?> addArticleInfo(@PathVariable String articleCorpusName, @PathVariable Boolean articlePrivate) {
+        Integer userNo = getUserNoFromSession();
+        if (userNo == null) {
+            return Result.fail("找不到session！");
+        }
+        Article article = new Article()
+                                .setUserNo(userNo)
+                                .setArticleCorpusName(articleCorpusName)
+                                .setArticlePrivate(articlePrivate);
+        int generatedArticleNo = articleInfoService.insertArticleInfo(article);
+        return generatedArticleNo == -1 ?
+                Result.fail("新建文章发生错误！") : Result.successWithDataOnly(generatedArticleNo);
+    }
+
+    @RequestMapping(value = "/users/article_info/{articleNo}", method = RequestMethod.PUT)
+    @ResponseBody
+    public Result<?> updateArticleInfo(@PathVariable Integer articleNo, @RequestBody Article article) {
+        article.setArticleNo(articleNo);
+        return articleInfoService.updateArticleInfoAfterWriting(article) ?
+                Result.success("更新成功！"):Result.fail("更新失败！");
+    }
 }

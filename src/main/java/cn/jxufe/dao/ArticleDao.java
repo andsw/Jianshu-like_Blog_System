@@ -20,7 +20,7 @@ public interface ArticleDao {
      * @return
      */
     List<Article> getArticleByUserNo(@Param("userNo") int currentUserNo,
-                                     @Param("articlePrivate") byte articlePrivate,
+                                     @Param("articlePrivate") boolean articlePrivate,
                                      @Param("articleNum") int articleNum);
 
     /**
@@ -33,7 +33,7 @@ public interface ArticleDao {
      */
     List<Article> getArticleByUserNoAndCorpusName(@Param("userNo") int userNo,
                                                   @Param("articleCorpusName") String articleCorpusName,
-                                                  @Param("articlePrivate") byte articlePrivate);
+                                                  @Param("articlePrivate") boolean articlePrivate);
 
 
     /**
@@ -43,4 +43,12 @@ public interface ArticleDao {
      * @return
      */
     int insertArticleInfo(@Param("article") Article article);
+
+    /**
+     * 添加文章结束后更新信息，包括字段：article_title， summary，img， type， commentable。
+     * 当然现在还不确定是不是分步进行，比如更新标题、生成summary和提取img是否可以分成单步进行。后面再说
+     * @param article
+     * @return
+     */
+    int updateOriginInfoByArticleNo(@Param("article") Article article);
 }

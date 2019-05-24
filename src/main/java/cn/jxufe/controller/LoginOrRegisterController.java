@@ -4,7 +4,7 @@ import cn.jxufe.bean.User;
 import cn.jxufe.exception.PasswordModificationFailedException;
 import cn.jxufe.service.LoginService;
 import cn.jxufe.util.CheckCodeUtil;
-import my_enum.PageName;
+import cn.jxufe.myenum.PageName;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
