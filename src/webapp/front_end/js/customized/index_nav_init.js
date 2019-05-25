@@ -37,16 +37,53 @@ $(document).ready(function () {
     $('.collapsible').collapsible();
 
     //默认加载个人主页
-    loadPersonalMainPage();
+    loadPersonalMainPage(1);
 });
 
 //content切换至个人主页
-function loadPersonalMainPage() {
-    $('#content').load('http://localhost:8080/front_end/index_content.html',function (result) {
+function loadPersonalMainPage(targetUserNo) {
+    $('#content').load('http://localhost:8080/front_end/index_content.html', function (result) {
         //加上这两步是因为在网上得知load是会选择性将其js文件忽略，所以在加载后失效！
         let $result = $(result);
         $result.find("script").appendTo('#content');
-    })
+    });
+    $('head').append('<script src="../front_end/js/customized/index_main_content.js"></script>');
+    initUserInfo(targetUserNo);
+}
+
+function initUserInfo(userNo) {
+    request_application_json("http://localhost:8080/users/" + userNo,
+        "GET",
+        "",
+        function (result) {
+            const data = result.data;
+            console.log('result : ' + result);
+            if (result.data.gender === 0) {
+                //女
+                $('#my_or_others_username_and_gender').html(result.data.username
+                    + "<img src='../front_end/img/gender/female.png' "
+                    + "alt=''>")
+            } else if (result.data.gender === 1) {
+                //男
+                $('#my_or_others_username_and_gender').html(result.data.username
+                    + "<img src='../front_end/img/gender/male.png' "
+                    + "alt=''>")
+            } else {
+                // 保密
+                $('#my_or_others_username_and_gender').text(result.data.username)
+            }
+
+            $('#small_avatar').attr('src', data.avatar);
+            $('#medium_large_avatar').attr('src', data.avatar);
+
+            //所有数据初始化
+            $('#subscribe_num').text(data.followNum);
+            $('#follower_num').text(data.followerNum);
+            $('#article_num').text(data.article_num);
+            $('#word_num').text(data.wordNum);
+            $('#like_num').text(data.likeNum)
+        },
+        defaultErrorMethod, true);
 }
 
 //导航栏的登出点击事件的响应方法

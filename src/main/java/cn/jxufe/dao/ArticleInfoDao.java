@@ -52,5 +52,11 @@ public interface ArticleInfoDao {
      */
     int updateOriginInfoByArticleNo(@Param("article") Article article);
 
+    /**
+     * 删除文章信息
+     * @param articleNo
+     * @param currentUserNo
+     * @return
+     */
     int deleteInfoByArticleNo(@Param("articleNo") int articleNo, @Param("currentUserNo") int currentUserNo);
 }
