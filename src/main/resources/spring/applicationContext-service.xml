@@ -15,5 +15,9 @@
 
     <bean id="corpusInfoService" class="cn.jxufe.service.impl.CorpusInfoServiceImpl"/>
 
+    <bean id="articleService" class="cn.jxufe.service.impl.ArticleServiceImpl"/>
+
     <bean id="articleInfoService" class="cn.jxufe.service.impl.ArticleInfoServiceImpl"/>
+
+    <bean id="articleContentService" class="cn.jxufe.service.impl.ArticleContentServiceImpl"/>
 </beans>

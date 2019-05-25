@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.jxufe.dao.ArticleContentDao">
+    <select id="getContentByArticleNo" resultType="java.lang.String">
+        select content
+        from article_content
+        where article_no = #{articleNo}
+        limit 1;
+    </select>
+
+    <insert id="insertEmptyContent">
+        insert into article_content(article_no)
+        values (#{articleNo});
+    </insert>
+
+    <update id="updateContentByArticleNo">
+        update article_content
+        set content=#{articleContent}
+        where article_no = #{articleNo}
+          and #{currentUserNo} = (select user_no
+                                  from article
+                                  where article_no = #{articleNo}
+                                  limit 1)
+        limit 1;
+    </update>
+
+    <delete id="deleteContentByArticleNo">
+        delete
+        from article_content
+        where article_no = #{articleNo}
+          and #{currentUserNo} = (select user_no
+                                    from article
+                                   where article_no = #{articleNo}
+                                   limit 1)
+        limit 1;
+    </delete>
+</mapper>

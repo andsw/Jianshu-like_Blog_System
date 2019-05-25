@@ -6,12 +6,12 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * @ClassName: ArticleDao
+ * @ClassName: ArticleInfoDao
  * @author: hsw
  * @date: 2019/5/19 21:51
  * @Description: 文章信息（不包含文章内容）
  */
-public interface ArticleDao {
+public interface ArticleInfoDao {
     /**
      * 获取用户所有文章
      * @param currentUserNo
@@ -51,4 +51,6 @@ public interface ArticleDao {
      * @return
      */
     int updateOriginInfoByArticleNo(@Param("article") Article article);
+
+    int deleteInfoByArticleNo(@Param("articleNo") int articleNo, @Param("currentUserNo") int currentUserNo);
 }

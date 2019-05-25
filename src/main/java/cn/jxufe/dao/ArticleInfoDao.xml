@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cn.jxufe.dao.ArticleDao">
+<mapper namespace="cn.jxufe.dao.ArticleInfoDao">
 
     <sql id="getArticleInfo">
         select article_no,
@@ -52,4 +52,15 @@
         where article_no = #{article.articleNo}
         limit 1;
     </update>
+
+    <delete id="deleteInfoByArticleNo">
+        delete
+        from article_content
+        where article_no = #{articleNo}
+          and #{currentUserNo} = (select user_no
+                                    from article
+                                   where article_no = #{articleNo}
+                                   limit 1)
+        limit 1;
+    </delete>
 </mapper>

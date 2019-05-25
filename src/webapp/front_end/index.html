@@ -13,6 +13,8 @@
   <link href="../front_end/css/custom/index_style.css" rel="stylesheet">
 </head>
 <body>
+
+  <!--在整个系统中恒定不动的！即在登录成功后就不会改变的那种-->
   <nav class="light-green lighten-1" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" href="#" class="brand-logo">Jianshu-like Blog</a>
@@ -50,7 +52,7 @@
           <ul id='all_about_me_list' class='dropdown-content' style=" width: 160px;margin: 67px auto; overflow: visible">
             <li class="light-green-text valign-wrapper">
               <i class="material-icons prefix valign" style="display: inline-block;margin-left: 10px;">account_circle</i>
-              <span style="margin-left: -3px; font-size: 20px;" class="black-text">我的主页</span>
+              <span style="margin-left: -3px; font-size: 20px;" class="black-text" onclick="loadPersonalMainPage()">我的主页</span>
             </li>
             <li class="light-green-text valign-wrapper">
               <i class="material-icons prefix valign" style="display: inline-block;margin-left: 10px;">collections</i>
@@ -84,9 +86,10 @@
             <img src="../front_end/img/background.jpg" style="width: 100%; height: auto;" alt="background">
           </div>
           <a href="#"><img class="circle avatar" src="../front_end/img/hajiwon_black.png" alt="hajiwon"></a>
-          <a href="#"><span id="my_username_and_gender" class="white-text name">Hajiwon honey
-            <img src="../front_end/img/gender/female.png" style="width: 15px;height: auto;" alt=""></span></a>
-          <a href="#"><span class="white-text email">heshw@hotmail.com</span></a>
+<!--          Hajiwon honey-->
+<!--          <img src="../front_end/img/gender/female.png" style="width: 15px;height: auto;" alt="">-->
+          <a href="#"><span id="my_username_and_gender" class="white-text name"></span></a>
+          <a href="#"><span class="white-text email"></span></a>
         </div></li>
 
         <li><a href="#" class="waves-effect"><i class="material-icons">loyalty</i>发现</a></li>
@@ -119,154 +122,7 @@
     </div>
   </nav>
 
-  <div class="container row">
-
-    <!--  主要部分显示信息和文章列表，右边是侧边栏  -->
-    <div id="main_content" class="col s12 l9">
-      <!--   个人信息部分，包括头像和一些数据   -->
-      <div id="personal_info_div" class="row">
-        <!--   手机显示头像，为了方便布局只能设两个头像一个显示一个隐藏了！     -->
-        <div class="valign-wrapper hide-on-med-and-up center">
-          <hr>
-          <img src="../front_end/img/hajiwon_black.png"
-               class="waves-circle avatar"
-               alt="下拉框" data-caption="最爱的河智苑"
-               style="margin: 3px auto; width: 110px;height: auto;"/>
-          <hr>
-        </div>
-        <!--    电脑和平板显示头像    -->
-        <div id="info" class="row">
-          <img src="../front_end/img/hajiwon_black.png" id="medium_large_avatar"
-               class="left avatar_style info_avatar waves-circle materialboxed hide-on-small-and-down avatar"
-               alt="下拉框" data-caption="最爱的河智苑" style="width: 100px;"/>
-          <div id="info_data_div" class="inline_block_style col s12 m8">
-
-            <i class="material-icons prefix">man</i>
-            <h5 id="my_or_other's_username_and_gender">Hajiwon honey
-              <img src="../front_end/img/gender/female.png" alt="女">
-            </h5>
-            <div class="personal_data_div">
-              <span class="personal_data_num_span">30</span><br>
-              <a href="" class="grey-text">关注></a>
-            </div>
-            <span style="color: rgba(25,25,25,0.2)">|</span>
-            <div class="personal_data_div">
-              <span class="personal_data_num_span">2</span><br>
-              <a href="" class="grey-text">粉丝></a>
-            </div>
-            <span style="color: rgba(25,25,25,0.2)">|</span>
-            <div class="personal_data_div">
-              <span class="personal_data_num_span">71</span><br>
-              <a href="" class="grey-text">文章></a>
-            </div>
-            <span style="color: rgba(25,25,25,0.2)">|</span>
-            <div class="personal_data_div">
-              <span class="personal_data_num_span">65532</span><br>
-              <span class="grey-text">字数</span>
-            </div>
-            <span style="color: rgba(25,25,25,0.2)">|</span>
-            <div class="personal_data_div">
-              <span class="personal_data_num_span">36</span><br>
-              <span class="grey-text">收获喜欢</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!--   个人信息和文章列表中间的标签选择项
-             令我苦恼的是其原生背景色无法修改，后面再想办法吧！TODO 修改背景色-->
-      <div class="row col s12">
-        <div class="col s12">
-          <ul class="tabs">
-            <li class="tab col s3">
-              <a class="active" href="#blog_page">文章</a></li>
-            <li class="tab col s3"><a href="#todo_page">TODO</a></li>
-            <li class="tab col s3"><a href="#note_page">笔记</a></li>
-            <li class="tab col s3"><a href="#others_page">其他</a></li>
-          </ul>
-        </div>
-        <div id="blog_page" class="col s12">
-          <div id="article_part_div" class="col s12">
-            <!--   文章列表部分   -->
-            <ul class="article_list_ul row">
-              <li class="grey-text col s12 row horizontal valign-wrapper">
-                <div class="col s12 article_info">
-                  <a href="" class="black-text"><h5>mysql----innoDB事务与锁测试的操作</h5></a>
-                  <p>
-                    关于事务与锁的解释在很多博客中都很详细了，这里大致记下一些简要内容（方便以后复习时对照思考），重点是操作案例，以表现事务与锁的操作的具体样例！
-                    很多都是我自己的理解，有错望指阿斯蒂出...
-                  </p>
-                  <div>
-                    <span class="number article_item_data_span"><i class="material-icons prefix md-10">visibility</i>88</span>
-                    <span class="number article_item_data_span"><i class="material-icons prefix md-10">comment</i>8</span>
-                    <span class="number article_item_data_span"><i class="material-icons prefix md-10">thumb_up</i>23</span>
-                    <!--这里记得用框架显示时间，即jquery_timeago.min.js-->
-                    <span class="article_item_data_span">2019-4-28</span>
-                  </div>
-                </div>
-                <a class="" style="width: 170px;height: auto;" href="">
-                  <img src="../front_end/img/hajiwon_lovely.png" alt="" class="article_summary_image">
-                </a>
-              </li>
-              <!--文章间隔横线-->
-              <hr class="article_hr col s12">
-            </ul>
-          </div>
-        </div>
-        <div id="todo_page" class="col s12">待完成</div>
-        <div id="note_page" class="col s12">笔记</div>
-        <div id="others_page" class="col s12">其他</div>
-      </div>
-
-    </div>
-
-    <!-- 侧边栏，显示个人简介，文集等信息 -->
-    <div id="side_content" class="col s12 l3">
-      <!--   个人介绍栏   -->
-      <div id="self_summary_div">
-        <label for="self_summary_textarea" class="grey-text left" style="font-size: 20px">
-          个人介绍
-        </label>
-        <i class="material-icons prefix grey-text right md-18">edit</i>
-        <a href="#" onclick="toggleReadonly(this)" class="grey-text right" style="margin-right: -10px;">编辑</a>
-        <textarea name="self_summary_textarea" id="self_summary_textarea"
-                  class="col s12" readonly>之前在csdn上写了许多，懒得全搬过来了，也欢迎访问我的csdn：
-        </textarea>
-        <div class="col s12" id="self_summary_div_from_textarea">之前在csdn上写了许多，懒得全搬过来了，也欢迎访问我的csdn：</div>
-        <!--子部件无法撑起父容器时，即子元素脱离文档流，加个这个就可以解决-->
-        <div style="clear:both;"></div>
-      </div>
-
-      <div class="lighten-1 light-green valign-wrapper white-text" style="height: 50px;padding-left: 110px">功能待添加</div>
-
-      <!--   文集列表   -->
-      <div id="corpus_list_div" class="valign-wrapper">
-        <ul>
-          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">shiro</a></li>
-          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">J2ee</a></li>
-          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">Linux</a></li>
-          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">Spring</a></li>
-          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">数据库</a></li>
-          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">数据结构与算法</a></li>
-          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">一些错误</a></li>
-          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">一些错误</a></li>
-          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">docker</a></li>
-          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">胡思乱想</a></li>
-          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">一些错误</a></li>
-          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">docker</a></li>
-          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">胡思乱想</a></li>
-          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">一些错误</a></li>
-          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">docker</a></li>
-          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">胡思乱想</a></li>
-          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">docker</a></li>
-          <li class="corpus_item_li valign-wrapper"><i class="material-icons prefix md-22 grey-text">book</i><a href="">胡思乱想</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <footer class="page-footer white">
-  </footer>
+  <div class="container row" id="content"></div>
 
   <!--悬浮按钮-->
   <div class="fixed-action-btn horizontal click-to-toggle">
@@ -281,71 +137,12 @@
     </ul>
   </div>
 
-
   <!--  Scripts-->
   <script src="../front_end/js/jquery-2.1.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
   <script src="../front_end/js/init_home.js"></script>
   <script src="../front_end/js/jquery.cookie.js"></script>
   <script src="../front_end/js/customized/ajax.js"></script>
-  <script>
-    $(document).ready(function () {
-
-      $('.dropdown-button').dropdown({
-                inDuration: 150,
-                outDuration: 100,
-                constrain_width: false, // Does not change width of dropdown to that of the activator
-                hover: true, // Activate on hover
-                gutter: 0, // Spacing from edge
-                belowOrigin: false, // Displays dropdown below the button
-                alignment: 'left' // Displays dropdown with edge aligned to the left of button
-              }
-      );
-      $('.collapsible').collapsible();
-
-      const userNo = $.cookie('user_no');
-      console.log(userNo);
-      //第一步获取个人信息
-      request_application_json("http://localhost:8080/users/" + userNo, "GET", "", function (data) {
-        //头像
-        $('.avatar').attr('src', data.avatar);
-
-        if (data.gender === 1) {
-
-        }
-      }, defaultErrorMethod, false);
-      //同步获取，因为这个如果不是同步的话页面会很难看！文章和文集都可以先显示加载中！
-      // async异步 sync同步
-
-      //文章列表模块加上缓存条（类似的都可以）
-      //文章列表获取，获取成功后遍历数据现在是相应位置，然后将缓存条设置为不可见！
-
-      //文集区域同文章区域！
-    });
-    function toggleReadonly(self) {
-      const temp = $('#self_summary_textarea');
-
-      if (temp.attr('readonly') === 'readonly') {
-        self.text = '保存';
-        temp.removeAttr('readonly');
-        temp.prop("border", "1px #000 solid");
-      } else {
-        self.text = '编辑';
-        temp.attr('readonly', 'readonly');
-      }
-    }
-
-    function logout(){
-      //这步删除session成功了，才能有下一步的删除刷新操作！
-      request_plain_text("http://localhost:8080/auth/logout", "get", "", null, null, false);
-      $.removeCookie("rememberMe", {path:"/"});
-      $.removeCookie("userNo", {path:"/"});
-      location.reload();
-
-      //方便性的提示下，这里是用了登录时发生错误提示所用的cookie
-      $.cookie('loginStatus', "登出成功", {path:'/front_end/loginAndRegister.html'});
-      return false;
-    }
-  </script>
+  <script src="../front_end/js/customized/index_nav_init.js"></script>
   </body>
 </html>

@@ -51,6 +51,7 @@ public interface UserInfoService {
      * @param email
      * @param tel
      * @return
+     * @throws DataAccessException
      */
     boolean updateAccountInfo(int userNo, String avatar, String username, String email, String tel) throws DataAccessException;
 

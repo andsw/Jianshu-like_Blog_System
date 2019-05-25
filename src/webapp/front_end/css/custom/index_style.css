@@ -63,6 +63,12 @@
 #article_list_ul {
 
 }
+
+.gender_img_style{
+    width: 15px;
+    height: auto;
+}
+
 .article_hr {
     border:0;
     background-color: rgba(25, 25, 25, 0.1);
