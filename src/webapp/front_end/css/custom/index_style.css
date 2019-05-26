@@ -33,8 +33,8 @@
 /*导航栏css结束*/
 
 /*主界面的css开始*/
-#main_content {
-    margin: 20px auto;
+#content {
+    display: block;
 }
 
 /*左侧主界面开始*/

@@ -37,17 +37,29 @@ $(document).ready(function () {
     $('.collapsible').collapsible();
 
     //默认加载个人主页
-    loadPersonalMainPage(1);
+     loadPersonalMainPage(1);
 });
 
 //content切换至个人主页
 function loadPersonalMainPage(targetUserNo) {
-    $('#content').load('http://localhost:8080/front_end/index_content.html', function (result) {
-        //加上这两步是因为在网上得知load是会选择性将其js文件忽略，所以在加载后失效！
-        let $result = $(result);
-        $result.find("script").appendTo('#content');
-    });
-    $('head').append('<script src="../front_end/js/customized/index_main_content.js"></script>');
+    // $.ajaxSetup ({
+    //     cache: false //关闭AJAX相应的缓存
+    // });
+    // $.get('http://localhost:8080/front_end/index_content.html', function (result) {
+    //     //加上这两步是因为在网上得知load是会选择性将其js文件忽略，所以在加载后失效！
+    //     let $result = $(result);
+    //
+    //     $result.find("script").appendTo('#content');
+    //     $('#content').html(result);
+    //     $('.collapsible').collapsible();
+    // });
+
+    // $('#content').load('http://localhost:8080/front_end/index_content.html', function (result) {
+    //     let $result = $(result);
+    //     // $result.find("script").appendTo('#content');
+    // });
+
+    $('#content').attr('src', '../front_end/index_content.html');
     initUserInfo(targetUserNo);
 }
 
@@ -79,7 +91,7 @@ function initUserInfo(userNo) {
             //所有数据初始化
             $('#subscribe_num').text(data.followNum);
             $('#follower_num').text(data.followerNum);
-            $('#article_num').text(data.article_num);
+            $('#article_num').text(data.blogNumPrivate + data.blogNumPublic);
             $('#word_num').text(data.wordNum);
             $('#like_num').text(data.likeNum)
         },

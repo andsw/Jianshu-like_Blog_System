@@ -3,7 +3,10 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>Starter Template - Materialize</title>
+  <!--  网页标题-->
+  <title>Jianshu-like博客</title>
+  <!--  网页logo-->
+  <link rel="shortcut icon" href="../front_end/img/logo/log.png" >
 
   <!-- CSS  -->
   <link href="../front_end/css/prism.css" rel="stylesheet">
@@ -102,8 +105,7 @@
           <ul class = "collapsible black-text" data-collapsible = "accordion">
             <li>
               <!--这里的添加图标导致打开折叠目录时会有残影 TODO 需要修复！-->
-              <div class = "collapsible-header">我的
-                <i class="material-icons right" style="user-select: none;">keyboard_arrow_down</i></div>
+              <div class = "collapsible-header">我的<i class="material-icons right" style="user-select: none;">keyboard_arrow_down</i></div>
               <div class = "collapsible-body">
                 <ul>
                   <li><a href="#" class="waves-effect"><i class="material-icons">account_circle</i>我的主页</a></li>
@@ -122,7 +124,7 @@
     </div>
   </nav>
 
-  <div class="container row" id="content"></div>
+  <iframe class="container row" id="content" width="100%" scrolling="no" frameborder="no" onload="this.height=100"></iframe>
 
   <!--悬浮按钮-->
   <div class="fixed-action-btn horizontal click-to-toggle">
@@ -144,5 +146,19 @@
   <script src="../front_end/js/jquery.cookie.js"></script>
   <script src="../front_end/js/customized/ajax.js"></script>
   <script src="../front_end/js/customized/index_nav_init.js"></script>
+
+  <script type="text/javascript">
+    function reInitIframe(){
+      const iframe = document.getElementById("content");
+      try{
+        const bHeight = iframe.contentWindow.document.body.scrollHeight;
+        const dHeight = iframe.contentWindow.document.documentElement.scrollHeight;
+        const height = Math.max(bHeight, dHeight);
+        iframe.height = height;
+        console.log(height);
+      }catch (ex){}
+    }
+    window.setInterval("reInitIframe()", 200);
+  </script>
   </body>
 </html>

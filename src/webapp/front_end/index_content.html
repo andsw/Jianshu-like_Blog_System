@@ -2,12 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <!--  网页标题-->
+    <title>Jianshu-like博客</title>
+    <!--  网页logo-->
+    <link rel="shortcut icon" href="../front_end/img/logo/log.png" >
+
+    <!-- CSS  -->
+    <link href="../front_end/css/prism.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <link href="../front_end/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="../front_end/css/custom/index_style.css" rel="stylesheet">
 
     <script src="../front_end/js/jquery-2.1.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+    <script src="../front_end/js/init_home.js"></script>
+    <script src="../front_end/js/jquery.cookie.js"></script>
+    <script src="../front_end/js/customized/ajax.js"></script>
 </head>
-<body>
+<body class="row">
 <!--  主要部分显示信息和文章列表，右边是侧边栏  -->
 <div id="main_content" class="col s12 l9">
     <!--   个人信息部分，包括头像和一些数据   -->
@@ -39,13 +52,13 @@
                 </div>
                 <span style="color: rgba(25,25,25,0.2)">|</span>
                 <div class="personal_data_div">
-                    <span class="personal_data_num_span">2</span><br>
-                    <a href="" class="grey-text" id="follower_num">粉丝></a>
+                    <span class="personal_data_num_span" id="follower_num">2</span><br>
+                    <a href="" class="grey-text">粉丝></a>
                 </div>
                 <span style="color: rgba(25,25,25,0.2)">|</span>
                 <div class="personal_data_div">
-                    <span class="personal_data_num_span">71</span><br>
-                    <a href="" class="grey-text" id="article_num">文章></a>
+                    <span class="personal_data_num_span" id="article_num">71</span><br>
+                    <a href="" class="grey-text">文章></a>
                 </div>
                 <span style="color: rgba(25,25,25,0.2)">|</span>
                 <div class="personal_data_div">
@@ -66,8 +79,7 @@
     <div class="row col s12">
         <div class="col s12">
             <ul class="tabs">
-                <li class="tab col s3">
-                    <a class="active" href="#blog_page">文章</a></li>
+                <li class="tab col s3"><a class="active" href="#blog_page">文章</a></li>
                 <li class="tab col s3"><a href="#todo_page">TODO</a></li>
                 <li class="tab col s3"><a href="#note_page">笔记</a></li>
                 <li class="tab col s3"><a href="#others_page">其他</a></li>
