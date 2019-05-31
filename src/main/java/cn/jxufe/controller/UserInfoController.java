@@ -44,6 +44,7 @@ public class UserInfoController {
     public Result<?> changePassword(@RequestBody String newPassword) {
         Integer currentUserNo = getUserNoFromSession();
         if (currentUserNo == null) {
+
             return Result.fail("找不到session！");
         }
         return userInfoService.updatePasswordByUserNo(currentUserNo, newPassword) ?

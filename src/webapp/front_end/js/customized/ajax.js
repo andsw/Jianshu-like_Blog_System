@@ -26,6 +26,14 @@ function request_plain_text(url, method, data, successfulMethod, errorMethod, as
     });
 }
 
+function getUserInfo(userNo, method) {
+    request_application_json("http://localhost:8080/users/" + userNo,
+        "GET",
+        "",
+        method,
+        defaultErrorMethod, false);
+}
+
 function defaultErrorMethod(XMLHttpRequest, textStatus, errorThrown) {
     console.log(XMLHttpRequest.status);
     console.log(XMLHttpRequest.readyState);

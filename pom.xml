@@ -233,10 +233,8 @@
             <resource>
                 <directory>src/main/java</directory>
                 <includes>
-                    <include>**/*.properties</include>
                     <include>**/*.xml</include>
                 </includes>
-                <filtering>false</filtering>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
@@ -244,21 +242,18 @@
                     <include>**/*.properties</include>
                     <include>**/*.xml</include>
                 </includes>
-                <filtering>false</filtering>
             </resource>
             <resource>
-                <directory>src/webapp/js</directory>
+                <directory>src/webapp/front_end/js</directory>
                 <includes>
                     <include>**/*.js</include>
                 </includes>
-                <filtering>false</filtering>
             </resource>
             <resource>
-                <directory>src/webapp/css</directory>
+                <directory>src/webapp/front_end/css</directory>
                 <includes>
                     <include>**/*.css</include>
                 </includes>
-                <filtering>false</filtering>
             </resource>
         </resources>
     </build>
