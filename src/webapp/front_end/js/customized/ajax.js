@@ -39,3 +39,19 @@ function defaultErrorMethod(XMLHttpRequest, textStatus, errorThrown) {
     console.log(XMLHttpRequest.readyState);
     console.log(textStatus);
 }
+
+// 获取iframe的src属性中带的参数组成的对象！
+function getQueryStrings(iframeId) {
+    const url = decodeURI(top.document.getElementById(iframeId).src); //获取url中"?"符后的字串
+    const theRequest = {};
+    let s;
+    if (url.indexOf("?") !== -1) {
+        const str = url.substr(url.indexOf("?") + 1);
+        s = str.split("&");
+        for (let i = 0; i < s.length; i++) {
+            // console.log(s[i].split("=")[0] + " " + s[i].split("=")[1]);
+            theRequest[s[i].split("=")[0]] = s[i].split("=")[1];
+        }
+    }
+    return theRequest;
+}

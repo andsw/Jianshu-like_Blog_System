@@ -6,9 +6,7 @@ $(document).ready(function () {
     //第一步获取个人信息
     getUserInfo(userNo, function (result) {
 
-        localStorage.setItem('userInfo', JSON.stringify(result.data));
-
-        personalInfo = result;
+        personalInfo = result.data;
         //初始化头像
         $('.avatar').attr('src', result.data.avatar);
         //初始化用户名和性别显示
@@ -28,8 +26,19 @@ $(document).ready(function () {
         }
     });
 
-    //默认加载个人主页
-    $('#content').attr('src', '../front_end/index_content.html');
+    //默认加载个人主页,一开始就是不用userNo的传值后面如果还需要其他用户主页的话就直接传入userNo然后iframe自己获取！
+    // 用encodeURI默认UTF-8编码！
+    $('#content').attr('src', encodeURI('../front_end/index_content.html?' + 'gender=' + personalInfo.gender
+        + '&avatar=' + personalInfo.avatar
+        + '&followNum=' + personalInfo.followNum
+        + '&followerNum=' + personalInfo.followerNum
+        + '&blogNumPrivate=' + personalInfo.blogNumPrivate
+        + '&blogNumPublic=' + personalInfo.blogNumPublic
+        + '&wordNum=' + personalInfo.wordNum
+        + '&likeNum=' + personalInfo.likeNum
+        + '&username=' + personalInfo.username
+    ));
+
 
     // 部件初始化，不包括数据
     $('.dropdown-button').dropdown({
