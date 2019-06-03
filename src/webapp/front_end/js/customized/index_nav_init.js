@@ -37,6 +37,7 @@ $(document).ready(function () {
         + '&wordNum=' + personalInfo.wordNum
         + '&likeNum=' + personalInfo.likeNum
         + '&username=' + personalInfo.username
+        + '&userNo=' + userNo
     ));
 
 
@@ -52,6 +53,14 @@ $(document).ready(function () {
     });
     $('.collapsible').collapsible();
 });
+
+function getUserInfo(userNo, method) {
+    request_application_json("http://localhost:8080/users/" + userNo,
+        "GET",
+        "",
+        method,
+        defaultErrorMethod, false);
+}
 
 
 //导航栏的登出点击事件的响应方法

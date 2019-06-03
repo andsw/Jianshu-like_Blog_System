@@ -3,3 +3,5 @@ target
 out
 .idea
 test
+/firestorm.log
+/firestorm.log.1

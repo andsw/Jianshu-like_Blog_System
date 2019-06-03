@@ -31,6 +31,8 @@ public class ArticleController {
     private final ArticleContentService articleContentService;
     private final ArticleService articleService;
 
+    private static final int ARTICLE_NUM_PER_PAGE = 6;
+
     @Autowired
     public ArticleController(ArticleContentService articleContentService, HttpSession session, ArticleInfoService articleInfoService, ArticleService articleService) {
         this.articleContentService = articleContentService;
@@ -43,28 +45,48 @@ public class ArticleController {
         return (Integer) session.getAttribute("userNo");
     }
 
+    @RequestMapping(value = "/users/{userNo}/article_info", method = RequestMethod.GET)
+    @ResponseBody
+    public Result<List<Article>> getArticleByUserNo(@PathVariable Integer userNo, @RequestParam Integer offset) {
+        Integer currentUserNo = getUserNoFromSession();
+        if (currentUserNo == null) {
+            return Result.fail("找不到session！");
+        }
+        List<Article> articleList;
+        if (currentUserNo.equals(userNo)) {
+            // 获取自己的所有！
+            articleList = articleInfoService.getOwnArticle(userNo, ARTICLE_NUM_PER_PAGE, offset);
+        } else {
+            //获取他人的公开文章！
+            articleList = articleInfoService.getArticlesInfoByUserNo(userNo, ARTICLE_NUM_PER_PAGE, ARTICLE_IS_PUBLIC, offset);
+        }
+        return articleList == null ?
+                Result.fail("获取文章信息列表失败！") : Result.successWithDataOnly(articleList);
+    }
+
     /**
      * 上面部分是文章信息相关
+     * 分页获取文章信息列表
      * @param userNo
-     * @param publicArticleNum
+     * @param offset
      * @return
      */
     @RequestMapping(value = "/users/{userNo}/article_info/pub", method = RequestMethod.GET)
     @ResponseBody
-    public Result<List<Article>> getPublicArticleByUserNo(@PathVariable Integer userNo, @RequestParam Integer publicArticleNum) {
-        List<Article> publicArticleList = articleInfoService.getArticlesInfoByUserNo(userNo, publicArticleNum, ARTICLE_IS_PUBLIC);
+    public Result<List<Article>> getPublicArticleByUserNo(@PathVariable Integer userNo, @RequestParam Integer offset) {
+        List<Article> publicArticleList = articleInfoService.getArticlesInfoByUserNo(userNo, ARTICLE_NUM_PER_PAGE, ARTICLE_IS_PUBLIC, offset);
         return publicArticleList == null ?
                 Result.fail("获取文章信息列表失败！") : Result.successWithDataOnly(publicArticleList);
     }
 
     @RequestMapping(value = "/users/article_info/priv", method = RequestMethod.GET)
     @ResponseBody
-    public Result<List<Article>> getPrivateArticleByUserNo(@RequestParam Integer privateArticleNum) {
+    public Result<List<Article>> getPrivateArticleByUserNo( @RequestParam Integer offset) {
         Integer currentUserNo = getUserNoFromSession();
         if (currentUserNo == null) {
             return Result.fail("找不到session！");
         }
-        List<Article> privateArticleList = articleInfoService.getArticlesInfoByUserNo(currentUserNo, privateArticleNum, ARTICLE_IS_PRIVATE);
+        List<Article> privateArticleList = articleInfoService.getArticlesInfoByUserNo(currentUserNo, ARTICLE_NUM_PER_PAGE, ARTICLE_IS_PRIVATE, offset);
         return privateArticleList == null ? Result.fail("获取私有文章信息列表失败！") : Result.successWithDataOnly(privateArticleList);
     }
 

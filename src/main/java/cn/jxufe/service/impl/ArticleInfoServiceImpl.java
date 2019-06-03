@@ -21,9 +21,15 @@ public class ArticleInfoServiceImpl implements ArticleInfoService {
     private ArticleInfoDao articleInfoDao;
 
     @Override
-    @Cacheable(key = "'users-' + #userNo + '-private-' + #articlePrivate")
-    public List<Article> getArticlesInfoByUserNo(int userNo, int articleNum, boolean articlePrivate) {
-        return articleInfoDao.getArticleByUserNo(userNo, articlePrivate, articleNum);
+    @Cacheable(key = "'users-' + #currentUserNo + '-offset-' + #offset")
+    public List<Article> getOwnArticle(int currentUserNo, int articleNumPerPage, int offset) {
+        return articleInfoDao.getArticleByUserNoWithoutPrivateInfo(currentUserNo, articleNumPerPage, offset);
+    }
+
+    @Override
+    @Cacheable(key = "'users-' + #userNo + '-private-' + #articlePrivate + '-offset-' + #offset")
+    public List<Article> getArticlesInfoByUserNo(int userNo, int articleNumPerPage, boolean articlePrivate, int offset) {
+        return articleInfoDao.getArticleByUserNo(userNo, articlePrivate, articleNumPerPage, offset);
     }
 
     @Override

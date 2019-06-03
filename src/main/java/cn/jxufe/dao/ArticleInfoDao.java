@@ -12,16 +12,30 @@ import java.util.List;
  * @Description: 文章信息（不包含文章内容）
  */
 public interface ArticleInfoDao {
+
     /**
-     * 获取用户所有文章
+     * 当当前userNo和获取的文章所属用户的userNo相同时就能获取所有文章，无视是否私有！
+     * @param currentUserNo
+     * @param articleNum
+     * @param offset
+     * @return
+     */
+    List<Article> getArticleByUserNoWithoutPrivateInfo(@Param("userNo") int currentUserNo,
+                                     @Param("articleNum") int articleNum,
+                                     @Param("offset") int offset);
+
+    /**
+     * 分页获取用户文章，每次取多少由前台决定！
      * @param currentUserNo
      * @param articlePrivate
-     * @param articleNum
+     * @param articleNumPerPage 分页所需
+     * @param offset 分页所需
      * @return
      */
     List<Article> getArticleByUserNo(@Param("userNo") int currentUserNo,
                                      @Param("articlePrivate") boolean articlePrivate,
-                                     @Param("articleNum") int articleNum);
+                                     @Param("articleNumPerPage") int articleNumPerPage,
+                                     @Param("offset") int offset);
 
     /**
      * 获取文集所有文章

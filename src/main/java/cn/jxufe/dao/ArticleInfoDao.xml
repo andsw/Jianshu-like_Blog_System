@@ -4,7 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.jxufe.dao.ArticleInfoDao">
-
     <sql id="getArticleInfo">
         select article_no,
                user_no,
@@ -19,11 +18,17 @@
         from article
     </sql>
 
+    <select id="getArticleByUserNoWithoutPrivateInfo" resultType="cn.jxufe.bean.Article">
+        <include refid="getArticleInfo"/>
+        where user_no=#{userNo}
+        limit #{articleNum} offset #{offset};
+    </select>
+
     <select id="getArticleByUserNo" resultType="cn.jxufe.bean.Article">
         <include refid="getArticleInfo"/>
         where user_no=#{userNo}
           and article_private=#{articlePrivate}
-        limit #{articleNum};
+        limit #{articleNumPerPage} offset #{offset};
     </select>
 
     <select id="getArticleByUserNoAndCorpusName" resultType="cn.jxufe.bean.Article">

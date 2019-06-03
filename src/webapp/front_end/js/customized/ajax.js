@@ -34,10 +34,10 @@ function getUserInfo(userNo, method) {
         defaultErrorMethod, false);
 }
 
+// 如果是异步的，即异步非阻塞，后台在没有得到结果的情况下也会返回结果，但是失败的结果，知道获取到结果才会执行成功方法！
+// 那么请求时会返回多个结果，所以不可以显示设置这个不然后面成功了还是显示错误会不好！
 function defaultErrorMethod(XMLHttpRequest, textStatus, errorThrown) {
-    console.log(XMLHttpRequest.status);
-    console.log(XMLHttpRequest.readyState);
-    console.log(textStatus);
+    //Materialize.toast('oops！有请求出错了！！！', 2000);
 }
 
 // 获取iframe的src属性中带的参数组成的对象！
