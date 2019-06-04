@@ -69,10 +69,23 @@
     height: auto;
 }
 
+
 .article_hr {
     border:0;
     background-color: rgba(25, 25, 25, 0.1);
     height: 1px;
+}
+.article_info {
+    display: inline-block;
+    width: 960px;
+    height: 120px;
+}
+.article_summary {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 .article_summary_image {
     width: 140px;

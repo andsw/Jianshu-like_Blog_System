@@ -57,12 +57,15 @@ function getArticleInfoByPage(offset) {
             if (result.code === 200) {
                 if (result.data.length !== 0) {
                     $(result.data).each(function (index, object) {
-                        console.log(object);
+
+                        const date = new Date(object.articleReleaseTime);
+                        console.log(date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + 'T' + date.getHours() + '-' + date.getMinutes() + '-' + date.getSeconds() + 'Z');
+
                         $('#article_part_div').find('ul').append(
                             '<li class="grey-text col s12 row horizontal valign-wrapper">' +
                             '                        <div class="col s12 article_info">' +
                             '                            <a href="" class="black-text"><h5>' + object.articleTitle + '</h5></a>' +
-                            '                            <p style="text-overflow: ellipsis;text-overflow: ellipsis;white-space: nowrap;">' +
+                            '                            <p class="article_summary">' +
                             object.articleSummary +
                             '                            </p>' +
                             '                            <div>' +
@@ -75,9 +78,9 @@ function getArticleInfoByPage(offset) {
                             '                                <span class="number article_item_data_span"><i class="material-icons prefix md-10">thumb_up</i>' +
                             object.articleLikeNum +
                             '                                </span>' +
-                            //这里记得用框架显示时间，即jquery_timeago.min.js-->
+                            <!--，即jquery_timeago.min.js-->
                             '                                <span class="article_item_data_span">' +
-                            object.articleReleaseTime +
+                            date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() +
                             '                                </span>' +
                             '                            </div>' +
                             '                        </div>' +
@@ -86,6 +89,8 @@ function getArticleInfoByPage(offset) {
                             '<hr class="article_hr col s12">'
                         );
                     });
+
+                    //TODO $('.timeago').timeago();
                 } else {
                     //一篇文章都没有
 
@@ -101,11 +106,11 @@ function getArticleInfoByPage(offset) {
 }
 
 function isSummaryExists(object) {
-    if (object.articleSummaryImage === '') {
+    if (object.articleImg === '') {
         return '';
     } else {
         return '<a class="" style="width: 170px;height: auto;" href="">' +
-               '    <img src="' + object.articleSummaryImage + '" alt="" class="article_summary_image">' +
+               '    <img src="' + object.articleImg + '" alt="summaryImg" class="article_summary_image">' +
                '</a>';
     }
 }
